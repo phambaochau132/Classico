@@ -29,10 +29,12 @@ class CartController extends Controller
         return view('cart', compact('products', 'quantity', 'categories', 'totalItems'));
     }
 
-    public function create($id)
+    public function add($id)
     {
-        $cart = session('cart', []);
-        $quantity = session('quantity', []);
+        $cart = session('cart', [$id]);
+        $quantity = session('quantity');
+        $quantity = session('quantity', [$id=>5]);
+
 
         if (!in_array($id, $cart)) {
             $cart[] = $id;

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,31 +8,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
-
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
 
-    <!-- JS -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-</script>    
+    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+
+    </script>
     <style>
-    .home-bg {
-    padding: 20px 0;
-    }
-    .cart .col-md,.cart .col-md-3{
-        text-align: center;
-    }
-    .product .col-md,.product .col-md-3 {
-    margin: auto;
-    text-align: center;
-    }
-    .product .col-md a,.product .col-md-3 a{
-        color:#212529;
-    }
-    i.fa.fa-trash{
-        font-size:25px;
-    }
+        .home-bg {
+            padding: 20px 0;
+        }
+
+        .cart .col-md,
+        .cart .col-md-3 {
+            text-align: center;
+        }
+
+        .product .col-md,
+        .product .col-md-3 {
+            margin: auto;
+            text-align: center;
+        }
+
+        .product .col-md a,
+        .product .col-md-3 a {
+            color: #212529;
+        }
+
+        i.fa.fa-trash {
+            font-size: 25px;
+        }
     </style>
 </head>
 
@@ -131,4 +140,5 @@
     </header>
     @yield('content')
 </body>
+
 </html>
