@@ -1,49 +1,44 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-/**
- * Class SystemUser
- * 
- * @property int $user_id
- * @property string $username
- * @property string $password
- * @property string $email
- * @property int|null $role_id
- * 
- * @property Role|null $role
- *
- * @package App\Models
- */
-class SystemUser extends Model
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+
+
+
+
+
+class SystemUser extends Authenticatable
 {
-	protected $table = 'system_users';
-	protected $primaryKey = 'user_id';
-	public $timestamps = false;
+    use Notifiable, HasFactory;
 
-	protected $casts = [
-		'role_id' => 'int'
-	];
+    protected $table = 'system_users';
+    protected $primaryKey = 'user_id';
+    public $timestamps = false;
 
-	protected $hidden = [
-		'password'
-	];
+    protected $fillable = [
+        'username',
+        'password',
+        'email',
+        'role_id',
+    ];
 
-	protected $fillable = [
-		'username',
-		'password',
-		'email',
-		'role_id'
-	];
+    protected $hidden = [
+        'password',
+        'remember_token', // nếu có
+    ];
 
-	public function role()
-	{
-		return $this->belongsTo(Role::class);
-	}
+    protected $casts = [
+        'role_id' => 'integer',
+    ];
+
+    // Quan hệ với bảng roles
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'role_id');
+    }
 }
