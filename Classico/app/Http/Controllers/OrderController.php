@@ -4,15 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Customer;
+use App\Models\Product;
+use App\Models\Payment;
+
+
+
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $orders = [
-            ['id' => '001', 'customer_name' => 'Nguyễn Văn A', 'status' => 'Chờ xác nhận'],
-            ['id' => '002', 'customer_name' => 'Trần Thị B', 'status' => 'Đang xử lý'],
-        ];
+
+        $customer_data = Customer::all();
+        $order_data = Order::all();
+        $orders = [];
+        foreach($order_data as $order ) {
+            $customer= Customer::find($order->customer_id);
+            $orderDetailById= OrderDetail::find($order->order_id);
+            $payment = Payment::where('order_id', $order->order_id)->first();
+            $Idproducts = OrderDetail::where('order_id', $order->order_id)->get('product_id');
+            $productByOrder=[];
+            // $ordersDetail=[];
+            foreach($Idproducts as $id)
+            {
+                $product= Product::find($id);
+                $productByOrder[]=$product;
+            }
+            $orders[] = [
+                'id' => $customer->customer_id ?? null,
+                'customer_name' => $customer->name ?? 'Không rõ',
+                'status' => $order->status,
+            ];
+ 
+        }
 
         return view('orders.index', compact('orders'));
     }
@@ -23,47 +49,57 @@ class OrderController extends Controller
         $order->delete();
         return redirect()->route('orders.index')->with('success', 'Xóa đơn hàng thành công!');
     }
-    public function show($id)
+    public function show(Request $request )
     {
-        $orders = [
-            '001' => [
-                'id' => '001',
-                'customer_name' => 'Nguyễn Văn A',
-                'phone' => '0123456789',
-                'address' => '123 Đường ABC, TP.HCM',
-                'order_date' => '01/04/2024',
-                'status' => 'Chờ xác nhận',
-                'total' => 1000000,
-                'payment_method' => 'COD',
-                'note' => 'Giao hàng trong giờ hành chính',
-                'products' => [
-                    ['name' => 'Sản phẩm 1', 'quantity' => 2, 'price' => 500000],
-                    ['name' => 'Sản phẩm 2', 'quantity' => 1, 'price' => 200000],
-                ]
-            ],
-            '002' => [
-                'id' => '002',
-                'customer_name' => 'Trần Thị B',
-                'phone' => '0987654321',
-                'address' => '456 Đường XYZ, Hà Nội',
-                'order_date' => '02/04/2024',
-                'status' => 'Đang giao hàng',
-                'total' => 800000,
-                'payment_method' => 'Chuyển khoản',
-                'note' => 'Giao sau 5h chiều',
-                'products' => [
-                    ['name' => 'Sản phẩm 3', 'quantity' => 1, 'price' => 300000],
-                    ['name' => 'Sản phẩm 4', 'quantity' => 2, 'price' => 250000],
-                ],
-            ]
-        ];
+        $id=$request->get('id',0);
+        $customer_data = Customer::all();
+        $order_data = Order::all();
+        $orders = [];
+        foreach($order_data as $order ) {
+            $customer= Customer::find($order->customer_id);
+            $orderDetailById= OrderDetail::where('order_id', $order->order_id)->get();
+            $payment = Payment::where('order_id', $order->order_id)->first();
+            $Idproducts = OrderDetail::where('order_id', $order->order_id)->get('product_id');
+            $productByOrder=[];
+            // $ordersDetail=[];
+            foreach($Idproducts as $itemId)
+            {
+                $product= Product::find($itemId->product_id);
+                $productByOrder[] = [
+                    'product_name' => $product->product_name ?? 'Không rõ',
+                    'price' => $product->price ?? 0,
+                    'quantity' => 0,
+                ];
+                // $product->setAttribute('quantity', );
+                // $productByOrder[]=$product;
+            }
+            $ordersDetail = [
+                'id' => $customer->customer_id ?? null,
+                'customer_name' => $customer->name ?? 'Không rõ',
+                'phone' => $customer->phone ?? '',
+                'address' => $customer->address ?? '',
+                'order_date' => $order->order_date,
+                'status' => $order->status,
+                'total' => $orderDetailById->reduce(function ($carry, $item) {
+                            $product = Product::find($item->product_id);
+                            return $carry + ($product->price * $item->quantity);
+                        }, 0),
+                'payment_method' => $payment->payment_method ?? 'Chưa thanh toán',
+                'products' => $productByOrder
+            ];
+            $orders [$order->order_id] = $ordersDetail;
+ 
+        }
+        $id = (string) $id;
 
         $order = $orders[$id] ?? null;
-
+        
         if (!$order) {
             abort(404);
         }
+        
 
-        return view('orders.show', compact('order'));
+        return view('orders.show', compact('order', 'productByOrder'));
+
     }
 }

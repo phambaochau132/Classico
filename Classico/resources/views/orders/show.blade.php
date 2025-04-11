@@ -46,7 +46,7 @@
 
         <div class="mb-2">
             <strong>Trạng thái:</strong>
-            <select class="form-select d-inline w-auto">
+            <select class="form-select d-inline w-auto" disabled>
                 <option {{ $order['status'] == 'Chờ xác nhận' ? 'selected' : '' }}>Chờ xác nhận</option>
                 <option {{ $order['status'] == 'Đang giao hàng' ? 'selected' : '' }}>Đang giao hàng</option>
                 <option {{ $order['status'] == 'Hoàn thành' ? 'selected' : '' }}>Hoàn thành</option>
@@ -58,7 +58,6 @@
         </div>
 
         <div class="mb-2"><strong>Phương thức thanh toán:</strong> {{ $order['payment_method'] }}</div>
-        <div class="mb-3"><strong>Ghi chú:</strong> {{ $order['note'] }}</div>
 
         <h5 class="section-title">Chi tiết các sản phẩm:</h5>
 
@@ -72,20 +71,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($order['products'] as $product)
-                    <tr>
-                        <td>{{ $product['name'] }}</td>
-                        <td>{{ $product['quantity'] }}</td>
-                        <td>{{ number_format((float) $product['price'], 0, ',', '.') }} VND</td>
-                        <td>{{ number_format((float) $product['price'] * $product['quantity'], 0, ',', '.') }} VND</td>
-                    </tr>
-                @endforeach
+            @foreach($productByOrder as $product)
+                <tr>
+                    <td>{{ $product['product_name'] ?? 'Không rõ' }}</td>
+                    <td>{{ $product['quantity'] }}</td>
+                    <td>{{ number_format((float) ($product['price'] ?? 0), 0, ',', '.') }} VND</td>
+                    <td>{{ number_format((float) ($product['price'] * $product['quantity']) ?? 0, 0, ',', '.') }} VND</td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
 
         <div class="d-flex justify-content-between mt-4">
             <button class="btn btn-primary">Cập nhật trạng thái</button>
-            <a href="{{ route('orders.index') }}" class="btn btn-secondary">Đóng</a>
         </div>
 
     </div>
