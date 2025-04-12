@@ -33,13 +33,15 @@ class Order extends Model
 	protected $casts = [
 		'customer_id' => 'int',
 		'order_date' => 'datetime',
-		'total_price' => 'float'
+		'total_price' => 'float',
+		'status' => 'int'
 	];
 
 	protected $fillable = [
 		'customer_id',
 		'order_date',
-		'total_price'
+		'total_price',
+		'status'
 	];
 
 	public function customer()

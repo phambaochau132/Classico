@@ -6,11 +6,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-// Route::get('/index', [OrderController::class, 'index']);
-
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-
-Route::get('/orders', [OrderController::class, 'show'])->name('orders.show');
+Route::get('/order', [OrderController::class, 'show'])->name('orders.show'); // <- đã sửa

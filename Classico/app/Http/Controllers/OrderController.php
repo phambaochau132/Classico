@@ -51,7 +51,7 @@ class OrderController extends Controller
     }
     public function show(Request $request )
     {
-        $id=$request->get('id',0);
+        $id=$request->get('id');
         $customer_data = Customer::all();
         $order_data = Order::all();
         $orders = [];
