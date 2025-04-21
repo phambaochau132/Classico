@@ -100,6 +100,65 @@
                 items: 6,
             })
         });
+
+        function activeNavItem(item) {
+            $('.nav-item').removeClass('active');
+            $(item).addClass('active');
+            console.log('Thanh congcong');
+
+            let productType = $(item).find('.nav-link').text().trim();
+            let tabContent = $('#order_by');
+            $.ajax({
+                url: "{{ route('product.order_by') }}",
+                method: 'GET',
+                data: {
+                    order_by: productType
+                },
+                success: function(respone) {
+                    let html = '';
+                    respone.forEach(function(item) {
+                        let productPath = item.id;
+                        let photo = item.product_photo.split(',')[0];
+
+                        html += `
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="/product/${productPath}">
+                                        <img src="/images/${photo}" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="content-product">
+                                    <h4>
+                                        <a href="/product/${productPath}">${item.product_name}</a>
+                                    </h4>
+                                    <div class="price">
+                                        <span class="current_price">$${item.price}</span>
+                                    </div>
+                                    <div class="add_to_cart">
+                                        <a href="/cart/add/${item.id}" title="Add to cart">
+                                            <i class="fa fa-shopping-cart"></i> Add to cart
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                    });
+                    tabContent.trigger('destroy.owl.carousel');
+
+                    tabContent.html(html);
+                    tabContent.owlCarousel({
+                        loop: true,
+                        margin: 15,
+                        nav: true,
+                        items: 5,
+                        dots: false
+                    })
+                },
+                error: function(err) {
+                    console.error('Lỗi khi tải sản phẩm:', err);
+                }
+            });
+        }
     </script>
     <div class="product-1">
         <div class="container">
@@ -107,16 +166,16 @@
                 <div class="col-md-12">
                     <nav class="navbar navbar-expand-sm navbar-light tab-btn">
                         <ul class="navbar-nav mr-auto ml-auto mt-lg-0">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="index.php">NEW PRODUCT</a>
+                            <li class="nav-item active" onclick="activeNavItem(this)">
+                                <a class="nav-link">NEW PRODUCT</a>
                             </li>
-                            <li class="nav-item">
-                                <!-- <a href="featured_products.php" class="nav-link" href="#">FEATURED PRODUCTS</a> -->
+                            <li class="nav-item" onclick="activeNavItem(this)">
+                                <a class="nav-link">FEATURED PRODUCTS</a>
                             </li>
                         </ul>
                     </nav>
-                    <div class="tab-content owl-carousel owl-theme">
-                        @foreach ($newproducts as $item)
+                    <div class="tab-content owl-carousel owl-theme" id="order_by">
+                        @foreach ($productBy as $item)
                         @php
                         $productPath = $item->product_id;
                         @endphp
@@ -132,20 +191,6 @@
                                 <h4><a
                                         href="{{route('product.detail',['id'=>$productPath])}}">{{ $item->product_name }}</a>
                                 </h4>
-                                <div class=" product-rating">
-                                    <ul>
-                                        <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-                                        </li>
-                                        <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-                                        </li>
-                                        <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-                                        </li>
-                                        <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-                                        </li>
-                                        <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
                                 <div class="price">
                                     <span class="current_price">${{ $item->price }}</span>
                                 </div>

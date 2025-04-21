@@ -10,21 +10,23 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-
         $categories = Category::all();
         $products = Product::all();
-        $newproducts = Product::all();
         $cateproducts = Product::all();
+        $newProducts = Product::orderBy('create_at', 'desc')->limit(10)->get();
+        //Lọc sản phẩm theo tiêu chí(mới nhất hoặc nổi bậtbật)
+        $productBy = $newProducts;
+
         foreach ($categories as $cate) {
             $query = Product::where('category_id', $cate->category_id)->get();
             $cateproducts[$cate->category_id] = $query;
         }
-        return view('dashboard', compact('products', 'newproducts', 'cateproducts', 'categories'));
+        return view('dashboard', compact('products', 'cateproducts', 'categories', 'productBy'));
     }
     public function all(Request $request)
     {
         $products = Product::all();
-        return view('all_product', compact('products'));    
+        return view('all_product', compact('products'));
     }
     public function detail(Request $request)
     {
@@ -32,6 +34,21 @@ class ProductController extends Controller
         $item = Product::find($id);
         return view('detail', compact('item'));
     }
+    public function get_products(Request $request)
+    {
+        $order_by = $request->get('order_by', '');
+
+        //Lọc sản phẩm theo tiêu chí(mới nhất hoặc nổi bật)
+        $featureProducts = Product::orderBy('product_view', 'desc')->limit(10)->get();
+        $newProducts = Product::orderBy('create_at', 'desc')->limit(10)->get();
+        $productBy = $newProducts;
+        if ($order_by == 'FEATURED PRODUCTS') {
+            $productBy = $featureProducts;
+        }
+        return response()->json($productBy);
+    }
+
+
     // public function create($id)
     // {
     //     $product = session('product', []);

@@ -36,7 +36,9 @@ class Product extends Model
 		'product_photo' => 'string',
 		'product_description' => 'string',
 		'stock_quantity' => 'int',
-		'category_id' => 'int'
+		'category_id' => 'int',
+		'product_view' => 'int',
+		'create_at' => 'datetime'
 	];
 
 	protected $fillable = [
@@ -45,7 +47,9 @@ class Product extends Model
 		'product_photo',
 		'product_description',
 		'stock_quantity',
-		'category_id'
+		'category_id',
+		'product_view',
+		'create_at'
 	];
 
 	public function category()

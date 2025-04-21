@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductController;
 Route::get('/', [ProductController::class, 'index']);
 Route::get('/product/all', [ProductController::class, 'all'])->name('product.all');
 Route::get('/product', [ProductController::class, 'detail'])->name('product.detail');
+Route::get('/product/order_by', [ProductController::class, 'get_products'])->name('product.order_by');
+
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/add}', [CartController::class, 'add'])->name('cart.add');
