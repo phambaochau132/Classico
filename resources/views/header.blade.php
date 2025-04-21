@@ -99,8 +99,8 @@
                     <div class="col-md-4 logo">
                     </div>
                     <div class="col-md-4 search-box">
-                        <form action="search.php" method="get">
-                            <input placeholder="Search" type="search" name="search">
+                        <form action="{{route('product.search')}}" method="get">
+                            <input placeholder="Search" type="search" name="key">
                             <button type="submit"><i class="fa fa-search"></i></button>
                         </form>
                     </div>

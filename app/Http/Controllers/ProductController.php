@@ -47,47 +47,10 @@ class ProductController extends Controller
         }
         return response()->json($productBy);
     }
+    public function search(Request $request){
+        $key = $request->get('key', '');
+        $searchProducts=Product::where('product_name','like','%'.$key.'%')->get();
+        return view('search', compact('searchProducts'));
+    }
 
-
-    // public function create($id)
-    // {
-    //     $product = session('product', []);
-    //     $quantity = session('quantity', []);
-
-    //     if (!in_array($id, $product)) {
-    //         $product[] = $id;
-    //         $quantity[$id] = 1;
-    //     } else {
-    //         $quantity[$id]++;
-    //     }
-
-    //     session(['product' => $product, 'quantity' => $quantity]);
-
-    //     return redirect()->route('product.index');
-    // }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $num = $request->input("num_$id");
-    //     $quantity = session('quantity', []);
-    //     $quantity[$id] = (int) $num;
-    //     session(['quantity' => $quantity]);
-
-    //     return redirect()->route('product.index');
-    // }
-
-    // public function delete($id)
-    // {
-    //     $product = session('product', []);
-    //     $quantity = session('quantity', []);
-
-    //     if (($key = array_search($id, $product)) !== false) {
-    //         unset($product[$key]);
-    //         unset($quantity[$id]);
-    //     }
-
-    //     session(['product' => $product, 'quantity' => $quantity]);
-
-    //     return redirect()->route('product.index');
-    // }
 }
