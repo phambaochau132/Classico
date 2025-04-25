@@ -45,10 +45,22 @@ class OrderController extends Controller
 
     public function destroy($id)
     {
+        // Tìm đơn hàng theo ID
         $order = Order::findOrFail($id);
+    
+        // Xóa chi tiết đơn hàng
+        OrderDetail::where('order_id', $order->order_id)->delete();
+    
+        // Xóa thông tin thanh toán nếu có
+        Payment::where('order_id', $order->order_id)->delete();
+    
+        // Cuối cùng là xóa đơn hàng
         $order->delete();
+    
+        // Trả về trang danh sách đơn hàng với thông báo
         return redirect()->route('orders.index')->with('success', 'Xóa đơn hàng thành công!');
     }
+    
     public function show(Request $request )
     {
         $id=$request->get('id');
