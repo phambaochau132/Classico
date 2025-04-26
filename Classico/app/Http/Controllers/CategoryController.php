@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -51,17 +51,21 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')->with('success', 'Cập nhật danh mục thành công');
     }
 
-   public function destroy($id)
-{
-    $category = Category::findOrFail($id);
-
-    // Xoá tất cả sản phẩm thuộc danh mục này
-    Product::where('category_id', $category->category_id)->delete();
-
-    // Xoá danh mục
-    $category->delete();
-
-    return redirect()->route('categories.index')->with('success', 'Xóa danh mục thành công!');
-}
-
+    public function destroy($id)  
+{  
+    $category = Category::findOrFail($id);  
+    
+    // Lấy tất cả sản phẩm thuộc danh mục này  
+    $products = Product::where('category_id', $category->category_id)->get();  
+    
+    // Nếu có sản phẩm, không cho phép xóa danh mục và thông báo cho người dùng  
+    if ($products->isNotEmpty()) {  
+        return redirect()->route('categories.index')->with('error', 'Không thể xóa danh mục này vì còn sản phẩm liên quan!');  
+    }  
+    
+    // Nếu không có sản phẩm, xóa danh mục  
+    $category->delete();  
+    
+    return redirect()->route('categories.index')->with('success', 'Xóa danh mục thành công!');  
+}  
 }
