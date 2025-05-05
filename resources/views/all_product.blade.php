@@ -1,29 +1,3 @@
-<!-- session_start();
-if(!isset($_SESSION['cart']))
-{
-$_SESSION['cart']=0;
-}
-if(!isset($_SESSION['add']))
-{
-$_SESSION['add']=[];
-}
-require_once './config/database.php';
-require_once './config/config.php';
-spl_autoload_register(function ($class_name) {
-require './app/models/' . $class_name . '.php';
-});
-$categoryModel = new CategoryModel();
-$categoryList = $categoryModel->getCategories();
-
-$productModel = new ProductModel();
-$productModel->sortNewProduct();
-
-$totalRow = $productModel->getTotalRow();
-$perPage = 8;
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
-
-$productList = $productModel->getProductsByPage($perPage, $page);
-$pageLinks = Pagination::createPageLinks($totalRow, $perPage, $page); -->
 @extends('header')
 @section('content')
 <div class="content home-bg">

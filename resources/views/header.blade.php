@@ -71,7 +71,13 @@
                             <a class="nav-link" href="#">CHECK OUT</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php">LOG IN</a>
+                            <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+
+                            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                LOG OUT
+                            </a>
                         </li>
                         <li class="nav-item language dropdown">
                             <a class="nav-link" href="#">EN <i class="fa fa-angle-down"></i></a>

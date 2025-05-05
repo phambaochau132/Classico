@@ -31,21 +31,21 @@ class CartController extends Controller
 
     public function add($id)
     {
-        $cart = session('cart', [$id]);
-        $quantity = session('quantity');
-        $quantity = session('quantity', [$id=>5]);
+            $cart = session('cart', [$id]);
+            $quantity = session('quantity');
+            $quantity = session('quantity', [$id=>5]);
 
 
-        if (!in_array($id, $cart)) {
-            $cart[] = $id;
-            $quantity[$id] = 1;
-        } else {
-            $quantity[$id]++;
-        }
+            if (!in_array($id, $cart)) {
+                $cart[] = $id;
+                $quantity[$id] = 1;
+            } else {
+                $quantity[$id]++;
+            }
 
-        session(['cart' => $cart, 'quantity' => $quantity]);
+            session(['cart' => $cart, 'quantity' => $quantity]);
 
-        return redirect()->route('cart.index');
+            return redirect()->route('cart.index');
     }
 
     public function update(Request $request, $id)
