@@ -34,7 +34,9 @@ class Customer extends Model
 		'email',
 		'password',
 		'phone',
-		'address'
+		'address',
+		'gender',
+		'avatar'
 		
 
 	];

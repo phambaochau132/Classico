@@ -19,3 +19,5 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/add}', [CartController::class, 'add'])->name('cart.add');
 Route::get('/cart/delete', [CartController::class, 'delete'])->name('cart.delete');
+Route::get('/profile', [CustomerController::class, 'showProfile'])->name('customer.profile');
+Route::post('/profile', [CustomerController::class, 'updateProfile'])->name('customer.updateProfile');

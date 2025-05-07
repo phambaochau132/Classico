@@ -79,18 +79,25 @@
             <label for="email">Email:</label>
             <input type="email" name="email" id="email" required>
 
-            <label for="password">Mật khẩu:</label>
-            <input type="password" name="password" id="password" required>
-
-            <label for="password_confirmation">Nhập lại mật khẩu:</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" required>
-
             <label for="phone">Số điện thoại (tùy chọn):</label>
             <input type="text" name="phone" id="phone">
 
             <label for="address">Địa chỉ (tùy chọn):</label>
             <textarea name="address" id="address" rows="3"></textarea>
 
+            <label for="gender">Giới tính:</label>
+            <select name="gender" id="gender">
+                <option value="">--Chọn--</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+            </select>
+
+            <label for="password">Mật khẩu:</label>
+            <input type="password" name="password" id="password" required>
+
+            <label for="password_confirmation">Nhập lại mật khẩu:</label>
+            <input type="password" name="password_confirmation" id="password_confirmation" required>
+            
             <button type="submit">Đăng ký</button>
         </form>
     </div>
