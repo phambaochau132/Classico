@@ -1,9 +1,33 @@
 <?php
 
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomerController;
+
+Route::get('/admin', function () {
+    return view('welcome');
+});
+
+// Order routes
+Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+Route::get('/admin/order', [OrderController::class, 'show'])->name('orders.show');
+
+// Category routes
+Route::resource('categories', CategoryController::class);
+
+
+
+Route::get('/admin/products/index', [ProductController::class, 'allProduct'])->name('products.allProduct');
+Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::put('/admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/admin/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::get('/admin/products/{id}', [ProductController::class, 'edit'])->name('products.edit');
+Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
+
 
 Route::get('/register', [CustomerController::class, 'showRegister'])->name('customer.register.form');
 Route::post('/register', [CustomerController::class, 'register'])->name('customer.register');

@@ -26,28 +26,37 @@ class ProductController extends Controller
     {
         $request->validate([
             'product_name'    => 'required|string|max:255',
-            'description'     => 'nullable|string',
+            'product_description'     => 'nullable|string',
             'price'           => 'required|numeric',
             'stock_quantity'  => 'nullable|integer',
-            'category_id'     => 'nullable|integer',
-            'photo'           => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'category_id'     => 'required|integer',
+            'product_photo'           => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'created_at'      => 'nullable|date',
+            'product_view'    => 'nullable|integer'
         ]);
-
-        $data = $request->only(['product_name', 'description', 'price', 'stock_quantity', 'category_id', 'created_at']);
+        $data = $request->only(['product_name', 'product_description', 'price', 'stock_quantity','product_view','category_id', 'created_at']);
 
         if (!isset($data['stock_quantity'])) {
             $data['stock_quantity'] = 0;
         }
 
-        if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('products', 'public'); // Lưu trong storage/app/public/products
-            $data['photo'] = $path; // Lưu vào cột photo
-        }
 
+        if ($request->hasFile('product_photo')) {
+                $file = $request->file('product_photo');
+
+                // Kiểm tra xem file có hợp lệ không
+                if ($file->isValid()) {
+                    $filename = time() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('images/products/'), $filename);
+                    $data['product_photo'] = $filename; // Lưu vào cột photo
+
+                } else {
+                    return back()->withErrors(['product_photo' => 'Ảnh không hợp lệ!']);
+                }
+            }
         Product::create($data);
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully!');
+        return redirect()->route('products.allProduct')->with('success', 'Product created successfully!');
     }
     public function edit($id)
     {
@@ -66,7 +75,7 @@ class ProductController extends Controller
             'description'     => 'nullable|string',
             'price'           => 'required|numeric',
             'stock_quantity'  => 'nullable|integer',
-            'category_id'     => 'nullable|integer',
+            'category_id'     => 'required|integer',
             'photo'           => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'created_at'      => 'nullable|date',
         ]);
@@ -85,7 +94,7 @@ class ProductController extends Controller
 
         $product->update($data);
 
-        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
+        return redirect()->route('products.allProduct')->with('success', 'Product updated successfully!');
     }
 
     public function destroy($id)
@@ -98,7 +107,7 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
+        return redirect()->route('products.allProduct')->with('success', 'Product deleted successfully!');
     }
  	public function index(Request $request)
     {
