@@ -32,9 +32,15 @@ class Customer extends Model
 	protected $fillable = [
 		'name',
 		'email',
+		'password',
 		'phone',
-		'address'
+		'address',
+		'gender',
+		'avatar'
+		
+
 	];
+	protected $hidden = ['password'];
 
 	public function carts()
 	{

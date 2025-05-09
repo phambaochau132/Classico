@@ -19,6 +19,8 @@ return new class extends Migration
             $table->decimal('price', 10);
             $table->integer('stock_quantity');
             $table->integer('category_id')->nullable()->index('category_id');
+            $table->integer('product_view');
+            $table->timestamp('create_at')->useCurrentOnUpdate()->useCurrent();
         });
     }
 

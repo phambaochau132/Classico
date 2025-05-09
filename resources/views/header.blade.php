@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
@@ -18,7 +15,6 @@
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
 
-    </script>
     <style>
         .home-bg {
             padding: 20px 0;
@@ -65,16 +61,24 @@
                     </ul>
                     <ul class="navbar-nav ml-auto mt-lg-6">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">MY WISHLIST</a>
+                            <a class="nav-link" href="#">My Wishlist</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">CHECK OUT</a>
+                            <a class="nav-link" href="{{ route('customer.profile') }}">My Information</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php">LOG IN</a>
+                            <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+
+                            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Log Out
+                            </a>
                         </li>
+
+
                         <li class="nav-item language dropdown">
-                            <a class="nav-link" href="#">EN <i class="fa fa-angle-down"></i></a>
+                            <a class="nav-link" href="#">Language <i class="fa fa-angle-down"></i></a>
                             <div class="dropdown-content">
                                 <div class="dropdown-link"><a href="#">French</a></div>
                                 <div class="dropdown-link"><a href="#">Spanish</a></div>
@@ -82,13 +86,14 @@
                             </div>
                         </li>
                         <li class="nav-item curency dropdown">
-                            <a class="nav-link" href="#">$ <i class="fa fa-angle-down"></i></a>
+                            <a class="nav-link" href="#">Currency Type  <i class="fa fa-angle-down"></i></a>
                             <div class="dropdown-content">
                                 <div class="dropdown-link"><a href="#">€ Euro</a></div>
                                 <div class="dropdown-link"><a href="#">£ Pound Sterling</a></div>
                                 <div class="dropdown-link"><a href="#">$ US Dollar</a></div>
                             </div>
                         </li>
+
                     </ul>
                 </nav>
             </div>
@@ -99,8 +104,8 @@
                     <div class="col-md-4 logo">
                     </div>
                     <div class="col-md-4 search-box">
-                        <form action="search.php" method="get">
-                            <input placeholder="Search" type="search" name="search">
+                        <form action="{{route('product.search')}}" method="get">
+                            <input placeholder="Search" type="search" name="key">
                             <button type="submit"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
@@ -132,7 +137,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">CONTACT US</a>
                         </li>
-
                     </ul>
                 </nav>
             </div>

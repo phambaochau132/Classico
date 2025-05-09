@@ -1,10 +1,16 @@
 @extends('header')
 @section('content')
+
+
 <div class="content home-bg">
     <div class="container">
+        @php $key = request()->get('search', '') @endphp
+        <h3> Search Result for "
+            {{$key}}
+        </h3><br>
         <div class="row">
 
-            @foreach ($products as $item)
+            @foreach ($searchProducts as $item)
 
             <div class="col-md-3">
                 <div class="tab-content">
@@ -52,7 +58,4 @@
         </div>
     </div>
 </div>
-
-<!--FOOTER-->
-
 @endsection

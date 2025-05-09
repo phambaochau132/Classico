@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email', 100)->unique('email');
             $table->string('phone', 20)->nullable();
             $table->text('address')->nullable();
+            $table->string('avatar')->default('1.png');
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->string('password');
+            $table->timestamps();
         });
     }
 

@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,9 +15,13 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $product_id
  * @property string $product_name
+ * @property string $product_photo
+ * @property string $product_description
  * @property float $price
  * @property int $stock_quantity
  * @property int|null $category_id
+ * @property int $product_view
+ * @property Carbon $create_at
  * 
  * @property Category|null $category
  * @property Collection|Cart[] $carts
@@ -33,19 +38,21 @@ class Product extends Model
 
 	protected $casts = [
 		'price' => 'float',
-		'product_photo' => 'string',
-		'product_description' => 'string',
 		'stock_quantity' => 'int',
-		'category_id' => 'int'
+		'category_id' => 'int',
+		'product_view' => 'int',
+		'create_at' => 'datetime'
 	];
 
 	protected $fillable = [
 		'product_name',
-		'price',
 		'product_photo',
 		'product_description',
+		'price',
 		'stock_quantity',
-		'category_id'
+		'category_id',
+		'product_view',
+		'create_at'
 	];
 
 	public function category()
