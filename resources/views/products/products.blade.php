@@ -14,8 +14,8 @@
                 @foreach($products as $product)
                 <div style="width: 150px; text-align: center;">
                     <a href="{{ route('products.edit', $product->product_id) }}">
-                        @if ($product->photo)
-                            <img src="{{ asset('storage/' . $product->photo) }}" alt="{{ $product->product_name }}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
+                        @if ($product->product_photo)
+                            <img src="{{ asset('images/products/' . $product->product_photo) }}" alt="{{ $product->product_name }}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
                         @else
                             <img src="https://via.placeholder.com/150" alt="No Image" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
                         @endif

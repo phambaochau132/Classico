@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,8 +10,8 @@ class CartController extends Controller
 {
     public function index(Request $request)
     {
-        $cart = session('cart', ['1']);
-        $quantity = session('quantity', ['1'=>5]);
+        $cart = session('cart',[]);
+        $quantity = session('quantity',[]);
         $categories = Category::all();
 
         $products = [];
@@ -29,39 +30,53 @@ class CartController extends Controller
         return view('cart', compact('products', 'quantity', 'categories', 'totalItems'));
     }
 
-    public function add($id)
+    public function add(Request $request)
     {
-            $cart = session('cart', [$id]);
-            $quantity = session('quantity');
-            $quantity = session('quantity', [$id=>5]);
+        $id = $request->get('id');
+        $cart = session('cart',[]);
+        $quantity = session('quantity',[]);
+        $order_num=(int)$request->input("order_num",1);
+        $product = Product::find($id);
 
+        if($product->stock_quantity<$quantity[$id]){
+            return redirect()->route('cart.index')->withErrors('Sản phẩm không đủ số lượng!');
+        }
 
-            if (!in_array($id, $cart)) {
-                $cart[] = $id;
-                $quantity[$id] = 1;
-            } else {
-                $quantity[$id]++;
-            }
+        if (!in_array($id, $cart)) {
+            $cart[] = $id;
+            $quantity[$id] = $order_num;
+        } else {
+            $quantity[$id]+=$order_num;
+        }
 
-            session(['cart' => $cart, 'quantity' => $quantity]);
+        session(['cart' => $cart, 'quantity' => $quantity]);
 
-            return redirect()->route('cart.index');
+        return redirect()->route('cart.index');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+        $id = $request->get('id');
         $num = $request->input("num_$id");
         $quantity = session('quantity', []);
         $quantity[$id] = (int) $num;
+
+        $product = Product::find($id);
+
+        if($product->stock_quantity<$quantity[$id]){
+            return redirect()->route('cart.index')->withErrors('Sản phẩm không đủ số lượng!');
+        }
+
         session(['quantity' => $quantity]);
 
         return redirect()->route('cart.index');
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $cart = session('cart', []);
-        $quantity = session('quantity', []);
+        $id = $request->get('id');
+        $cart = session('cart',[]);
+        $quantity = session('quantity',[]);
 
         if (($key = array_search($id, $cart)) !== false) {
             unset($cart[$key]);
@@ -73,5 +88,3 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 }
-
-?>

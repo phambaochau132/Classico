@@ -20,7 +20,7 @@
         {{-- Product Description --}}
         <div class="mb-3">
             <label class="form-label">Product description</label>
-            <textarea name="description" class="form-control" placeholder="Product Description" rows="3"></textarea>
+            <textarea name="product_description" class="form-control" placeholder="Product Description" rows="3"></textarea>
         </div>
 
         {{-- Product Price --}}
@@ -43,7 +43,7 @@
         {{-- Product Image --}}
         <div class="mb-3">
             <label class="form-label">Product photo</label>
-            <input type="file" name="image" class="form-control">
+            <input type="file" name="product_photo" class="form-control">
         </div>
 
         {{-- Created At --}}
