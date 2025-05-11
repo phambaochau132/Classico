@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('customer_id')->nullable()->index('customer_id');
             $table->timestamp('order_date')->useCurrent();
             $table->decimal('total_price', 10)->nullable();
+            $table->decimal('status', 10)->nullable();
         });
     }
 
