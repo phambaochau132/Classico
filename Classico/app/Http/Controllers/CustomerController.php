@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
+
 class CustomerController extends Controller
 {
     // Hiển thị danh sách khách hàng

@@ -31,6 +31,9 @@
                         <button type="submit" class="btn btn-outline-light btn-sm">
                             <i class="bi bi-box-arrow-right"></i> Đăng xuất
                         </button>
+                        <a href="{{ route('admin.index') }}" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-box-arrow-right"></i> Danh Sách Tài Khoản Admin
+                        </a>
                     </form>
                 </li>
             </ul>

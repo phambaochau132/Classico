@@ -19,12 +19,26 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-//change password
-use App\Http\Controllers\Auth\ChangePasswordController;
 
-Route::get('/change-password', [ChangePasswordController::class, 'showChangePasswordForm'])->name('password.change');
-Route::post('/change-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 
-use App\Http\Controllers\AdminController; // hoặc controller bạn dùng
 
-Route::get('/admin/change-password', [AdminController::class, 'showChangePasswordForm'])->name('password.change');
+use App\Http\Controllers\AdminUserController;
+
+// Admin Users
+Route::resource('admin', AdminUserController::class);
+
+// Route::get('/admin', [AdminUserController::class, 'index']);
+
+// Route::get('/admin', [AdminUserController::class, 'index'])->name('admin.users');
+
+// Route::get('/admin', [AdminUserController::class, 'index'])->name('admin.users');
+
+
+// Route::resource('admin', AdminUserController::class);
+// Route::get('/admin', [AdminUserController::class, 'index'])->name('admin.index');
+// Route::get('/admin/{id}/edit', [AdminUserController::class, 'edit'])->name('admin.edit');
+// Route::put('/admin/{id}', [AdminUserController::class, 'update'])->name('admin.update');
+// Route::delete('/admin/{id}', [AdminUserController::class, 'destroy'])->name('admin.destroy');
+
+
+
