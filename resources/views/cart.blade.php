@@ -19,7 +19,7 @@
                 @endphp  
 
                 <div class="row product" style="margin-top: 30px;">
-                <div class="col-md"><a href="{{route('cart.delete',['id'=>$id])}}"><i class="fa fa-trash" aria-hidden="true"></i></a></div>
+                <div class="col-md"><a href="#" onclick="confirmDelete({{ $id }})"><i class="fa fa-trash" aria-hidden="true"></i></a></div>
                 <div class="col-md">
                     <a href="{{route('product.detail',['id'=>$id])}}">
                         <img src="{{asset('images/'. $arrImg[0])}}" class="img-fluid">   
@@ -49,4 +49,31 @@
 function submitform(id) {   
     document.getElementById('myform_'+id).submit(); }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa?',
+            text: "Sản phẩm sẽ bị xóa khỏi giỏ hàng!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Vâng, xóa!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/cart/delete?id=${id}`;
+            }
+        });
+    }
+</script>
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            text: '{{ $errors->first() }}',
+        });
+    </script>
+@endif
  @endsection

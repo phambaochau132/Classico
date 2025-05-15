@@ -195,7 +195,7 @@
                                     <span class="current_price">${{ $item->price }}</span>
                                 </div>
                                 <div class="add_to_cart">
-                                    <a href="{{route('cart.add',$item->id)}}" title="Add to cart"><i
+                                    <a href="{{route('cart.add',['id'=>$productPath])}}" title="Add to cart"><i
                                             class="fa fa-shopping-cart"></i> Add to cart</a>
                                 </div>
                             </div>
@@ -249,7 +249,7 @@
                                     <span class="current_price">${{ $item->price }}</span>
                                 </div>
                                 <div class="add_to_cart">
-                                    <a href="{{route('cart.add',$item->id)}}" title="Add to cart"><i
+                                    <a href="{{route('cart.add',['id'=>$productPath])}}" title="Add to cart"><i
                                             class="fa fa-shopping-cart"></i> Add to cart</a>
                                 </div>
                             </div>
@@ -357,7 +357,7 @@
                                     <span class="current_price">${{ $item->price }}</span>
                                 </div>
                                 <div class="add_to_cart">
-                                    <a href="{{route('cart.add',$item->id)}}" title="Add to cart"><i
+                                    <a href="{{route('cart.add',['id'=>$productPath])}}" title="Add to cart"><i
                                             class="fa fa-shopping-cart"></i> Add to cart</a>
                                 </div>
                             </div>
