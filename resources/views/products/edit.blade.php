@@ -15,9 +15,9 @@
         </div>
 
         <div style="margin-bottom: 15px;">
-            <label for="description">Product description</label>
-            <textarea id="description" name="description" rows="4"
-                      style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">{{ old('description', $product->description) }}</textarea>
+            <label for="product_description">Product description</label>
+            <textarea id="product_description" name="product_description" rows="4"
+                      style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">{{ old('product_description', $product->product_description) }}</textarea>
         </div>
 
         <div style="margin-bottom: 15px;">
@@ -27,31 +27,31 @@
         </div>
 
         <div style="margin-bottom: 15px;">
-            <label for="category_id">Category</label>
-            <select id="category_id" name="category_id" class="form-control">
-    @foreach($categories as $category)
-        <option value="{{ $category->id }}" 
-            {{ $product->category_id == $category->id ? 'selected' : '' }}>
-            {{ $category->name }}
-        </option>
-    @endforeach
-</select>
+    <label class="form-label">Danh mục</label>
+    <select name="category_id" class="form-control" required>
+        <option value="">-- Chọn danh mục --</option>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}"
+                {{ old('category_id', isset($product) ? $product->category_id : '') == $category->id ? 'selected' : '' }}>
+                {{ $category->category_name }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
-        </div>
 
         <div style="margin-bottom: 15px;">
-            <label for="photo">Product photo</label><br>
-            @if ($product->image_path)
-                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Product Image" 
-                     style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; margin-bottom: 10px;">
+            <label for="product_photo">Product photo</label><br>
+           @if ($product->product_photo)
+                <img src="{{ asset('images/products/' . $product->product_photo) }}" alt="Ảnh sản phẩm" style="max-width: 150px;">
             @endif
-            <input type="file" id="photo" name="photo"
+            <input type="file" id="product_photo" name="product_photo"
                    style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
         </div>
 
         <div style="margin-bottom: 20px;">
-            <label for="created_at">Created at</label>
-            <input type="date" id="created_at" name="created_at" value="{{ old('created_at', $product->created_at ? $product->created_at->format('Y-m-d') : '') }}"
+            <label for="create_at">Created at</label>
+            <input type="date" id="create_at" name="created_at" value="{{ old('create_at', $product->create_at ? $product->create_at->format('Y-m-d') : '') }}"
                    style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
         </div>
 

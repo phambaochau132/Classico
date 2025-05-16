@@ -33,7 +33,7 @@ class OrderController extends Controller
                 $productByOrder[]=$product;
             }
             $orders[] = [
-                'id' => $customer->customer_id ?? null,
+                'id' => $order->order_id,
                 'customer_name' => $customer->name ?? 'Không rõ',
                 'status' => $order->status,
             ];
@@ -60,6 +60,15 @@ class OrderController extends Controller
         // Trả về trang danh sách đơn hàng với thông báo
         return redirect()->route('orders.index')->with('success', 'Xóa đơn hàng thành công!');
     }
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = $request->input('status');
+        $order->save();
+
+        return redirect()->route('orders.index')->with('success', 'Cập nhật trạng thái thành công!');
+    }
+
     
     public function show(Request $request )
     {
@@ -71,20 +80,20 @@ class OrderController extends Controller
             $customer= Customer::find($order->customer_id);
             $orderDetailById= OrderDetail::where('order_id', $order->order_id)->get();
             $payment = Payment::where('order_id', $order->order_id)->first();
-            $Idproducts = OrderDetail::where('order_id', $order->order_id)->get('product_id');
-            $productByOrder=[];
-            // $ordersDetail=[];
-            foreach($Idproducts as $itemId)
-            {
-                $product= Product::find($itemId->product_id);
-                $productByOrder[] = [
-                    'product_name' => $product->product_name ?? 'Không rõ',
-                    'price' => $product->price ?? 0,
-                    'quantity' => 0,
-                ];
-                // $product->setAttribute('quantity', );
-                // $productByOrder[]=$product;
-            }
+            $orderDetails = OrderDetail::where('order_id', $order->order_id)->get();
+
+            $productByOrder = [];
+
+foreach ($orderDetails as $detail) {
+    $product = Product::find($detail->product_id);
+    $productByOrder[] = [
+        'product_name' => $product->product_name ?? 'Không rõ',
+        'price'        => $product->price ?? 0,
+        'quantity'     => $detail->quantity ?? 0,
+        'total'        => ($product->price ?? 0) * ($detail->quantity ?? 0)
+    ];
+}
+
             $ordersDetail = [
                 'id' => $customer->customer_id ?? null,
                 'customer_name' => $customer->name ?? 'Không rõ',
@@ -111,7 +120,8 @@ class OrderController extends Controller
         }
         
 
-        return view('orders.show', compact('order', 'productByOrder'));
-
+                return view('orders.show', [
+            'order' => $order
+        ]);
     }
 }

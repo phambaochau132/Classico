@@ -20,7 +20,7 @@
         {{-- Product Description --}}
         <div class="mb-3">
             <label class="form-label">Product description</label>
-            <textarea name="product_description" class="form-control" placeholder="Product Description" rows="3"></textarea>
+            <textarea name="product_description" class="form-control" placeholder="Product Description" rows="3" required></textarea>
         </div>
 
         {{-- Product Price --}}
@@ -43,13 +43,13 @@
         {{-- Product Image --}}
         <div class="mb-3">
             <label class="form-label">Product photo</label>
-            <input type="file" name="product_photo" class="form-control">
+            <input type="file" name="product_photo" class="form-control" required>
         </div>
 
         {{-- Created At --}}
         <div class="mb-3">
             <label class="form-label">Create at</label>
-            <input type="date" name="created_at" class="form-control" value="{{ date('Y-m-d') }}">
+            <input type="date" name="create_at" class="form-control" value="{{ date('Y-m-d') }}">
         </div>
 
         {{-- Submit Button --}}

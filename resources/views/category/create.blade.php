@@ -18,11 +18,6 @@
         @csrf
 
         <div class="mb-3">
-            <label for="category_id" class="form-label">Mã Danh Mục</label>
-            <input type="text" name="category_id" id="category_id" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
             <label for="category_name" class="form-label">Tên Danh Mục</label>
             <input type="text" name="category_name" id="category_name" class="form-control" required>
         </div>
