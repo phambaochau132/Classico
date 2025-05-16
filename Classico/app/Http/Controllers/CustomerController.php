@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class CustomerController extends Controller
@@ -11,15 +12,21 @@ class CustomerController extends Controller
     // Hiển thị danh sách khách hàng
     public function index(Request $request)
 {
-    $keyword = $request->input('keyword');
+ 
+    if (Auth::check()) {
+        $keyword = $request->input('keyword');
 
-    $customers = Customer::when($keyword, function ($query, $keyword) {
-        return $query->where('name', 'like', "%$keyword%")
-                     ->orWhere('email', 'like', "%$keyword%")
-                     ->orWhere('phone', 'like', "%$keyword%");
-    })->get();
-
-    return view('customers.index', compact('customers', 'keyword'));
+        $customers = Customer::when($keyword, function ($query, $keyword) {
+            return $query->where('name', 'like', "%$keyword%")
+                        ->orWhere('email', 'like', "%$keyword%")
+                        ->orWhere('phone', 'like', "%$keyword%");
+        })->get();
+        return view('customers.index', compact('customers', 'keyword'));
+    } else {
+        // chuyển hướng về trang đăng nhập hoặc báo lỗi
+        return redirect()->route('login')->withErrors(['auth' => 'Bạn cần đăng nhập trước.']);
+    }
+   
 }
 
 

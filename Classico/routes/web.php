@@ -10,14 +10,14 @@ Route::get('/customers', [App\Http\Controllers\CustomerController::class, 'index
 //crud customers
 use App\Http\Controllers\CustomerController;
 
-Route::resource('customers', CustomerController::class);
+Route::resource('customers', CustomerController::class)->middleware('auth');
 
 //login admin
 use App\Http\Controllers\AuthController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 

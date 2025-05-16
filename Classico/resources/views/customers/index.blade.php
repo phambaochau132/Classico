@@ -1,48 +1,9 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Danh sách khách hàng</title>
-
+@extends('layouts.app')
+@section('content')
     <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="{{ asset('css/customers.css') }}" rel="stylesheet">
-
-    
-</head>
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ route('customers.index') }}">Quản lý khách hàng</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav align-items-center">
-                <li class="nav-item me-3 text-white">
-                    👋 Xin chào, <strong>{{ Auth::user()->username }}</strong>
-                </li>
-                <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-light btn-sm">
-                            <i class="bi bi-box-arrow-right"></i> Đăng xuất
-                        </button>
-                        <a href="{{ route('admin.index') }}" class="btn btn-outline-light btn-sm">
-                            <i class="bi bi-box-arrow-right"></i> Danh Sách Tài Khoản Admin
-                        </a>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-
-
 <!-- Nội dung chính -->
 <main class="container py-4">
     <div class="card p-4">
@@ -110,5 +71,4 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

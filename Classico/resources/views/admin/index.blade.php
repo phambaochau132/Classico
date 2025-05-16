@@ -1,14 +1,8 @@
-
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Danh sách tài khoản Admin</title>
+@extends('layouts.app')
+@section('content')
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="{{ asset('css/adminindex.css') }}" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
+    <main class="container">
         <h1>📋 Danh sách tài khoản Admin</h1>
 
         <div class="top-actions">
@@ -44,6 +38,6 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-</body>
-</html>
+    </main >
+
+@endsection

@@ -28,7 +28,9 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        return redirect()->route('login');
+        if (Auth::logout()) {
+            return redirect()->route('login');
+        }
+        return back()->withErrors(['message' => 'Lỗi! Không thể đăng xuất']);
     }
 }

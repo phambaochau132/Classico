@@ -5,9 +5,7 @@
     <title>Thêm khách hàng</title>
 
     <!-- Bootstrap & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="{{ asset('css/addcustomers.css') }}" rel="stylesheet">
+
 
     
 </head>
@@ -20,7 +18,10 @@
     </div>
 </nav>
 
-<!-- Nội dung chính -->
+<!-- Nội dung chính -->\
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/addcustomers.css') }}" rel="stylesheet">
 <main class="container py-5">
     <div class="card p-4 mx-auto" style="max-width: 600px;">
         <h2 class="mb-4 text-center">📝 Thêm khách hàng</h2>
