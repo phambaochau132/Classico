@@ -53,3 +53,36 @@ Route::get('/cart/delete', [CartController::class, 'delete'])->name('cart.delete
 Route::get('/profile', [CustomerController::class, 'showProfile'])->name('customer.profile');
 Route::post('/profile', [CustomerController::class, 'updateProfile'])->name('customer.updateProfile');
 
+//Admin
+Route::get('/customers', [App\Http\Controllers\CustomerController::class, 'index'])->name('customers.index');
+
+//crud customers
+Route::resource('customers', CustomerController::class)->middleware('auth');
+
+//login admin
+use App\Http\Controllers\AuthController;
+
+Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/admin/login', [AuthController::class, 'login']);
+Route::get('/admin/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+
+use App\Http\Controllers\AdminUserController;
+
+// Admin Users
+Route::resource('admin', AdminUserController::class);
+
+// Route::get('/admin', [AdminUserController::class, 'index']);
+
+// Route::get('/admin', [AdminUserController::class, 'index'])->name('admin.users');
+
+// Route::get('/admin', [AdminUserController::class, 'index'])->name('admin.users');
+
+
+// Route::resource('admin', AdminUserController::class);
+// Route::get('/admin', [AdminUserController::class, 'index'])->name('admin.index');
+// Route::get('/admin/{id}/edit', [AdminUserController::class, 'edit'])->name('admin.edit');
+// Route::put('/admin/{id}', [AdminUserController::class, 'update'])->name('admin.update');
+// Route::delete('/admin/{id}', [AdminUserController::class, 'destroy'])->name('admin.destroy');

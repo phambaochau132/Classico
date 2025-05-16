@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\Customer;
@@ -84,7 +83,8 @@ class CustomerController extends Controller
         $customer->delete();
 
         return redirect()->route('customers.index')->with('success', 'Xóa khách hàng thành công!');
-=======
+    }
+
     public function showRegister()
     {
         return view('register');
