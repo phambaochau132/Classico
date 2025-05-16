@@ -27,10 +27,10 @@
                         <td>
                             <div class="actions">
                                 <a href="{{ route('admin.edit', $admin->user_id) }}" class="btn btn-edit">✏️</a>
-                                <form action="{{ route('admin.destroy', $admin->user_id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xoá tài khoản này?')">
+                                <form id="deleteForm-{{ $admin->user_id }}" action="{{ route('admin.destroy', $admin->user_id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xoá tài khoản này?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-delete">🗑️</button>
+                                    <button type="button" class="btn btn-delete" onclick="confirmDelete({{ $admin->user_id }})">🗑️</button>
                                 </form>
                             </div>
                         </td>
@@ -39,5 +39,23 @@
             </tbody>
         </table>
     </main >
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: 'Xác nhận xoá',
+            text: "Bạn có chắc muốn xoá khách hàng này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Vâng, xoá',
+            cancelButtonText: 'Hủy',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#aaa'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('deleteForm-' + userId).submit();
+            }
+        });
+    }
+</script>
 @endsection

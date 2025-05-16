@@ -25,7 +25,7 @@
     <div class="card p-4 mx-auto" style="max-width: 600px;">
         <h2 class="mb-4 text-center">✏️ Sửa thông tin khách hàng</h2>
 
-        <form action="{{ route('customers.update', $customer->customer_id) }}" method="POST">
+        <form id="updateForm" action="{{route('customers.update', $customer->customer_id)}}" method="POST">
             @csrf
             @method('PUT')
 
@@ -53,14 +53,32 @@
                 <a href="{{ route('customers.index') }}" class="btn btn-secondary">
                     <i></i> Hủy
                 </a>
-                <button type="submit" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" onclick="confirmUpdate()">
                     <i></i> Cập nhật
                 </button>
             </div>
         </form>
     </div>
 </main>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmUpdate() {
+        Swal.fire({
+            title: 'Xác nhận cập nhật',
+            text: "Bạn có chắc muốn cập nhật thông tin khách hàng?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Cập nhật',
+            cancelButtonText: 'Hủy',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#aaa'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('updateForm').submit();
+            }
+        });
+    }
+</script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

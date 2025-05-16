@@ -28,7 +28,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="#">Quản lý khách hàng</a>
+            <a class="navbar-brand fw-bold" href="#">Classico</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item me-3">

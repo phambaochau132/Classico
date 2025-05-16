@@ -76,15 +76,19 @@ public function store(Request $request)
         'username' => 'required',
         'email' => 'required|email'
     ]);
+    
+    try {
+        $user = SystemUser::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => bcrypt('123456'),
+            'role_id' => 2
+        ]);
+        return redirect()->route('admin.index')->with('success', 'Tạo tài khoản thành công.');
 
-    SystemUser::create([
-        'username' => $request->username,
-        'email' => $request->email,
-        'password' => bcrypt('123456'), // mặc định hoặc cho chọn
-        'role_id' => 2
-    ]);
-
-    return redirect()->route('admin.index')->with('success', 'Tạo tài khoản thành công.');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Tạo tài khoản thất bại!');
+    }
 }
 
 }

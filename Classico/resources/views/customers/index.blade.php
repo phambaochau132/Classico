@@ -49,10 +49,10 @@
                                 <a href="{{ route('customers.edit', $customer->customer_id) }}" class="btn btn-sm btn-warning me-1" title="Sửa">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <form action="{{ route('customers.destroy', $customer->customer_id) }}" method="POST" style="display:inline;">
+                                <form id="deleteForm-{{$customer->customer_id}}" action="{{ route('customers.destroy', $customer->customer_id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa?')">
+                                    <button type="button" class="btn btn-sm btn-danger" title="Xóa" onclick="confirmDelete({{$customer->customer_id}})">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
@@ -68,7 +68,25 @@
         </div>
     </div>
 </main>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: 'Xác nhận xoá',
+            text: "Bạn có chắc muốn xoá khách hàng này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Vâng, xoá',
+            cancelButtonText: 'Hủy',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#aaa'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('deleteForm-' + userId).submit();
+            }
+        });
+    }
+</script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
