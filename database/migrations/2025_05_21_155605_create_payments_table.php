@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('inventory', function (Blueprint $table) {
-            $table->foreign(['product_id'], 'inventory_ibfk_1')->references(['product_id'])->on('products')->onUpdate('restrict')->onDelete('restrict');
+        Schema::create('payments', function (Blueprint $table) {
+            $table->integer('payment_id', true);
+            $table->string('order_id', 11)->nullable()->index('order_id');
+            $table->string('payment_method', 50);
+            $table->string('payment_status', 50);
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('inventory', function (Blueprint $table) {
-            $table->dropForeign('inventory_ibfk_1');
-        });
+        Schema::dropIfExists('payments');
     }
 };
