@@ -25,103 +25,163 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_name'    => 'required|string|max:255',
-            'product_description'     => 'nullable|string',
-            'price'           => 'required|numeric',
-            'stock_quantity'  => 'nullable|integer',
-            'category_id'     => 'nullable|integer',
-            'product_photo'           => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-            'create_at'      => 'nullable|date',
-            'product_view'    => 'nullable|integer'
+            'product_name' => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/\s{2,}/', $value)) {
+                        $fail('Product name không được chứa nhiều khoảng trắng liên tiếp.');
+                    }
+                }
+            ],
+            'product_description' => [
+                'nullable',
+                'string',
+                'max:1000',
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/\d/', $value)) {
+                        $fail('Product description không được chứa số.');
+                    }
+                }
+            ],
+            'price' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    $number = explode('.', (string)$value)[0];
+                    if (strlen($number) > 10) {
+                        $fail('Giá sản phẩm không được vượt quá 10 chữ số.');
+                    }
+                }
+            ],
+            'stock_qua  ntity' => 'nullable|integer',
+            'category_id' => 'nullable|integer',
+            'product_photo' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'create_at' => 'nullable|date',
+            'product_view' => 'nullable|integer'
         ]);
-        $data = $request->only(['product_name', 'product_description', 'price', 'stock_quantity','product_view','category_id', 'create_at']);
+
+        $data = $request->only([
+            'product_name',
+            'product_description',
+            'price',
+            'stock_quantity',
+            'product_view',
+            'category_id',
+            'create_at'
+        ]);
 
         if (!isset($data['stock_quantity'])) {
             $data['stock_quantity'] = 0;
         }
 
-
         if ($request->hasFile('product_photo')) {
-                $file = $request->file('product_photo');
-
-                // Kiểm tra xem file có hợp lệ không
-                if ($file->isValid()) {
-                    $filename = time() . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('images/products/'), $filename);
-                    $data['product_photo'] = $filename; // Lưu vào cột photo
-
-                } else {
-                    return back()->withErrors(['product_photo' => 'Ảnh không hợp lệ!']);
-                }
+            $file = $request->file('product_photo');
+            if ($file->isValid()) {
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/products/'), $filename);
+                $data['product_photo'] = $filename;
+            } else {
+                return back()->withErrors(['product_photo' => 'Ảnh không hợp lệ!']);
             }
+        }
+
         Product::create($data);
 
         return redirect()->route('products.allProduct')->with('success', 'Product created successfully!');
     }
-    public function edit($id)
-    {
-        $product = Product::findOrFail($id);
-        $categories = Category::all(); // lấy tất cả danh mục ra
-    
-        return view('products.edit', compact('product', 'categories'));
-    }
+
     
     public function update(Request $request, $id)
-{
-    $product = Product::findOrFail($id);
+    {
+        $product = Product::findOrFail($id);
 
-    $request->validate([
-        'product_name'        => 'required|string|max:255',
-        'product_description' => 'nullable|string',
-        'price'               => 'required|numeric',
-        'stock_quantity'      => 'nullable|integer',
-        'category_id'         => 'nullable|integer',
-        'product_photo'       => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-        'created_at'          => 'nullable|date',
-        'product_view'        => 'nullable|integer'
-    ]);
+        $request->validate([
+            'product_name' => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/\s{2,}/', $value)) {
+                        $fail('Product name không được chứa nhiều khoảng trắng liên tiếp.');
+                    }
+                }
+            ],
+            'product_description' => [
+                'nullable',
+                'string',
+                'max:1000',
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/\d/', $value)) {
+                        $fail('Product description không được chứa số.');
+                    }
+                }
+            ],
+            'price' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    $number = explode('.', (string)$value)[0];
+                    if (strlen($number) > 10) {
+                        $fail('Giá sản phẩm không được vượt quá 10 chữ số.');
+                    }
+                }
+            ],
+            'stock_quantity' => 'nullable|integer',
+            'category_id' => 'nullable|integer',
+            'product_photo' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'created_at' => 'nullable|date',
+            'product_view' => 'nullable|integer'
+        ]);
 
-    $data = $request->only([
-        'product_name',
-        'product_description',
-        'price',
-        'stock_quantity',
-        'product_view',
-        'category_id',
-        'created_at'
-    ]);
+        $data = $request->only([
+            'product_name',
+            'product_description',
+            'price',
+            'stock_quantity',
+            'product_view',
+            'category_id',
+            'created_at'
+        ]);
 
-    // Gán mặc định nếu không có số lượng tồn
-    if (!isset($data['stock_quantity'])) {
-        $data['stock_quantity'] = 0;
-    }
-
-    // Xử lý ảnh nếu người dùng upload ảnh mới
-    if ($request->hasFile('product_photo')) {
-        $file = $request->file('product_photo');
-
-        if ($file->isValid()) {
-            // Tạo tên mới cho file
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-
-            // Lưu ảnh mới
-            $file->move(public_path('images/products/'), $filename);
-
-            // Xóa ảnh cũ nếu có
-            if ($product->product_photo && file_exists(public_path('images/products/' . $product->product_photo))) {
-                unlink(public_path('images/products/' . $product->product_photo));
-            }
-
-            $data['product_photo'] = $filename;
-        } else {
-            return back()->withErrors(['product_photo' => 'Ảnh không hợp lệ!']);
+        // Gán mặc định nếu không có số lượng tồn
+        if (!isset($data['stock_quantity'])) {
+            $data['stock_quantity'] = 0;
         }
+
+        // Xử lý ảnh nếu người dùng upload ảnh mới
+        if ($request->hasFile('product_photo')) {
+            $file = $request->file('product_photo');
+
+            if ($file->isValid()) {
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+
+                $file->move(public_path('images/products/'), $filename);
+
+                // Xóa ảnh cũ nếu có
+                if ($product->product_photo && file_exists(public_path('images/products/' . $product->product_photo))) {
+                    unlink(public_path('images/products/' . $product->product_photo));
+                }
+
+                $data['product_photo'] = $filename;
+            } else {
+                return back()->withErrors(['product_photo' => 'Ảnh không hợp lệ!']);
+            }
+        }
+
+        $product->update($data);
+
+        return redirect()->route('products.allProduct')->with('success', 'Product updated successfully!');
     }
 
-    $product->update($data);
+        public function edit($id)
+        {
+            $product = Product::findOrFail($id);
+            $categories = Category::all();
+            return view('products.edit', compact('product', 'categories'));
+        }
 
-    return redirect()->route('products.allProduct')->with('success', 'Product updated successfully!');
-}
 
 
     public function destroy($id)

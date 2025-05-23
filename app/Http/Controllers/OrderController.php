@@ -66,7 +66,7 @@ class OrderController extends Controller
         $order->status = $request->input('status');
         $order->save();
 
-        return redirect()->route('orders.index')->with('success', 'Cập nhật trạng thái thành công!');
+        return redirect()->back()->with('success', 'Cập nhật trạng thái thành công!');
     }
 
     
@@ -94,20 +94,21 @@ foreach ($orderDetails as $detail) {
     ];
 }
 
-            $ordersDetail = [
-                'id' => $customer->customer_id ?? null,
-                'customer_name' => $customer->name ?? 'Không rõ',
-                'phone' => $customer->phone ?? '',
-                'address' => $customer->address ?? '',
-                'order_date' => $order->order_date,
-                'status' => $order->status,
-                'total' => $orderDetailById->reduce(function ($carry, $item) {
-                            $product = Product::find($item->product_id);
-                            return $carry + ($product->price * $item->quantity);
-                        }, 0),
-                'payment_method' => $payment->payment_method ?? 'Chưa thanh toán',
-                'products' => $productByOrder
-            ];
+          $ordersDetail = [
+    'id' => $order->order_id, // ✅ Đây mới là ID của đơn hàng
+    'customer_name' => $customer->name ?? 'Không rõ',
+    'phone' => $customer->phone ?? '',
+    'address' => $customer->address ?? '',
+    'order_date' => $order->order_date,
+    'status' => $order->status,
+    'total' => $orderDetailById->reduce(function ($carry, $item) {
+        $product = Product::find($item->product_id);
+        return $carry + ($product->price * $item->quantity);
+    }, 0),
+    'payment_method' => $payment->payment_method ?? 'Chưa thanh toán',
+    'products' => $productByOrder
+];
+
             $orders [$order->order_id] = $ordersDetail;
  
         }

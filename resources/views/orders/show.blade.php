@@ -37,7 +37,11 @@
 <body>
     <div class="order-details">
 
-        <h3 class="text-center mb-4">Chi tiết đơn hàng {{ $order['id'] }}</h3>
+        <h3 class="text-center mb-4">@if(isset($order['id']))
+    Chi tiết đơn hàng {{ $order['id'] }}
+@else
+    Không tìm thấy ID đơn hàng
+@endif</h3>
 
         <div class="mb-2"><strong>Tên khách hàng:</strong> {{ $order['customer_name'] }}</div>
         <div class="mb-2"><strong>Số điện thoại:</strong> {{ $order['phone'] }}</div>
@@ -54,9 +58,6 @@
                     <option {{ $order['status'] == 'Hoàn thành' ? 'selected' : '' }} value="Hoàn thành">Hoàn thành</option>
                 </select>
             </div>
-
-       
-
         <div class="mb-2">
             <strong>Tổng tiền:</strong> {{ number_format((float) $order['total'], 0, ',', '.') }} VND
         </div>
