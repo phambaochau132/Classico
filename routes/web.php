@@ -16,6 +16,9 @@ Route::get('/admin', function () {
 Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 Route::get('/admin/order', [OrderController::class, 'show'])->name('orders.show');
+Route::post('/admin/orders/update-status/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
+
 
 // Category routes
 Route::resource('categories', CategoryController::class);

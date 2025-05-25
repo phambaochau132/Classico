@@ -83,7 +83,7 @@
         function confirmDelete(orderId) {
             document.getElementById('orderId').textContent = orderId;
             const form = document.getElementById('deleteForm');
-            form.action = "{{ url('/orders') }}/" + orderId;
+           form.action = "{{ url('/admin/orders') }}/" + orderId;
             const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
             modal.show();
         }
