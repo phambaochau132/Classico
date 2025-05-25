@@ -438,7 +438,7 @@ menu .dropdown-content a {
     margin-right: 5px;
 }
 
-.content-product .add_to_cart a {
+.content-product .add_to_cart form button{
     line-height: 45px;
     height: 45px;
     display: inline-block;
@@ -447,9 +447,11 @@ menu .dropdown-content a {
     width: 100%;
     background: #999;
     color: #fff !important;
+    border: 0;
+
 }
 
-.content-product .add_to_cart a:hover,
+.content-product .add_to_cart form button:hover,
 .action-product a:hover,
 .tab-control a:hover {
     background: #febc8b;

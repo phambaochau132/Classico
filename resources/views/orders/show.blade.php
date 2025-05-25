@@ -47,9 +47,10 @@
         <div class="mb-2">
             <strong>Trạng thái:</strong>
             <select class="form-select d-inline w-auto" disabled>
-                <option {{ $order['status'] == 'Chờ xác nhận' ? 'selected' : '' }}>Chờ xác nhận</option>
-                <option {{ $order['status'] == 'Đang giao hàng' ? 'selected' : '' }}>Đang giao hàng</option>
-                <option {{ $order['status'] == 'Hoàn thành' ? 'selected' : '' }}>Hoàn thành</option>
+                <option {{ $order['status'] == 0 ? 'selected' : '' }}>Chờ thanh toán</option>
+                <option {{ $order['status'] == 1 ? 'selected' : '' }}>Chờ xác nhận</option>
+                <option {{ $order['status'] == 2 ? 'selected' : '' }}>Đang giao hàng</option>
+                <option {{ $order['status'] == 3 ? 'selected' : '' }}>Hoàn thành</option>
             </select>
         </div>
 
@@ -57,8 +58,25 @@
             <strong>Tổng tiền:</strong> {{ number_format((float) $order['total'], 0, ',', '.') }} VND
         </div>
 
-        <div class="mb-2"><strong>Phương thức thanh toán:</strong> {{ $order['payment_method'] }}</div>
+        <div class="mb-2">
+            <strong>Phương thức thanh toán: </strong> 
+            {{ $order['payment_method'] }}
+            @if($order['payment_method'] === 0)
+                <span class="badge bg-secondary text-dark">Tiền mặt(COD)</span>
+            @else($order['payment_method'] === 1)
+                <span class="badge bg-secondary text-dark">Chuyển khoản(BANK)</span>
+            @endif
+        </div>
 
+        <div class="mb-2">
+            <strong>Tình trạng thanh toán: </strong> 
+            {{ $order['payment_method'] }}
+            @if($order['payment_status'] === 0)
+                <span class="badge bg-warning text-dark">Chưa thanh toán</span>
+            @else($order['payment_status'] === 1)
+                <span class="badge bg-success">Đã thanh toán</span>
+            @endif
+        </div>
         <h5 class="section-title">Chi tiết các sản phẩm:</h5>
 
         <table class="table table-bordered table-hover mt-2">

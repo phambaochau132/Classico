@@ -25,7 +25,7 @@ class OrdersTableSeeder extends Seeder
                 'customer_id' => 1,
                 'order_date' => '2025-05-21 22:53:56',
                 'total_price' => '75.00',
-                'status' => '1.00',
+                'status' => 1,
             ),
             1 => 
             array (
@@ -33,7 +33,7 @@ class OrdersTableSeeder extends Seeder
                 'customer_id' => 2,
                 'order_date' => '2025-05-21 22:53:56',
                 'total_price' => '200.00',
-                'status' => '1.00',
+                'status' => 1,
             ),
             2 => 
             array (
@@ -41,7 +41,7 @@ class OrdersTableSeeder extends Seeder
                 'customer_id' => 3,
                 'order_date' => '2025-05-21 22:53:56',
                 'total_price' => '150.00',
-                'status' => '2.00',
+                'status' => 2,
             ),
             3 => 
             array (
@@ -49,7 +49,7 @@ class OrdersTableSeeder extends Seeder
                 'customer_id' => 4,
                 'order_date' => '2025-05-21 22:53:56',
                 'total_price' => '50.00',
-                'status' => '1.00',
+                'status' => 1,
             ),
         ));
         

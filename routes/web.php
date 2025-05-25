@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/admin', function () {
     return view('welcome');
@@ -43,11 +44,16 @@ Route::get('/search', [ProductController::class, 'search'])->name('product.searc
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-Route::get('/cart/add', [CartController::class, 'add'])->name('cart.add');
+// Route::get('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::get('/cart/delete', [CartController::class, 'delete'])->name('cart.delete');
 
 //Payment
-
+Route::get('/payment/index', [PaymentController::class, 'index'])->name('payment.index');
+Route::get('/payment/review', [PaymentController::class, 'review'])->name('payment.review');
+Route::post('/payment/delivery', [PaymentController::class, 'delivery'])->name('payment.delivery');
+Route::post('/payment/confirm', [PaymentController::class, 'confirmPayment'])->name('payment.confirm');
+Route::post('/payment/transfer/{content}', [PaymentController::class, 'orderTransfer'])->name('payment.order_transfer');
+Route::post('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
 //Profile Customer
 Route::get('/profile', [CustomerController::class, 'showProfile'])->name('customer.profile');

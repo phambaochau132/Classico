@@ -14,12 +14,14 @@ use Illuminate\Database\Eloquent\Model;
  * Class Order
  * 
  * @property string $order_id
- * @property int|null $customer_id
+ * @property int $customer_id
  * @property Carbon $order_date
- * @property float|null $total_price
- * @property float|null $status
+ * @property float $total_price
+ * @property int $status
  * 
- * @property Customer|null $customer
+ * @property Customer $customer
+ * @property Collection|Delivery[] $deliveries
+ * @property Collection|OrderDetail[] $order_details
  * @property Collection|Payment[] $payments
  *
  * @package App\Models
@@ -35,7 +37,7 @@ class Order extends Model
 		'customer_id' => 'int',
 		'order_date' => 'datetime',
 		'total_price' => 'float',
-		'status' => 'float'
+		'status' => 'int'
 	];
 
 	protected $fillable = [
@@ -48,6 +50,16 @@ class Order extends Model
 	public function customer()
 	{
 		return $this->belongsTo(Customer::class);
+	}
+
+	public function deliveries()
+	{
+		return $this->hasMany(Delivery::class);
+	}
+
+	public function order_details()
+	{
+		return $this->hasMany(OrderDetail::class);
 	}
 
 	public function payments()

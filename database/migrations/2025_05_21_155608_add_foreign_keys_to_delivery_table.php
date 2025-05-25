@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
-            $table->integer('payment_id', true);
-            $table->string('order_id', 11)->index('order_id');
-            $table->integer('payment_method')->defauld(0);
-            $table->integer('payment_status')->defauld(0);
+        Schema::table('delivery', function (Blueprint $table) {
+            $table->foreign(['order_id'], 'delivery_ibfk_1')->references(['order_id'])->on('orders')->onUpdate('restrict')->onDelete('restrict');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::table('delivery', function (Blueprint $table) {
+            $table->dropForeign('delivery_ibfk_1');
+        });
     }
 };

@@ -23,29 +23,29 @@ class PaymentsTableSeeder extends Seeder
             array (
                 'payment_id' => 1,
                 'order_id' => '2505210001',
-                'payment_method' => 'Credit Card',
-                'payment_status' => 'Completed',
+                'payment_method' => 1,
+                'payment_status' => 0,
             ),
             1 => 
             array (
                 'payment_id' => 2,
                 'order_id' => '2505210002',
-                'payment_method' => 'PayPal',
-                'payment_status' => 'Completed',
+                'payment_method' => 0,
+                'payment_status' => 1,
             ),
             2 => 
             array (
                 'payment_id' => 3,
                 'order_id' => '2505210003',
-                'payment_method' => 'Bank Transfer',
-                'payment_status' => 'Pending',
+                'payment_method' => 0,
+                'payment_status' => 1,
             ),
             3 => 
             array (
                 'payment_id' => 4,
                 'order_id' => '2505210004',
-                'payment_method' => 'Credit Card',
-                'payment_status' => 'Completed',
+                'payment_method' => 1,
+                'payment_status' => 0,
             ),
         ));
         

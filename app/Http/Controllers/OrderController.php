@@ -8,8 +8,7 @@ use App\Models\OrderDetail;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Payment;
-
-
+use App\Models\Delivery;
 
 
 class OrderController extends Controller
@@ -69,6 +68,7 @@ class OrderController extends Controller
         $orders = [];
         foreach($order_data as $order ) {
             $customer= Customer::find($order->customer_id);
+            $delivery= Delivery::where('order_id', $order->order_id)->first();
             $orderDetailById= OrderDetail::where('order_id', $order->order_id)->get();
             $payment = Payment::where('order_id', $order->order_id)->first();
             $Idproducts = OrderDetail::where('order_id', $order->order_id)->get('product_id');
@@ -87,16 +87,16 @@ class OrderController extends Controller
             }
             $ordersDetail = [
                 'id' => $customer->customer_id ?? null,
-                'customer_name' => $customer->name ?? 'Không rõ',
-                'phone' => $customer->phone ?? '',
-                'address' => $customer->address ?? '',
+                'customer_name' => $delivery->name ?? 'Không rõ',
+                'phone' => $delivery->phone ?? '',
+                'address' => $delivery->address ?? '',
                 'order_date' => $order->order_date,
                 'status' => $order->status,
                 'total' => $orderDetailById->reduce(function ($carry, $item) {
                             $product = Product::find($item->product_id);
                             return $carry + ($product->price * $item->quantity);
                         }, 0),
-                'payment_method' => $payment->payment_method ?? 'Chưa thanh toán',
+                'payment_method' => $payment->payment_method ?? 1,
                 'products' => $productByOrder
             ];
             $orders [$order->order_id] = $ordersDetail;

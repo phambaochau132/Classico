@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $price
  * 
  * @property Product $product
+ * @property Order $order
  *
  * @package App\Models
  */
@@ -43,5 +44,10 @@ class OrderDetail extends Model
 	public function product()
 	{
 		return $this->belongsTo(Product::class);
+	}
+
+	public function order()
+	{
+		return $this->belongsTo(Order::class);
 	}
 }
