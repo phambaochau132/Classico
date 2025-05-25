@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cart', function (Blueprint $table) {
-            $table->integer('cart_id', true);
-            $table->integer('customer_id')->nullable()->index('customer_id');
-            $table->integer('product_id')->nullable()->index('product_id');
-            $table->integer('quantity');
+        Schema::create('delivery', function (Blueprint $table) {
+            $table->integer('delivery_id', true);
+            $table->string('order_id', 11)->index('order_id');
+            $table->text('name');
+            $table->string('phone', 10);
+            $table->text('address');
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cart');
+        Schema::dropIfExists('delivery');
     }
 };

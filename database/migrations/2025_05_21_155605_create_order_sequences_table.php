@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
-            $table->integer('payment_id', true);
-            $table->integer('order_id')->nullable()->index('order_id');
-            $table->string('payment_method', 50);
-            $table->string('payment_status', 50);
+        Schema::create('order_sequences', function (Blueprint $table) {
+            $table->date('order_date')->primary();
+            $table->integer('sequence');
         });
     }
 
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('order_sequences');
     }
 };

@@ -108,6 +108,8 @@
 
             let productType = $(item).find('.nav-link').text().trim();
             let tabContent = $('#order_by');
+            const cartAddUrl = @json(route('cart.add', ['id' => '__ID__']));
+            const csrfToken = @json(csrf_token());
             $.ajax({
                 url: "{{ route('product.order_by') }}",
                 method: 'GET',
@@ -120,29 +122,31 @@
                         let productPath = item.id;
                         let photo = item.product_photo.split(',')[0];
 
-                        html += `
-                            <div class="single-product">
-                                <div class="product-img">
-                                    <a href="/product/${productPath}">
-                                        <img src="/images/${photo}" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="content-product">
-                                    <h4>
-                                        <a href="/product/${productPath}">${item.product_name}</a>
-                                    </h4>
-                                    <div class="price">
-                                        <span class="current_price">$${item.price}</span>
-                                    </div>
-                                    <div class="add_to_cart">
-                                        <a href="/cart/add/${item.id}" title="Add to cart">
-                                            <i class="fa fa-shopping-cart"></i> Add to cart
+                        html += `<div class="single-product">
+                                    <div class="product-img">
+                                        <a href="/product/${productPath}">
+                                            <img src="/images/${photo}" class="img-fluid">
                                         </a>
                                     </div>
+                                    <div class="content-product">
+                                        <h4>
+                                            <a href="/product/${productPath}">${item.product_name}</a>
+                                        </h4>
+                                        <div class="price">
+                                            <span class="current_price">$${item.price}</span>
+                                        </div>
+                                        <div class="add_to_cart">
+                                            <form action="${cartAddUrl.replace('__ID__', item.id)}" method="POST">
+                                                <input type="hidden" name="_token" value="${csrfToken}">
+                                                <button type="submit">
+                                                    <i class="fa fa-shopping-cart"></i> Add to cart
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
                             `;
-                    });
+                        });
                     tabContent.trigger('destroy.owl.carousel');
 
                     tabContent.html(html);
@@ -195,8 +199,12 @@
                                     <span class="current_price">${{ $item->price }}</span>
                                 </div>
                                 <div class="add_to_cart">
-                                    <a href="{{route('cart.add',$item->id)}}" title="Add to cart"><i
-                                            class="fa fa-shopping-cart"></i> Add to cart</a>
+                                    <form action="{{ route('cart.add', ['id' => $productPath]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit">
+                                            <i class="fa fa-shopping-cart"></i> Add to cart
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -249,8 +257,12 @@
                                     <span class="current_price">${{ $item->price }}</span>
                                 </div>
                                 <div class="add_to_cart">
-                                    <a href="{{route('cart.add',$item->id)}}" title="Add to cart"><i
-                                            class="fa fa-shopping-cart"></i> Add to cart</a>
+                                    <form action="{{ route('cart.add', ['id' => $productPath]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit">
+                                            <i class="fa fa-shopping-cart"></i> Add to cart
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -357,8 +369,12 @@
                                     <span class="current_price">${{ $item->price }}</span>
                                 </div>
                                 <div class="add_to_cart">
-                                    <a href="{{route('cart.add',$item->id)}}" title="Add to cart"><i
-                                            class="fa fa-shopping-cart"></i> Add to cart</a>
+                                    <form action="{{ route('cart.add', ['id' => $productPath]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit">
+                                            <i class="fa fa-shopping-cart"></i> Add to cart
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

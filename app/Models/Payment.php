@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  * Class Payment
  * 
  * @property int $payment_id
- * @property int|null $order_id
- * @property string $payment_method
- * @property string $payment_status
+ * @property string|null $order_id
+ * @property int $payment_method
+ * @property int $payment_status
  * 
  * @property Order|null $order
  *
@@ -27,7 +27,8 @@ class Payment extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'order_id' => 'int'
+		'payment_method' => 'int',
+		'payment_status' => 'int'
 	];
 
 	protected $fillable = [

@@ -30,14 +30,14 @@
                             <td>{{ $order['id'] }}</td>
                             <td>{{ $order['customer_name'] }}</td>
                             <td>
-                                @if($order['status'] === 'Chờ xác nhận')
+                                @if($order['status'] === 1)
                                     <span class="badge bg-warning text-dark">Chờ xác nhận</span>
-                                @elseif($order['status'] === 'Đang xử lý')
+                                @elseif($order['status'] === 2)
                                     <span class="badge bg-info text-dark">Đang xử lý</span>
-                                @elseif($order['status'] === 'Hoàn tất')
+                                @elseif($order['status'] === 3)
                                     <span class="badge bg-success">Hoàn tất</span>
                                 @else
-                                    <span class="badge bg-secondary">{{ $order['status'] }}</span>
+                                    <span class="badge bg-secondary">Chờ thanh toán</span>
                                 @endif
                             </td>
                             <td>
@@ -83,7 +83,7 @@
         function confirmDelete(orderId) {
             document.getElementById('orderId').textContent = orderId;
             const form = document.getElementById('deleteForm');
-            form.action = "{{ url('/orders') }}/" + orderId;
+           form.action = "{{ url('/admin/orders') }}/" + orderId;
             const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
             modal.show();
         }

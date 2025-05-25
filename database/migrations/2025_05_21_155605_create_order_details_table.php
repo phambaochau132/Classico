@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->integer('order_detail_id', true);
-            $table->integer('order_id')->nullable()->index('order_id');
-            $table->integer('product_id')->nullable()->index('product_id');
+            $table->string('order_id', 11)->index('order_id');
+            $table->integer('product_id')->index('product_id');
             $table->integer('quantity');
             $table->decimal('price', 10);
         });

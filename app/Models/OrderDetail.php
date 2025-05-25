@@ -12,13 +12,13 @@ use Illuminate\Database\Eloquent\Model;
  * Class OrderDetail
  * 
  * @property int $order_detail_id
- * @property int|null $order_id
- * @property int|null $product_id
+ * @property string $order_id
+ * @property int $product_id
  * @property int $quantity
  * @property float $price
  * 
- * @property Order|null $order
- * @property Product|null $product
+ * @property Product $product
+ * @property Order $order
  *
  * @package App\Models
  */
@@ -29,7 +29,6 @@ class OrderDetail extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'order_id' => 'int',
 		'product_id' => 'int',
 		'quantity' => 'int',
 		'price' => 'float'
@@ -42,13 +41,13 @@ class OrderDetail extends Model
 		'price'
 	];
 
-	public function order()
-	{
-		return $this->belongsTo(Order::class);
-	}
-
 	public function product()
 	{
 		return $this->belongsTo(Product::class);
+	}
+
+	public function order()
+	{
+		return $this->belongsTo(Order::class);
 	}
 }

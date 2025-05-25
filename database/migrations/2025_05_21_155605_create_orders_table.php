@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->integer('order_id', true);
+            $table->string('order_id', 11)->primary();
             $table->integer('customer_id')->nullable()->index('customer_id');
             $table->timestamp('order_date')->useCurrent();
             $table->decimal('total_price', 10)->nullable();
-            $table->decimal('status', 10)->nullable();
+            $table->integer('status');
         });
     }
 

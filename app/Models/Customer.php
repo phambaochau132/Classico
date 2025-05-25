@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,8 +18,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $email
  * @property string|null $phone
  * @property string|null $address
+ * @property string $avatar
+ * @property string|null $gender
+ * @property string $password
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * 
- * @property Collection|Cart[] $carts
  * @property Collection|Order[] $orders
  *
  * @package App\Models
@@ -27,25 +32,20 @@ class Customer extends Model
 {
 	protected $table = 'customers';
 	protected $primaryKey = 'customer_id';
-	public $timestamps = false;
+
+	protected $hidden = [
+		'password'
+	];
 
 	protected $fillable = [
 		'name',
 		'email',
-		'password',
 		'phone',
 		'address',
+		'avatar',
 		'gender',
-		'avatar'
-		
-
+		'password'
 	];
-	protected $hidden = ['password'];
-
-	public function carts()
-	{
-		return $this->hasMany(Cart::class);
-	}
 
 	public function orders()
 	{
