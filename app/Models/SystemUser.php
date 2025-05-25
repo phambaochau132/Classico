@@ -24,6 +24,7 @@ class SystemUser extends Authenticatable
         'username',
         'password',
         'email',
+        'sodienthoai',
         'role_id',
     ];
 

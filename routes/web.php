@@ -72,6 +72,14 @@ Route::get('/admin/logout', [AuthController::class, 'logout'])->name('logout');
 use App\Http\Controllers\AdminUserController;
 
 // Admin Users
+
+// reset-password
+Route::prefix('admin')->group(function () {
+    Route::get('/reset-password', [AdminUserController::class, 'showResetForm'])->name('reset.form');
+    Route::post('/reset-password', [AdminUserController::class, 'handleReset'])->name('reset.handle');
+
+    Route::resource('users', AdminUserController::class);
+});
 Route::resource('admin', AdminUserController::class);
 
 // Route::get('/admin', [AdminUserController::class, 'index']);

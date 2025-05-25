@@ -17,6 +17,11 @@
             <input type="email" name="email" value="{{ $admin->email ?? '' }}" class="form-control" required>
         </div>
 
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" name="sodienthoai" value="{{ $admin->sodienthoai ?? '' }}" class="form-control" required>
+        </div>
+
         <button type="button" class="btn btn-primary mt-3" onclick="{{ isset($admin) ? 'confirmUpdate()' : 'confirmCreate()' }}">Lưu</button>
         <a href="{{ route('admin.index') }}" class="btn btn-secondary mt-3">Quay lại</a>
     </form>

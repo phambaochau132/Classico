@@ -32,7 +32,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item me-3">
-                        <span class="text-white">🔥 Xin chào, <strong>{{ Auth::user()->username }}</strong></span>
+                         <span class="text-white">🔥 Xin chào, <strong>{{ Auth::user()->username }}</strong></span> -->
                     </li>
                     <li class="nav-item me-2">
                         <a class="btn btn-outline-light btn-sm" href="{{ route('logout') }}">Đăng xuất</a>
