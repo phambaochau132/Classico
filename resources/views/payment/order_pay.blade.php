@@ -1,31 +1,31 @@
 @extends('header')
 
 @section('content')
-<div class="max-w-xl mx-auto p-8 bg-white rounded-lg shadow-md mt-10">
-    <h2 class="text-xl font-extrabold text-gray-800 mb-8 text-center">Xác Nhận Thanh Toán</h1>
+<div class="form-container">
+    <h2 class="form-title">Xác Nhận Thanh Toán</h2>
 
-    <div class="mb-8 border-b border-gray-200 pb-6">
-        <h4 class="font-semibold text-xl text-gray-700 mb-2">Thông tin đơn hàng</h2>
-        <p class="mb-2"><strong>Mã đơn hàng:</strong> <span class="text-indigo-600">#{{ $order->order_id }}</span></p>
-        <p class="mb-2"><strong>Tổng tiền thanh toán:</strong> <span class="font-mono text-lg text-green-600">{{ number_format($order->total_price, 0, ',', '.') }} VND</span></p>
+    <div class="section section-border">
+        <h4 class="section-title">Thông tin đơn hàng</h4>
+        <p><strong>Mã đơn hàng:</strong> <span class="highlight-yellow">#{{ $order->order_id }}</span></p>
+        <p><strong>Tổng tiền thanh toán:</strong> <span class="highlight-green">{{ number_format($order->total_price, 0, ',', '.') }} VND</span></p>
     </div>
 
-    <div id="qr-section" class="mb-8 p-6 bg-gray-50 rounded-lg text-center shadow-inner">
-        <h3 class="font-semibold text-xl mb-4">Mã QR thanh toán</h2>
-        <img src="https://img.vietqr.io/image/MB-0587558698-compact.png?amount={{$order->total_price}}" alt="Mã QR thanh toán" style="width: 300px;">
-        <p class="text-sm text-gray-500 mb-2">Thời gian thanh toán còn lại:</p>
-        <span id="countdown" class="font-bold text-3xl text-red-600">05:00</span>
+    <div id="qr-section" class="qr-section">
+        <h3 class="section-title">Mã QR thanh toán</h3>
+        <img src="https://img.vietqr.io/image/MB-0587558698-compact.png?amount={{ $order->total_price }}" alt="Mã QR thanh toán">
+        <p class="small-text">Thời gian thanh toán còn lại:</p>
+        <span id="countdown" class="countdown">05:00</span>
     </div>
 
-    <div class="p-6 bg-gray-50 rounded-lg shadow-inner text-sm">
-        <h4 class="font-semibold text-lg mb-2">Thông tin ngân hàng</h2>
-        <p class="mb-2"><strong>Tên ngân hàng:</strong> <span class="text-indigo-600">{{ $bankInfo->bank_name }}</span></p>
-        <p class="mb-2"><strong>Số tài khoản:</strong> <span class="font-mono">{{ $bankInfo->account_number }}</span></p>
-        <p class="mb-2"><strong>Chủ tài khoản:</strong> <span class="text-indigo-600">{{ $bankInfo->account_name }}</span></p>
-        <p class="mt-2 font-semibold"><strong>Nội dung chuyển khoản:</strong> <span class="text-red-600">classico.{{ $order->order_id }}</span></p>
+    <div class="bank-info">
+        <h4 class="section-title">Thông tin ngân hàng</h4>
+        <p><strong>Tên ngân hàng:</strong> <span class="highlight-yellow">{{ $bankInfo->bank_name }}</span></p>
+        <p><strong>Số tài khoản:</strong> <span class="highlight-green">{{ $bankInfo->account_number }}</span></p>
+        <p><strong>Chủ tài khoản:</strong> <span class="highlight-yellow">{{ $bankInfo->account_name }}</span></p>
+        <p><strong>Nội dung chuyển khoản:</strong> <span class="highlight-red">classico.{{ $order->order_id }}</span></p>
     </div>
-
 </div>
+
 
 <script>
     let timeLeft = 300;

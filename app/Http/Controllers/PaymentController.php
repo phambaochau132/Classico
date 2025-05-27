@@ -74,13 +74,14 @@ class PaymentController extends Controller
             'total_price' => $totalPrice,
             'status' => 0,
         ]);
-        $latestOrder = Order::orderBy('order_id', 'desc')->first();
-
-
+        
         if (!$order) {
             return redirect()->back()->withInput()->withErrors(['error' => 'Lỗi tạo đơn hàng']);
         }
-        return $this->payTransfer($latestOrder->order_id, $method);
+        $order = Order::latest('order_date')->first();
+
+        return $this->payTransfer($order->order_id, $method);
+        
     }
 
     public function payTransfer(string $order_id, int $method)
@@ -90,12 +91,14 @@ class PaymentController extends Controller
     
         if ($payment) {
             $payment->update([
-                'payment_method' => $method
+                'payment_method' => $method,
+                'payment_status'=>0
             ]);
         } else {
             Payment::create([
                 'order_id' => $order_id,
-                'payment_method' => $method
+                'payment_method' => $method,
+                'payment_status'=>0
             ]);
         }
     
