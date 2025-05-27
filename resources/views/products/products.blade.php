@@ -1,6 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
+
 <div class="container">
     <h1>Manage</h1>
     <div style="display: flex;">

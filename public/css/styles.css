@@ -407,6 +407,11 @@ menu .dropdown-content a {
     font-weight: 400;
 }
 
+.tab-content .single-product a img {
+    width: 150px;
+    height: 150px;
+}
+
 .tab-content .single-product a:hover {
     color: #febc8b;
 }
@@ -438,7 +443,7 @@ menu .dropdown-content a {
     margin-right: 5px;
 }
 
-.content-product .add_to_cart form button{
+.content-product .add_to_cart form button {
     line-height: 45px;
     height: 45px;
     display: inline-block;
