@@ -46,7 +46,7 @@
                 </button>
             </div>
             <div class="forgot-password">
-                <a href="{{ route('reset.form') }}">Quên mật khẩu?</a>
+                <a href="{{ route('reset.form') }}">Quên mật khẩu?</a> 
             </div>
 
             <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>

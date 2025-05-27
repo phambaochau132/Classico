@@ -137,7 +137,6 @@
                         class="form-control form-control-lg"
                         name="sodienthoai"
                         value="{{ old('sodienthoai') }}"
-                        placeholder="Ví dụ: 0355924433"
                         required
                     />
                 </div>
