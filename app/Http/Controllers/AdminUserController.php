@@ -38,12 +38,9 @@ class AdminUserController extends Controller
     $admin = SystemUser::findOrFail($id);
 
     $request->validate([
-        'username' => 'required',
         'email' => 'required|email',
         'sodienthoai' => 'required'
     ]);
-
-    $admin->username = $request->username;
     $admin->email = $request->email;
     $admin->sodienthoai = $request->sodienthoai;  // Sửa chỗ này
     $admin->save();
@@ -81,9 +78,9 @@ public function store(Request $request)
         return redirect()->back()->with('error', 'Bạn không có quyền thực hiện thao tác này.');
     }
     $request->validate([
-        'username' => 'required',
-        'email' => 'required|email',
-        'sodienthoai' => 'required|string|max:15', 
+        'username' => 'required|unique:system_users',
+        'email' => 'required|email|unique:system_users',
+        'sodienthoai' => 'required|numeric|digits:10',
     ]);
     
     \Log::info('Creating user with sodienthoai:', ['sodienthoai' => $request->sodienthoai]);
@@ -96,6 +93,7 @@ public function store(Request $request)
             'password' => bcrypt('123456'),
             'role_id' => 2
         ]);
+        return redirect()->route('admin.index');
 
     } catch (\Exception $e) {
         \Log::error('Error tạo user:', ['message' => $e->getMessage()]);

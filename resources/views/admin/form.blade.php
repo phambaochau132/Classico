@@ -8,18 +8,32 @@
         @endif
 
         <div class="form-group">
-            <label>Username</label>
-            <input type="text" name="username" value="{{ $admin->username ?? '' }}" class="form-control" required>
-        </div>
+    <label>Username</label>
+    <input type="text" name="username" 
+           value="{{ $admin->username ?? '' }}" 
+           class="form-control" 
+           required 
+           {{ isset($admin) ? 'readonly' : '' }}>
+    @if($errors->has('username'))
+        <span class="text-danger">{{ $errors->first('username') }}</span>
+    @endif
+    </div>
+
 
         <div class="form-group">
             <label>Email</label>
             <input type="email" name="email" value="{{ $admin->email ?? '' }}" class="form-control" required>
+            @if($errors->has('email'))
+            <span class="text-danger">{{$errors->first('email')}}</span>
+            @endif
         </div>
 
         <div class="form-group">
             <label>Số điện thoại</label>
             <input type="text" name="sodienthoai" value="{{ $admin->sodienthoai ?? '' }}" class="form-control" required>
+            @if($errors->has('sodienthoai'))
+            <span class="text-danger">{{$errors->first('sodienthoai')}}</span>
+            @endif
         </div>
 
         <button type="button" class="btn btn-primary mt-3" onclick="{{ isset($admin) ? 'confirmUpdate()' : 'confirmCreate()' }}">Lưu</button>

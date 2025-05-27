@@ -57,43 +57,71 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 Route::get('/auth/facebook', [AuthController::class, 'redirectToFacebook'])->name('auth.facebook');
 Route::get('/auth/facebook/callback', [AuthController::class, 'handleFacebookCallback']);
 
-Route::prefix('admin')->group(function () {
+
     // Welcome
-    Route::get('/', function () {
+    Route::get('/admin', function () {
         return view('welcome');
     });
 
     // Auth admin
-    Route::get('/login', [AuthController::class, 'showLoginAdminForm'])->name('admin.login');
-    Route::post('/login_form', [AuthController::class, 'loginAdmin'])->name('admin.loginForm');
-    Route::get('/logout', [AuthController::class, 'logoutAdmin'])->name('adminlogout');
+    Route::get('/admin/login', [AuthController::class, 'showLoginAdminForm'])->name('admin.login');
+    Route::post('/admin/login_form', [AuthController::class, 'loginAdmin'])->name('admin.loginForm');
+    Route::get('/admin/logout', [AuthController::class, 'logoutAdmin'])->name('admin.logout');
 
 
     // Orders
 
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-    Route::get('/order', [OrderController::class, 'show'])->name('orders.show');
-    Route::post('/orders/update-status/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::get('/admin/order', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/admin/orders/update-status/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
     // Products
-    Route::get('/products/index', [ProductController::class, 'allProduct'])->name('products.allProduct');
-    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-    Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
-    Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
-    Route::get('/products/{id}', [ProductController::class, 'edit'])->name('products.edit');
-    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/admin/products/index', [ProductController::class, 'allProduct'])->name('products.allProduct');
+    Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::put('/admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/admin/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('/admin/products/{id}', [ProductController::class, 'edit'])->name('products.edit');
+    Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
 
     // Categories
     Route::resource('categories', CategoryController::class);
 
-    // Admin Users
-    Route::resource('/', AdminUserController::class); // Route::resource('admin', ...) vẫn đúng vì đang ở trong prefix('admin')
-    Route::resource('customers', CustomerController::class);
-    // Admin quản lý khách hàng
-    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
-});
+    
 
+
+// Hiển thị danh sách khách hàng
+Route::get('admin/customers', [CustomerController::class, 'index'])->name('customers.index');
+
+// Hiển thị form tạo khách hàng mới
+Route::get('admin/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+
+// Lưu thông tin khách hàng mới
+Route::post('admin/customers/store', [CustomerController::class, 'store'])->name('customers.store');
+
+// Hiển thị chi tiết 1 khách hàng
+Route::get('admin/customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
+
+// Hiển thị form chỉnh sửa thông tin khách hàng
+Route::get('admin/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+
+// Cập nhật thông tin khách hàng
+Route::put('admin/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+Route::patch('admin/customers/{customer}', [CustomerController::class, 'update']);
+
+// Xoá khách hàng
+Route::delete('admin/customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+
+
+
+    // Admin Users
+    Route::get('/admin/reset-password', [AdminUserController::class, 'showResetForm'])->name('reset.form');
+    Route::resource('admin', AdminUserController::class); // Route::resource('admin', ...) vẫn đúng vì đang ở trong prefix('admin')
+    
+    // Admin quản lý khách hàng
+
+    Route::get('/admin/reset-password', [AdminUserController::class, 'showResetForm'])->name('reset.form');
+    Route::post('/admin/reset-password', [AdminUserController::class, 'handleReset'])->name('reset.handle');
 
 
 /*
