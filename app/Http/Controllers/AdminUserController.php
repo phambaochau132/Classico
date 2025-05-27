@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\SystemUser;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -10,7 +12,7 @@ class AdminUserController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) {
+        if (Auth::guard('web')->check()) {
             // Lấy tất cả tài khoản (không lọc theo role_id)
             $users = SystemUser::all();
 
@@ -18,9 +20,8 @@ class AdminUserController extends Controller
             return view('admin.index', compact('users'));
         } else {
             // chuyển hướng về trang đăng nhập hoặc báo lỗi
-            return redirect()->route('login')->withErrors(['auth' => 'Bạn cần đăng nhập trước.']);
+            return redirect()->route('admin.login')->withErrors(['auth' => 'Bạn cần đăng nhập trước.']);
         }
-        
     }
     public function edit($id)
     {
@@ -95,7 +96,6 @@ public function store(Request $request)
             'password' => bcrypt('123456'),
             'role_id' => 2
         ]);
-        return redirect()->route('admin.index')->with('success', 'Tạo tài khoản thành công.');
 
     } catch (\Exception $e) {
         \Log::error('Error tạo user:', ['message' => $e->getMessage()]);

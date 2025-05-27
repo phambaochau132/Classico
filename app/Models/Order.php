@@ -13,12 +13,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Order
  * 
- * @property int $order_id
- * @property int|null $customer_id
+ * @property string $order_id
+ * @property int $customer_id
  * @property Carbon $order_date
- * @property float|null $total_price
+ * @property float $total_price
+ * @property int $status
  * 
- * @property Customer|null $customer
+ * @property Customer $customer
+ * @property Collection|Delivery[] $deliveries
  * @property Collection|OrderDetail[] $order_details
  * @property Collection|Payment[] $payments
  *
@@ -28,6 +30,7 @@ class Order extends Model
 {
 	protected $table = 'orders';
 	protected $primaryKey = 'order_id';
+	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
@@ -47,6 +50,11 @@ class Order extends Model
 	public function customer()
 	{
 		return $this->belongsTo(Customer::class);
+	}
+
+	public function deliveries()
+	{
+		return $this->hasMany(Delivery::class);
 	}
 
 	public function order_details()

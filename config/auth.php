@@ -8,6 +8,10 @@ return [
     ],
 
     'guards' => [
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'customers',
+        ],
         'web' => [
             'driver' => 'session',
             'provider' => 'system_users',
@@ -15,11 +19,17 @@ return [
     ],
 
     'providers' => [
+        'customers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Customer::class,
+        ],
         'system_users' => [
             'driver' => 'eloquent',
             'model' => App\Models\SystemUser::class,
         ],
+
     ],
+
 
     'passwords' => [
         'system_users' => [

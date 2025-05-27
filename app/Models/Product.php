@@ -24,8 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $create_at
  * 
  * @property Category|null $category
- * @property Collection|Cart[] $carts
- * @property Collection|Inventory[] $inventories
  * @property Collection|OrderDetail[] $order_details
  *
  * @package App\Models
@@ -58,16 +56,6 @@ class Product extends Model
 	public function category()
 	{
 		return $this->belongsTo(Category::class);
-	}
-
-	public function carts()
-	{
-		return $this->hasMany(Cart::class);
-	}
-
-	public function inventories()
-	{
-		return $this->hasMany(Inventory::class);
 	}
 
 	public function order_details()

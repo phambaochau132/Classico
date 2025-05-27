@@ -37,28 +37,51 @@
 <body>
     <div class="order-details">
 
-        <h3 class="text-center mb-4">Chi tiết đơn hàng {{ $order['id'] }}</h3>
+        <h3 class="text-center mb-4">@if(isset($order['id']))
+    Chi tiết đơn hàng {{ $order['id'] }}
+@else
+    Không tìm thấy ID đơn hàng
+@endif</h3>
 
         <div class="mb-2"><strong>Tên khách hàng:</strong> {{ $order['customer_name'] }}</div>
         <div class="mb-2"><strong>Số điện thoại:</strong> {{ $order['phone'] }}</div>
         <div class="mb-2"><strong>Địa chỉ giao hàng:</strong> {{ $order['address'] }}</div>
         <div class="mb-2"><strong>Ngày đặt hàng:</strong> {{ $order['order_date'] }}</div>
 
-        <div class="mb-2">
-            <strong>Trạng thái:</strong>
-            <select class="form-select d-inline w-auto" disabled>
-                <option {{ $order['status'] == 'Chờ xác nhận' ? 'selected' : '' }}>Chờ xác nhận</option>
-                <option {{ $order['status'] == 'Đang giao hàng' ? 'selected' : '' }}>Đang giao hàng</option>
-                <option {{ $order['status'] == 'Hoàn thành' ? 'selected' : '' }}>Hoàn thành</option>
-            </select>
-        </div>
-
+     <form action="{{ route('orders.updateStatus', ['id' => $order['id']]) }}" method="POST">
+            @csrf
+            <div class="mb-2">
+                <strong>Trạng thái:</strong>
+                <select class="form-select d-inline w-auto" name="status">
+                    <option {{ $order['status'] == 0 ? 'selected' : '' }}>Chờ thanh toán</option>
+                	<option {{ $order['status'] == 1 ? 'selected' : '' }}>Chờ xác nhận</option>
+                	<option {{ $order['status'] == 2 ? 'selected' : '' }}>Đang giao hàng</option>
+                	<option {{ $order['status'] == 3 ? 'selected' : '' }}>Hoàn thành</option>
+                </select>
+            </div>
         <div class="mb-2">
             <strong>Tổng tiền:</strong> {{ number_format((float) $order['total'], 0, ',', '.') }} VND
         </div>
 
-        <div class="mb-2"><strong>Phương thức thanh toán:</strong> {{ $order['payment_method'] }}</div>
+        <div class="mb-2">
+            <strong>Phương thức thanh toán: </strong> 
+            {{ $order['payment_method'] }}
+            @if($order['payment_method'] === 0)
+                <span class="badge bg-secondary text-dark">Tiền mặt(COD)</span>
+            @else($order['payment_method'] === 1)
+                <span class="badge bg-secondary text-dark">Chuyển khoản(BANK)</span>
+            @endif
+        </div>
 
+        <div class="mb-2">
+            <strong>Tình trạng thanh toán: </strong> 
+            {{ $order['payment_method'] }}
+            @if($order['payment_status'] === 0)
+                <span class="badge bg-warning text-dark">Chưa thanh toán</span>
+            @else($order['payment_status'] === 1)
+                <span class="badge bg-success">Đã thanh toán</span>
+            @endif
+        </div>
         <h5 class="section-title">Chi tiết các sản phẩm:</h5>
 
         <table class="table table-bordered table-hover mt-2">
@@ -71,20 +94,21 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach($productByOrder as $product)
+           @foreach($order['products'] as $product)
                 <tr>
                     <td>{{ $product['product_name'] ?? 'Không rõ' }}</td>
-                    <td>{{ $product['quantity'] }}</td>
+                     <td>{{ $product['quantity'] ?? 'N/A' }}</td>
                     <td>{{ number_format((float) ($product['price'] ?? 0), 0, ',', '.') }} VND</td>
-                    <td>{{ number_format((float) ($product['price'] * $product['quantity']) ?? 0, 0, ',', '.') }} VND</td>
+                    <td>{{ number_format((float) $order['total'], 0, ',', '.') }} VND</td>
                 </tr>
             @endforeach
             </tbody>
         </table>
 
-        <div class="d-flex justify-content-between mt-4">
-            <button class="btn btn-primary">Cập nhật trạng thái</button>
-        </div>
+             <div class="d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-primary">Cập nhật trạng thái</button>
+            </div>
+        </form>
 
     </div>
 </body>
