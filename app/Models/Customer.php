@@ -9,6 +9,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Class Customer
@@ -28,8 +30,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Customer extends Model
+class Customer extends Authenticatable
 {
+	use Notifiable;
 	protected $table = 'customers';
 	protected $primaryKey = 'customer_id';
 

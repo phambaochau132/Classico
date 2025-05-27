@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class SystemUser
@@ -21,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class SystemUser extends Model
+class SystemUser extends Authenticatable
 {
 	protected $table = 'system_users';
 	protected $primaryKey = 'user_id';
