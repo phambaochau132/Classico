@@ -8,8 +8,7 @@ use App\Models\OrderDetail;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Payment;
-
-
+use App\Models\Delivery;
 
 
 class OrderController extends Controller
@@ -78,6 +77,7 @@ class OrderController extends Controller
         $orders = [];
         foreach($order_data as $order ) {
             $customer= Customer::find($order->customer_id);
+            $delivery= Delivery::where('order_id', $order->order_id)->first();
             $orderDetailById= OrderDetail::where('order_id', $order->order_id)->get();
             $payment = Payment::where('order_id', $order->order_id)->first();
             $orderDetails = OrderDetail::where('order_id', $order->order_id)->get();
@@ -96,9 +96,9 @@ foreach ($orderDetails as $detail) {
 
           $ordersDetail = [
     'id' => $order->order_id, // ✅ Đây mới là ID của đơn hàng
-    'customer_name' => $customer->name ?? 'Không rõ',
-    'phone' => $customer->phone ?? '',
-    'address' => $customer->address ?? '',
+    'customer_name' => $delivery->name ?? 'Không rõ',
+    'phone' => $delivery->phone ?? '',
+    'address' => $delivery->address ?? '',
     'order_date' => $order->order_date,
     'status' => $order->status,
     'total' => $orderDetailById->reduce(function ($carry, $item) {

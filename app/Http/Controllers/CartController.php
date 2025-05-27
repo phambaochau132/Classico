@@ -38,15 +38,16 @@ class CartController extends Controller
         $order_num=(int)$request->input("order_num",1);
         $product = Product::find($id);
 
-        if($product->stock_quantity<$quantity[$id]){
-            return redirect()->route('cart.index')->withErrors('Sản phẩm không đủ số lượng!');
-        }
 
         if (!in_array($id, $cart)) {
             $cart[] = $id;
             $quantity[$id] = $order_num;
         } else {
             $quantity[$id]+=$order_num;
+        }
+
+        if($product->stock_quantity<$quantity[$id]){
+            return redirect()->route('cart.index')->withErrors('Sản phẩm không đủ số lượng!');
         }
 
         session(['cart' => $cart, 'quantity' => $quantity]);

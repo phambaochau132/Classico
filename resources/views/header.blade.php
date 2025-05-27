@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
 
@@ -60,9 +60,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto mt-lg-6">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">My Wishlist</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('customer.profile') }}">My Information</a>
                         </li>
@@ -75,72 +73,11 @@
                                 Log Out
                             </a>
                         </li>
-
-
-                        <li class="nav-item language dropdown">
-                            <a class="nav-link" href="#">Language <i class="fa fa-angle-down"></i></a>
-                            <div class="dropdown-content">
-                                <div class="dropdown-link"><a href="#">French</a></div>
-                                <div class="dropdown-link"><a href="#">Spanish</a></div>
-                                <div class="dropdown-link"><a href="#">Russian</a></div>
-                            </div>
-                        </li>
-                        <li class="nav-item curency dropdown">
-                            <a class="nav-link" href="#">Currency Type  <i class="fa fa-angle-down"></i></a>
-                            <div class="dropdown-content">
-                                <div class="dropdown-link"><a href="#">€ Euro</a></div>
-                                <div class="dropdown-link"><a href="#">£ Pound Sterling</a></div>
-                                <div class="dropdown-link"><a href="#">$ US Dollar</a></div>
-                            </div>
-                        </li>
-
                     </ul>
                 </nav>
             </div>
         </div>
-        <div class="header-mid">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 logo">
-                    </div>
-                    <div class="col-md-4 search-box">
-                        <form action="{{route('product.search')}}" method="get">
-                            <input placeholder="Search" type="search" name="key">
-                            <button type="submit"><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
-                    <div class="col-md-4 wishlist-cart">
-                        <nav class="navbar navbar-expand-sm">
-                            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <i class="fa fa-shopping-cart"></i>
-                                        <div class="cart-item">CART ITEMS</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="header-bottom">
-            <div class="container">
-                <nav class="navbar navbar-expand-sm navbar-light menu">
-                    <ul class="navbar-nav mr-auto ml-auto mt-2 mt-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.php">HOME</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">BLOG</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">CONTACT US</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
+
     </header>
     @yield('content')
 </body>

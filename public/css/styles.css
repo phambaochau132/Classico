@@ -407,6 +407,11 @@ menu .dropdown-content a {
     font-weight: 400;
 }
 
+.tab-content .single-product a img {
+    width: 150px;
+    height: 150px;
+}
+
 .tab-content .single-product a:hover {
     color: #febc8b;
 }
@@ -438,7 +443,7 @@ menu .dropdown-content a {
     margin-right: 5px;
 }
 
-.content-product .add_to_cart a {
+.content-product .add_to_cart form button {
     line-height: 45px;
     height: 45px;
     display: inline-block;
@@ -447,9 +452,11 @@ menu .dropdown-content a {
     width: 100%;
     background: #999;
     color: #fff !important;
+    border: 0;
+
 }
 
-.content-product .add_to_cart a:hover,
+.content-product .add_to_cart form button:hover,
 .action-product a:hover,
 .tab-control a:hover {
     background: #febc8b;
@@ -764,3 +771,250 @@ menu .dropdown-content a {
     background: #febc8b !important;
     color: #fff !important;
 }
+
+/*Payment*/
+/* delivery.css */
+
+/* Container chung */
+.container-delivery {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 24px 32px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(254, 188, 139, 0.3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Tiêu đề chính */
+.title-main {
+    color: #febc8b;
+    margin-bottom: 16px;
+    font-weight: 700;
+    font-size: 28px;
+    border-bottom: 2px solid #febc8b;
+    padding-bottom: 8px;
+}
+
+/* Form giao hàng */
+.delivery-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    position: relative;
+    margin-top: 16px;
+}
+
+.form-group input,
+.form-group textarea,
+select#payment_method {
+    width: 100%;
+    padding: 16px 12px 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    background-color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    color: #333;
+}
+
+.form-group textarea {
+    resize: none;
+    min-height: 80px;
+}
+
+.form-group label {
+    position: absolute;
+    top: 16px;
+    left: 12px;
+    font-size: 16px;
+    color: #999;
+    background: #fff;
+    padding: 0 4px;
+    transition: 0.3s ease all;
+    pointer-events: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+select#payment_method:focus {
+    border-color: #febc8b;
+    box-shadow: 0 0 0 3px rgba(254, 188, 139, 0.4);
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:focus + label,
+.form-group textarea:not(:placeholder-shown) + label {
+    top: -8px;
+    left: 10px;
+    font-size: 13px;
+    color: #febc8b;
+}
+
+/* Nút submit chung */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(90deg, #febc8b 0%, #f9a825 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.submit-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(254, 188, 139, 0.5);
+}
+
+/* Chi tiết đơn hàng */
+
+.product-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    color: #444;
+}
+
+.total-price {
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: right;
+    color: #222;
+}
+
+.title-sub {
+    color: #febc8b;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.delivery-info p {
+    margin: 4px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+label[for="payment_method"] {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.form-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 24px 32px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(254, 188, 139, 0.3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.form-title {
+    color: #febc8b;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #febc8b;
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+.section {
+    margin-bottom: 32px;
+}
+
+.section-border {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.section-title {
+    font-weight: 700;
+    font-size: 22px;
+    color: #febc8b;
+    margin-bottom: 12px;
+}
+
+.highlight-yellow {
+    color: #f9a825;
+}
+
+.highlight-green {
+    color: #388e3c;
+    font-family: monospace;
+    font-size: 18px;
+}
+
+.qr-section {
+    background: #fff4e5;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 8px rgba(254, 188, 139, 0.3);
+    text-align: center;
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.qr-section img {
+    width: 300px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.countdown {
+    font-weight: 700;
+    font-size: 36px;
+    color: #d32f2f;
+}
+
+.small-text {
+    font-size: 14px;
+    color: #777;
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+.bank-info {
+    background: #fff4e5;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 8px rgba(254, 188, 139, 0.3);
+    padding: 24px;
+    font-size: 14px;
+    color: #333;
+}
+
+.bank-info p {
+    margin-bottom: 12px;
+}
+
+.bank-info strong {
+    font-weight: 700;
+}
+
+.bank-info .highlight-yellow {
+    color: #f9a825;
+}
+
+.bank-info .highlight-red {
+    color: #d32f2f;
+    font-weight: 700;
+}
+
