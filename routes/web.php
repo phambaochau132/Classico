@@ -9,7 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AdminUserController;
-
+use App\Http\Controllers\HistoryOrderController;
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -139,13 +139,20 @@ Route::get('/cart/delete', [CartController::class, 'delete'])->name('cart.delete
 | Payment Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/payment/index', [PaymentController::class, 'index'])->name('payment.index');
+Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::get('/payment/confirmOrder', [PaymentController::class, 'confirmOrder'])->name('payment.confirmOrder');
 Route::get('/payment/review', [PaymentController::class, 'review'])->name('payment.review');
 Route::post('/payment/delivery', [PaymentController::class, 'delivery'])->name('payment.delivery');
 Route::post('/payment/confirm', [PaymentController::class, 'confirmPayment'])->name('payment.confirm');
 Route::post('/payment/transfer/{content}', [PaymentController::class, 'orderTransfer'])->name('payment.order_transfer');
 Route::post('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
-
+/*
+/*
+|--------------------------------------------------------------------------
+| History Order Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/history', [HistoryOrderController::class, 'index'])->name('history.index');
 /*
 |--------------------------------------------------------------------------
 | Profile Routes
