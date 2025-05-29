@@ -156,28 +156,28 @@
 
                  <div class="modal-header">
                      <h5 class="modal-title">Đổi mật khẩu</h5>
-                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                     <button type="button" class="close" data-bs-dismiss="modal"><span>&times;</span></button>
                  </div>
                  <div class="modal-body">
                      <div class="form-group mb-3">
-                         <label>Mật khẩu cũ</label>
                          <input type="password" name="current_password" class="form-control">
+                         <label>Mật khẩu cũ</label>
                          @if($errors->has('current_password'))
                          <span class="text-danger">{{ $errors->first('current_password') }}</span>
                          @endif
                      </div>
 
                      <div class="form-group mb-3">
-                         <label>Mật khẩu mới</label>
                          <input type="password" name="password" class="form-control">
+                         <label>Mật khẩu mới</label>
                          @if($errors->has('password'))
                          <span class="text-danger">{{ $errors->first('password') }}</span>
                          @endif
                      </div>
 
                      <div class="form-group mb-3">
-                         <label>Xác nhận mật khẩu</label>
                          <input type="password" name="password_confirmation" class="form-control">
+                         <label>Xác nhận mật khẩu</label>
                          @if($errors->has('password_confirmation'))
                          <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
                          @endif
