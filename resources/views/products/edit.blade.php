@@ -4,10 +4,12 @@
 <div class="container" style="max-width: 600px; margin: auto;">
     <h2 style="font-size: 30px; font-weight: bold; margin-bottom: 30px;">EDIT PRODUCT</h2>
 
+    {{-- Hiển thị thông báo thành công --}}
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    {{-- Hiển thị lỗi --}}
     @if($errors->any())
         <div class="alert alert-danger">
             <ul class="mb-0">
@@ -18,6 +20,7 @@
         </div>
     @endif
 
+    {{-- Form update --}}
     <form action="{{ route('products.update', $product->product_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -51,28 +54,20 @@
             @enderror
         </div>
 
-        {{-- Stock Quantity --}}
-        <div class="mb-3">
-            <label class="form-label" for="stock_quantity">Stock quantity</label>
-            <input type="number" id="stock_quantity" name="stock_quantity" class="form-control" 
-                   value="{{ old('stock_quantity', $product->stock_quantity ?? 0) }}" required>
-            @error('stock_quantity')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-
         {{-- Category --}}
         <div class="mb-3">
-            <label class="form-label" for="category_id">Danh mục</label>
-            <select id="category_id" name="category_id" class="form-control">
-                <option value="">-- Chọn danh mục --</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}" 
-                        {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                        {{ $category->category_name }}
-                    </option>
-                @endforeach
-            </select>
+            <label class="form-label fw-bold" for="category_id">Danh mục sản phẩm</label>
+         <select id="category_id" name="category_id" class="form-select" >
+        <option value="$product->category_id" disabled>
+            -- Chọn danh mục --
+        </option>
+        @foreach($categories as $category)
+            <option value="{{ $category->category_id }}"
+                {{ $product->category_id == $category->category_id ? 'selected' : '' }}>
+                {{ $category->category_name }}
+            </option>
+        @endforeach
+        </select>
             @error('category_id')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -100,20 +95,43 @@
             @enderror
         </div>
 
-        {{-- Buttons --}}
-        <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-primary" style="flex: 1;">UPDATE</button>
+        {{-- Buttons row --}}
+        <div class="d-flex justify-content-between gap-2 mt-4">
+            {{-- Update button --}}
+            <button type="submit" class="btn btn-primary w-100">UPDATE</button>
+
+            {{-- Delete button (trigger modal) --}}
+            <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $product->product_id }}">
+                XÓA
+            </button>
+
+            {{-- Back button --}}
+            <a href="{{ route('products.allProduct') }}" class="btn btn-outline-primary w-100">QUAY LẠI</a>
+        </div>
     </form>
 
-    <form action="{{ route('products.destroy', $product->product_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?')" style="flex: 1;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-danger" style="width: 100%;">DELETE</button>
-    </form>
-    <form action="{{ route('products.allProduct') }}">
-        {{-- Back Button outside form --}}
-                <button type="submit" class="btn btn-outline-primary  rounded" style="width: 100%;">quay lại</button>
-    </form>
+    {{-- Delete Confirmation Modal --}}
+    <div class="modal fade" id="deleteModal{{ $product->product_id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $product->product_id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa sản phẩm {{ $product->product_id }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa sản phẩm <strong>{{ $product->product_name }}</strong> không?
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('products.destroy', $product->product_id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">XÓA</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">HỦY</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 @endsection

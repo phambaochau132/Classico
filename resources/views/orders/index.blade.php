@@ -30,19 +30,27 @@
                             <td>{{ $order['id'] }}</td>
                             <td>{{ $order['customer_name'] }}</td>
                             <td>
-                            @if($order->status === 0)
+                            @if($order['status'] === 0)
                             <span class="badge bg-warning">Chờ thanh toán</span>
-                            @elseif($order->status === 1)
+                            @elseif($order['status'] === 1)
                                 <span class="badge bg-warning">Chờ xác nhận</span>
-                            @elseif($order->status === 2)
+                            @elseif($order['status'] === 2)
                                 <span class="badge bg-info">Đang xử lý</span>
-                            @elseif($order->status === 3)
+                            @elseif($order['status'] === 3)
                                 <span class="badge bg-success">Hoàn tất</span>
                             @else
                                 <span class="badge bg-secondary">Đã huỷ</span>
                             @endif
                             </td>
                             <td>
+                            <form action="{{ route('orders.updateStatus', ['id' => $order['id']]) }}" method="POST">
+                            @csrf
+                            @if($order['status'] === 1)
+                            <button name="status" value="2" type="submit" class="btn btn-sm btn-outline-warning">Xác nhận </button>
+                            @elseif($order['status'] === 2)
+                            <button name="status" value="3" type="submit" class="btn btn-sm btn-outline-warning">Hoàn tất</button>
+                            @endif
+                            </form>
                                 <a href="{{ route('orders.show', ['id' => $order['id']]) }}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
                                 <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete('{{ $order['id'] }}')">Xóa</button>
                             </td>
@@ -72,6 +80,7 @@
                     <form id="deleteForm" method="POST">
                         @csrf
                         @method('DELETE')
+                         
                         <button type="submit" class="btn btn-danger">Xóa</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     </form>

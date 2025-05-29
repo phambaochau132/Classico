@@ -50,26 +50,16 @@
                 <div class="text-danger small mt-1">{{ $message }}</div>
             @enderror
         </div>
-
-        {{-- Stock Quantity --}}
-        <div class="mb-3">
-            <label for="stock_quantity" class="form-label">Stock quantity</label>
-            <input id="stock_quantity" type="number" name="stock_quantity" class="form-control" value="{{ old('stock_quantity', 0) }}" required>
-            @error('stock_quantity')
-                <div class="text-danger small mt-1">{{ $message }}</div>
-            @enderror
-        </div>
-
         {{-- Category --}}
         <div class="mb-3">
             <label for="category_id" class="form-label">Danh mục</label>
             <select id="category_id" name="category_id" class="form-select" required>
                 <option value="">-- Chọn danh mục --</option>
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}" >
-                        {{ $category->category_name }}
-                    </option>
-                @endforeach
+            <option value="{{ $category->category_id }}">
+                {{ $category->category_name }}
+            </option>
+        @endforeach
             </select>
             @error('category_id')
                 <div class="text-danger small mt-1">{{ $message }}</div>

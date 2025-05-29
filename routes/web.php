@@ -173,3 +173,16 @@ Route::post('/profile', [CustomerController::class, 'updateProfile'])->name('cus
 | CRUD Customers (Admin)
 |--------------------------------------------------------------------------
 */
+
+Route::get('/admin/dashboard', function () {
+    return view('dashboard'); // bạn có thể tạo view resources/views/dashboard.blade.php
+})->name('dashboard');
+
+//thong ke san pham
+Route::get('/products/statistics', [ProductController::class, 'statistics'])->name('products.statistics');
+
+//thong ke doanh thu
+Route::get('/admin/orders/report-revenue', [OrderController::class, 'reportRevenue'])->name('orders.reportRevenue');
+
+//thong ke đơn hàng
+Route::get('/admin/orders/report', [OrderController::class, 'reportOrders'])->name('orders.report');

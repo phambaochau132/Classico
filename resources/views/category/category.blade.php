@@ -53,8 +53,9 @@
                     </div>
                 </td>
             </tr>
-            @endforeach
-        </tbody>
+            @endforeach  
+        </tbody> 
     </table>
+     {{ $categories->links('pagination::bootstrap-4') }}
 </div>
 @endsection

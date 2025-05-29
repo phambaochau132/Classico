@@ -1,0 +1,79 @@
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.15rem 1.75rem rgba(23, 33, 149, 0.15);
+  background-color: #fff;
+}
+
+/* Bảng */
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+}
+
+/* Header bảng */
+.table thead {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table thead th {
+  font-weight: 600;
+  color: #495057;
+  text-align: center;
+  padding: 12px 15px;
+  white-space: nowrap;
+}
+
+/* Các hàng trong tbody */
+.table tbody tr {
+  transition: background-color 0.3s ease;
+  cursor: default;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+/* Các ô dữ liệu */
+.table tbody td {
+  vertical-align: middle;
+  padding: 10px 12px;
+  text-align: center;
+  color: #010509;
+  white-space: nowrap;
+}
+
+/* Ảnh sản phẩm */
+.table img {
+  border-radius: 0.3rem;
+  max-width: 60px;
+  height: auto;
+  object-fit: cover;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* Text overflow với mô tả */
+.table tbody td:nth-child(4) {
+  max-width: 300px;   /* Giới hạn độ rộng tối đa để không quá to */
+  white-space: normal; /* Cho phép xuống dòng */
+  overflow: visible;  /* Hiển thị đầy đủ */
+  text-overflow: clip; /* Không cắt dấu ... */
+  text-align: center;
+  word-wrap: break-word; /* Ngắt chữ xuống dòng nếu quá dài */
+}
+
+/* Responsive cho các cột */
+@media (max-width: 768px) {
+  .table thead th, .table tbody td {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+  }
+  
+  .table tbody td:nth-child(4) {
+    max-width: 150px;
+  }
+}

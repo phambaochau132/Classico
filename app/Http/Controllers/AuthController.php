@@ -28,7 +28,8 @@ class AuthController extends Controller
         // Đăng nhập thất bại
         return back()->withErrors(['message' => 'Tên đăng nhập hoặc mật khẩu không đúng']);
     }
-
+    
+    //dang xuat admin
     public function logoutAdmin(Request $request)
     {
         if (Auth::guard('web')->logout()) {

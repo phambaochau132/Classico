@@ -10,7 +10,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        // $categories = Category::all();
+        $categories = Category::paginate(10); // Mỗi trang 10 dòng
         return view('category.category', compact('categories'));
     }
 

@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Payment;
 use App\Models\Delivery;
+use Illuminate\Support\Facades\DB;
 
 
 class OrderController extends Controller
@@ -62,7 +63,12 @@ class OrderController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $order = Order::findOrFail($id);
-        $order->status = $request->input('status');
+        $status = $request->post('status');
+        $order->status =  $status ;
+        if($status == 3)
+        {
+            Payment::where('order_id',$order->order_id)->update(['payment_status' => 1]);
+        }
         $order->save();
 
         return redirect()->back()->with('success', 'Cập nhật trạng thái thành công!');
@@ -84,34 +90,36 @@ class OrderController extends Controller
 
             $productByOrder = [];
 
-foreach ($orderDetails as $detail) {
-    $product = Product::find($detail->product_id);
-    $productByOrder[] = [
-        'product_name' => $product->product_name ?? 'Không rõ',
-        'price'        => $product->price ?? 0,
-        'quantity'     => $detail->quantity ?? 0,
-        'total'        => ($product->price ?? 0) * ($detail->quantity ?? 0)
-    ];
-}
+            foreach ($orderDetails as $detail) {
+                $product = Product::find($detail->product_id);
+                $productByOrder[] = [
+                    'product_name' => $product->product_name ?? 'Không rõ',
+                    'product_photo' => $product->product_photo,
+                    'price'        => $product->price ?? 0,
+                    'quantity'     => $detail->quantity ?? 0,
+                    'total'        => ($product->price ?? 0) * ($detail->quantity ?? 0)
+                ];
+            }
 
-          $ordersDetail = [
-    'id' => $order->order_id, // ✅ Đây mới là ID của đơn hàng
-    'customer_name' => $delivery->name ?? 'Không rõ',
-    'phone' => $delivery->phone ?? '',
-    'address' => $delivery->address ?? '',
-    'order_date' => $order->order_date,
-    'status' => $order->status,
-    'total' => $orderDetailById->reduce(function ($carry, $item) {
-        $product = Product::find($item->product_id);
-        return $carry + ($product->price * $item->quantity);
-    }, 0),
-    'payment_method' => $payment->payment_method ?? 'Chưa thanh toán',
-    'products' => $productByOrder
-];
+            $ordersDetail = [
+            'id' => $order->order_id, // ✅ Đây mới là ID của đơn hàng
+            'customer_name' => $delivery->name,
+            'phone' => $delivery->phone ,
+            'address' => $delivery->address,
+            'order_date' => $order->order_date,
+            'status' => $order->status,
+            'total' => $orderDetailById->reduce(function ($carry, $item) {
+                $product = Product::find($item->product_id);
+                return $carry + ($product->price * $item->quantity);
+            }, 0),
+            'payment_method' => $payment->payment_method,
+            'payment_status' => $payment->payment_status,
+            'products' => $productByOrder
+            ];
 
             $orders [$order->order_id] = $ordersDetail;
- 
         }
+    
         $id = (string) $id;
 
         $order = $orders[$id] ?? null;
@@ -125,4 +133,68 @@ foreach ($orderDetails as $detail) {
             'order' => $order
         ]);
     }
+    //thong ke ndong 
+    public function reportRevenue()
+{
+    // Tổng doanh thu và số đơn
+    $totalRevenue = DB::table('orders')->sum('total_price');
+    $totalOrders = DB::table('orders')->count();
+
+    // Đơn hàng theo trạng thái
+    $completedOrders = DB::table('orders')->where('status', 'completed')->count();
+    $pendingOrders = DB::table('orders')->where('status', 'pending')->count();
+
+    // Doanh thu theo tháng
+    $revenueByMonth = DB::table('orders')
+        ->select(
+            DB::raw('YEAR(order_date) as year'),
+            DB::raw('MONTH(order_date) as month'),
+            DB::raw('SUM(total_price) as total_revenue'),
+            DB::raw('COUNT(order_id) as total_orders')
+        )
+        ->groupBy('year', 'month')
+        ->orderBy('year')
+        ->orderBy('month')
+        ->get();
+
+    // Doanh thu theo trạng thái đơn hàng
+    $revenueByStatus = DB::table('orders')
+        ->select('status',
+            DB::raw('SUM(total_price) as total_revenue'),
+            DB::raw('COUNT(order_id) as total_orders')
+        )
+        ->groupBy('status')
+        ->get();
+
+    return view('orders.report_revenue', compact(
+        'totalRevenue', 
+        'totalOrders', 
+        'completedOrders', 
+        'pendingOrders', 
+        'revenueByMonth', 
+        'revenueByStatus'
+    ));
+}
+public function reportOrders()
+{
+    $ordersByDay = DB::table('orders')
+        ->selectRaw('DATE(order_date) as day, COUNT(*) as total_orders, SUM(total_price) as total_revenue')
+        ->groupByRaw('DATE(order_date)')
+        ->orderBy('day', 'desc')
+        ->get();
+
+    $ordersByMonth = DB::table('orders')
+        ->selectRaw('DATE_FORMAT(order_date, "%Y-%m") as month, COUNT(*) as total_orders, SUM(total_price) as total_revenue')
+        ->groupByRaw('DATE_FORMAT(order_date, "%Y-%m")')
+        ->orderBy('month', 'desc')
+        ->get();
+
+    $ordersByStatus = DB::table('orders')
+        ->select('status', DB::raw('COUNT(*) as total_orders'), DB::raw('SUM(total_price) as total_revenue'))
+        ->groupBy('status')
+        ->get();
+
+    return view('orders.report', compact('ordersByDay', 'ordersByMonth', 'ordersByStatus'));
+}
+
 }
