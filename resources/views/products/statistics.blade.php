@@ -65,7 +65,8 @@
                     <td>{{ $product->product_id }}</td>
                     <td>
                         @if($product->product_photo)
-                        <img src="{{ asset('storage/' . $product->product_photo) }}" alt="{{ $product->product_name }}" style="width: 60px; height: auto;">
+                        @php $arrImg = explode(",", $product->product_photo) @endphp
+                        <img src="{{ asset('images/products/'.$arrImg[0]) }}" alt="{{ $product->product_name }}" style="width: 60px; height: auto;">
                         @else
                         <span>Chưa có ảnh</span>
                         @endif

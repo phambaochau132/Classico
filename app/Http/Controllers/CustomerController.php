@@ -35,6 +35,7 @@ class CustomerController extends Controller
     // Hiển thị form thêm mới
     public function create()
     {
+        
         return view('customers.create');
     }
 
