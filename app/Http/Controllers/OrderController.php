@@ -84,34 +84,35 @@ class OrderController extends Controller
 
             $productByOrder = [];
 
-foreach ($orderDetails as $detail) {
-    $product = Product::find($detail->product_id);
-    $productByOrder[] = [
-        'product_name' => $product->product_name ?? 'Không rõ',
-        'price'        => $product->price ?? 0,
-        'quantity'     => $detail->quantity ?? 0,
-        'total'        => ($product->price ?? 0) * ($detail->quantity ?? 0)
-    ];
-}
+            foreach ($orderDetails as $detail) {
+                $product = Product::find($detail->product_id);
+                $productByOrder[] = [
+                    'product_name' => $product->product_name ?? 'Không rõ',
+                    'price'        => $product->price ?? 0,
+                    'quantity'     => $detail->quantity ?? 0,
+                    'total'        => ($product->price ?? 0) * ($detail->quantity ?? 0)
+                ];
+            }
 
-          $ordersDetail = [
-    'id' => $order->order_id, // ✅ Đây mới là ID của đơn hàng
-    'customer_name' => $delivery->name ?? 'Không rõ',
-    'phone' => $delivery->phone ?? '',
-    'address' => $delivery->address ?? '',
-    'order_date' => $order->order_date,
-    'status' => $order->status,
-    'total' => $orderDetailById->reduce(function ($carry, $item) {
-        $product = Product::find($item->product_id);
-        return $carry + ($product->price * $item->quantity);
-    }, 0),
-    'payment_method' => $payment->payment_method ?? 'Chưa thanh toán',
-    'products' => $productByOrder
-];
+            $ordersDetail = [
+            'id' => $order->order_id, // ✅ Đây mới là ID của đơn hàng
+            'customer_name' => $delivery->name,
+            'phone' => $delivery->phone ,
+            'address' => $delivery->address,
+            'order_date' => $order->order_date,
+            'status' => $order->status,
+            'total' => $orderDetailById->reduce(function ($carry, $item) {
+                $product = Product::find($item->product_id);
+                return $carry + ($product->price * $item->quantity);
+            }, 0),
+            'payment_method' => $payment->payment_method,
+            'payment_status' => $payment->payment_status,
+            'products' => $productByOrder
+            ];
 
             $orders [$order->order_id] = $ordersDetail;
- 
         }
+    
         $id = (string) $id;
 
         $order = $orders[$id] ?? null;
