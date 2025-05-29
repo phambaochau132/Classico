@@ -14,6 +14,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <style>
         .home-bg {
@@ -23,6 +27,13 @@
         .cart .col-md,
         .cart .col-md-3 {
             text-align: center;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
         }
 
         .product .col-md,
@@ -47,32 +58,41 @@
         <div class="header-top">
             <div class="container">
                 <nav class="navbar navbar-expand-sm navbar-light bg-while">
-                    <ul class="navbar-nav mr-auto mt-lg-6">
-                        <li class="nav-item phone">
-                            <i class="fa fa-phone "></i>
-                            Call us now:
-                            <a href="tel:(+800)123456789">(+800)123456789</a>
+                    <ul class="navbar-nav d-flex flex-row align-items-center gap-4" style="min-height: 40px;">
+                        <li class="nav-item d-flex align-items-center">
+                            <a href="{{ route('customer.home') }}">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-icon">
+                            </a>
                         </li>
-                        <li class="nav-item email">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                            Email:
-                            <a href="mailto:http://1.envato.market/9LbxW">has@posthemes.com</a>
+                        <li class="nav-item d-flex align-items-center">
+                            <i class="fa fa-phone me-2 text-primary"></i>
+                            <span>
+                                <strong>Call us now:</strong>
+                                <a href="tel:(+800)123456789" class="text-decoration-none text-dark">(+800)123456789</a>
+                            </span>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <i class="fa fa-envelope me-2 text-primary"></i>
+                            <span>
+                                <strong>Email:</strong>
+                                <a href="mailto:has@posthemes.com" class="text-decoration-none text-dark">has@posthemes.com</a>
+                            </span>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto mt-lg-6">
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('customer.profile') }}">My Information</a>
-                        </li>
-                        <li class="nav-item">
-                            <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-
-                            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Log Out
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ asset(Auth::guard('customer')->user()->avatar ?? 'images/default-avatar.png') }}" alt="Avatar" class="rounded-circle" width="30" height="30">
+                                <span class="ms-2">{{ Auth::guard('customer')->user()->name }}</span>
                             </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('customer.profile') }}">My Information</a>
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
+                            </div>
                         </li>
+                        <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     </ul>
                 </nav>
             </div>

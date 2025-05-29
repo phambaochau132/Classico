@@ -39,7 +39,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item me-3">
-                         <span class="text-white">🔥 Xin chào, <strong>{{ Auth::user()->username }}</strong></span> -->
+                        <span class="text-white">🔥 Xin chào, <strong>{{ Auth::user()->username }}</strong></span> -->
                     </li>
                     <li class="nav-item me-2">
                         <a class="btn btn-outline-light btn-sm" href="{{ route('admin.logout') }}">Đăng xuất</a>
@@ -66,6 +66,7 @@
 
     <!-- Bootstrap JS (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 
 </html>

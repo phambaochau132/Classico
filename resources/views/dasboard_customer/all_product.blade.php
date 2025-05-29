@@ -86,9 +86,12 @@
                                 <span class="current_price">${{ $item->price }}</span>
                             </div>
                             <div class="add_to_cart category">
-                                <a href="{{ route('cart.add', $item->id) }}" title="Add to cart">
-                                    <i class="fa fa-shopping-cart"></i> Add to cart
-                                </a>
+                                <form action="{{ route('cart.add', ['id' => $productPath]) }}" method="POST">
+                                    @csrf
+                                    <button type="submit">
+                                        <i class="fa fa-shopping-cart"></i> Add to cart
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

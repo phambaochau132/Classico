@@ -1,11 +1,9 @@
 @extends('header')
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <title>Document</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
@@ -16,6 +14,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>  -->
+
 
     <style>
         .home-bg {
@@ -43,11 +43,6 @@
         }
     </style>
 </head>
-
-
-
-
-
 <!--SLIDER-->
 <script>
     $(document).ready(function() {
@@ -436,13 +431,12 @@
                     </div>
                     <a href=" {{route('product.all')}}">See All</a>
                     <div class="tab-content owl-carousel owl-theme">
-
                         @foreach ($products as $item)
                         <div class="single-product">
                             <div class="product-img">
                                 @php $arrImg = explode(",", $item->product_photo) @endphp
                                 <a href="{{route('product.detail',['id'=>$productPath])}}">
-                                    <img src="{{asset('images/products/'.$arrImg[0])}}" class="img-fluid">
+                                    <img src="{{asset('images/products/'.$arrImg[0])}}" class="img-fluid" alt="Responsive image">
                                 </a>
                             </div>
                             <div class="content-product">
@@ -522,5 +516,4 @@
         </div>
     </div>
 </div>
-
 @endsection
