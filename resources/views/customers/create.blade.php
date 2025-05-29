@@ -28,33 +28,49 @@
 
         <form action="{{ route('customers.store') }}" method="POST">
             @csrf
-            <div class="mb-3">
-                <label for="name">Tên</label>
-                <input type="text" name="name" id="name" class="form-control" required>
-            </div>
+            <label for="name">Họ tên:</label>
 
-            <div class="mb-3">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" class="form-control">
-            </div>
+            <input class="form-control" type="text" name="name" id="name" required>
+            @if($errors->has('name'))
+            <span class="text-danger">{{$errors->first('name')}}</span>
+            @endif
 
-            <div class="mb-3">
-                <label for="phone">Số điện thoại</label>
-                <input type="text" name="phone" id="phone" class="form-control">
-            </div>
+            <label for="email">Email:</label>
+            <input class="form-control" type="email" name="email" id="email" required>
+            @if($errors->has('email'))
+            <span class="text-danger">{{$errors->first('email')}}</span>
+            @endif
+            <label for="phone">Số điện thoại (tùy chọn):</label>
+            <input class="form-control" type="text" name="phone" id="phone">
+            @if($errors->has('phone'))
+            <span class="text-danger">{{$errors->first('phone')}}</span>
+            @endif
+            <label  for="address">Địa chỉ (tùy chọn):</label>
+            <textarea class="form-control" name="address" id="address" rows="3"></textarea>
+            @if($errors->has('address'))
+            <span class="text-danger">{{$errors->first('address')}}</span>
+            @endif
+            <label for="gender">Giới tính:</label>
+            <select class="form-control" name="gender" id="gender">
+                <option value="">--Chọn--</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+            </select>
+            @if($errors->has('gender'))
+            <span class="text-danger">{{$errors->first('gender')}}</span>
+            @endif
 
-            <div class="mb-3">
-                <label for="address">Địa chỉ</label>
-                <input type="text" name="address" id="address" class="form-control">
-            </div>
-
-            <div class="d-flex justify-content-between">
-                <a href="{{ route('customers.index') }}" class="btn btn-secondary">
-                    <i></i> Quay lại
-                </a>
-                <button type="submit" class="btn btn-success">
-                    <i></i> Lưu
-                </button>
+            <label for="password">Mật khẩu:</label>
+            <input class="form-control" type="password" name="password" id="password" required>
+            @if($errors->has('password'))
+            <span class="text-danger">{{$errors->first('password')}}</span>
+            @endif
+            <label for="password_confirmation">Nhập lại mật khẩu:</label>
+            <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" required>
+            @if($errors->has('password_confirmation'))
+            <span class="text-danger">{{$errors->first('password_confirmation')}}</span>
+            @endif
+            <button class="form-control"  type="submit">Đăng ký</button>
             </div>
         </form>
     </div>

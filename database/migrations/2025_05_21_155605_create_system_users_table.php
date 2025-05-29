@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('username', 50)->unique('username');
             $table->string('password');
             $table->string('email', 100)->unique('email');
+            $table->string('sodienthoai', 10)->unique('sodienthoai');
+
             $table->integer('role_id')->nullable()->index('role_id');
         });
     }

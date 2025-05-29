@@ -46,7 +46,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|regex:/^(?!.*\s{2}).*$/',
             'email' => 'required|email|unique:customers',
-            'phone' => 'required|num    eric|digits:10|unique:customers',
+            'phone' => 'required|numeric|digits:10|unique:customers',
             'gender' => 'nullable|in:male,female',
             'password' => 'required|min:6|confirmed',
         ]);

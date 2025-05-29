@@ -56,7 +56,7 @@ class ProductController extends Controller
                     }
                 }
             ],
-            'stock_qua  ntity' => 'nullable|integer',
+            'stock_quantity' => 'nullable|integer',
             'category_id' => 'nullable|integer',
             'product_photo' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'create_at' => 'nullable|date',

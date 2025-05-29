@@ -15,6 +15,7 @@
                     <th>User ID</th>
                     <th>Username</th>
                     <th>Email</th>
+                    <th>Số điện thoại</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -24,6 +25,7 @@
                         <td>{{ $admin->user_id }}</td>
                         <td>{{ $admin->username }}</td>
                         <td>{{ $admin->email }}</td>
+                        <td>{{ $admin->sodienthoai }}</td>
                         <td>
                             <div class="actions">
                                 <a href="{{ route('admin.edit', $admin->user_id) }}" class="btn btn-edit">✏️</a>

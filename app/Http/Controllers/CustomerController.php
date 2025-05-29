@@ -42,13 +42,23 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'  => 'required|string|max:100',
-            'email' => 'required|email|unique:customers,email',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
+            'name' => 'required|regex:/^(?!.*\s{2}).*$/',
+            'email' => 'required|email|unique:customers',
+            'phone' => 'required|numeric|digits:10|unique:customers',
+            'gender' => 'nullable|in:male,female',
+            'password' => 'required|min:6|confirmed',
         ]);
 
-        Customer::create($request->all());
+        $customer = Customer::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'avatar' => '/images/avatar/1.png',
+            'gender' => $request->gender,
+            'password' => Hash::make($request->password),
+
+        ]);
 
         return redirect()->route('customers.index')->with('success', 'Thêm khách hàng thành công!');
     }
