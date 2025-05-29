@@ -104,7 +104,7 @@
                     <td>{{ $product['product_name'] ?? 'Không rõ' }}</td>
                     <td>{{ $product['quantity'] ?? 'N/A' }}</td>
                     <td>{{ number_format((float) ($product['price'] ?? 0), 0, ',', '.') }} VND</td>
-                    <td>{{ number_format((float) $order['total'], 0, ',', '.') }} VND</td>
+                    <td>{{ number_format((float) $product['price']*$product['quantity'], 0, ',', '.') }} VND</td>
                 </tr>
             @endforeach
             </tbody>
