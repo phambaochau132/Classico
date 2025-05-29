@@ -62,7 +62,7 @@
                 <form action="{{route('cart.add',['id'=>$item->product_id])}}" method="POST" class="quantity_cart">
                     @csrf
                     <input type="number" step="1" min="1" max="100" name="order_num" value="1">
-                    <button type="submit">ADD TO CART</button>
+                    <button type="submit" >ADD TO CART</button>
 
                 </form>
             </div>

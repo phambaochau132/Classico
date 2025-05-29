@@ -213,7 +213,7 @@ class ProductController extends Controller
             return view('dasboard_customer.dashboard', compact('products', 'cateproducts', 'categories', 'productBy'));
         } else {
             // chuyển hướng về trang đăng nhập hoặc báo lỗi
-            return redirect()->route('customer.login')->withErrors(['auth' => 'Bạn cần đăng nhập trước.']);
+            return redirect()->route('customer.login.form')->withErrors(['auth' => 'Bạn cần đăng nhập trước.']);
         }
     }
     public function all(Request $request)
