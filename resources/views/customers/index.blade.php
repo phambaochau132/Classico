@@ -6,6 +6,11 @@
     <link href="{{ asset('css/customers.css') }}" rel="stylesheet">
 <!-- Nội dung chính -->
 <main class="container py-4">
+    <!-- Sidebar bên trái -->
+    <!-- <div class="col-md-3 mb-4">
+    @include('partials.sidebar') {{-- Nếu bạn đã tách sidebar ra --}}
+    </div> -->
+
     <div class="card p-4">
         <!-- Tìm kiếm -->
         <form action="{{ route('customers.index') }}" method="GET" class="row g-2 mb-4">
