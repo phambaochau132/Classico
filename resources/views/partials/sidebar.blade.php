@@ -1,43 +1,140 @@
+<style>
+body, html {
+  margin: 0; padding: 0; height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-<div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">📁 Menu</h5>
-    </div>
-    <div class="list-group list-group-flush">
+.navbar {
+  background-color: #1f2937;
+  height: 56px;
+  line-height: 56px;
+  color: white;
+  padding: 0 20px;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1030;
+}
 
-        <a href="{{ route('customers.index') }}" 
-           class="list-group-item list-group-item-action {{ request()->routeIs('customers.*') ? 'active' : '' }}">
-            <i class="bi bi-people me-2"></i> Quản lý khách hàng
-        </a>
+.custom-sidebar {
+  width: 280px;
+  background-color: #1f2937;
+  color: #ffffff;
+  overflow-y: auto;
+  padding-top: 20px;
+  border-radius: 0; /* bỏ border radius */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
 
-        <a href="{{ route('admin.index') }}" 
-           class="list-group-item list-group-item-action {{ request()->routeIs('admin.*') ? 'active' : '' }}">
-            <i class="bi bi-person-gear me-2"></i> Quản lý tài khoản admin
-        </a>
+.custom-sidebar ul {
+  list-style: none;
+  padding: 0 10px;
+  margin: 0;
+}
 
-        {{-- Menu Thống kê dạng dropdown --}}
-        <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
-        {{ request()->routeIs('products.statistics') ? 'active' : '' }}" 
-        data-bs-toggle="collapse" href="#collapseThongKe" role="button" aria-expanded="{{ request()->routeIs('products.statistics') ? 'true' : 'false' }}" aria-controls="collapseThongKe">
-        <span><i class="bi bi-bar-chart-line me-2"></i> Thống kê</span>
-        <i class="bi bi-caret-down-fill"></i>
-    </a>
+.custom-sidebar .nav-small-cap {
+  padding: 12px 10px;
+  font-size: 13px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  user-select: none;
+}
 
-    <div class="collapse {{ request()->routeIs('products.statistics') ? 'show' : '' }}" id="collapseThongKe">
-        <a href="{{ route('products.statistics') }}" 
-        class="list-group-item list-group-item-action ps-5 {{ request()->routeIs('products.statistics') ? 'active' : '' }}">
-            Thống kê sản phẩm
-        </a>
-            <a href="{{ route('orders.reportRevenue') }}" 
-            class="list-group-item list-group-item-action ps-5 {{ request()->routeIs('orders.reportRevenue') ? 'active' : '' }}">
+.custom-sidebar .sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: #d1d5db;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+  font-weight: 500;
+}
+
+.custom-sidebar .sidebar-link.active {
+  background-color: #3b82f6;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.custom-sidebar .sidebar-link:hover {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+.content-area {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: #f5f7fa;
+  overflow-y: auto;
+  min-height: 100vh;
+}
+
+</style>
+<aside class="left-sidebar custom-sidebar" data-sidebarbg="skin5">
+    <div class="scroll-sidebar">
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav" class="in">
+
+                {{-- Tiêu đề Menu --}}
+                <li class="nav-small-cap">
+                    <i class="mdi mdi-dots-horizontal"></i>
+                    <span class="hide-menu">📁 Menu</span>
+                </li>
+
+                {{-- Quản lý khách hàng --}}
+                <li class="sidebar-item">
+                    <a href="{{ route('customers.index') }}"
+                       class="sidebar-link waves-effect waves-dark {{ request()->routeIs('customers.*') ? 'active' : '' }}">
+                        <i class="bi bi-people me-2"></i>
+                        <span class="hide-menu">Quản lý khách hàng</span>
+                    </a>
+                </li>
+
+                {{-- Quản lý tài khoản admin --}}
+                <li class="sidebar-item">
+                    <a href="{{ route('admin.index') }}"
+                       class="sidebar-link waves-effect waves-dark {{ request()->routeIs('admin.*') ? 'active' : '' }}">
+                        <i class="bi bi-person-gear me-2"></i>
+                        <span class="hide-menu">Quản lý admin</span>
+                    </a>
+                </li>
+
+                {{-- Menu Thống kê --}}
+                @php
+          $isStatisticsActive = request()->routeIs('products.statistics') || request()->routeIs('orders.report*');
+        @endphp
+        <li class="sidebar-item">
+          <a class="sidebar-link" 
+             data-bs-toggle="collapse" 
+             href="#submenuStats" 
+             role="button" 
+             aria-expanded="{{ $isStatisticsActive ? 'true' : 'false' }}" 
+             aria-controls="submenuStats">
+            <i class="bi bi-bar-chart-line"></i> Thống kê
+            <span class="ms-auto">&#9662;</span>
+          </a>
+          <ul class="collapse {{ $isStatisticsActive ? 'show' : '' }}" id="submenuStats">
+            <li>
+              <a href="{{ route('products.statistics') }}" 
+                 class="sidebar-link {{ request()->routeIs('products.statistics') ? 'active' : '' }}">
+                Thống kê sản phẩm
+              </a>
+            </li>
+            <li>
+              <a href="{{ route('orders.reportRevenue') }}" 
+                 class="sidebar-link {{ request()->routeIs('orders.reportRevenue') ? 'active' : '' }}">
                 Thống kê doanh thu
-            </a>
-
-           <a href="{{ route('orders.report') }}" 
-            class="list-group-item list-group-item-action ps-5 {{ request()->routeIs('orders.report') ? 'active' : '' }}">
+              </a>
+            </li>
+            <li>
+              <a href="{{ route('orders.report') }}" 
+                 class="sidebar-link {{ request()->routeIs('orders.report') ? 'active' : '' }}">
                 Thống kê đơn hàng
-            </a>
-        </div>
+              </a>
+            </li>
 
+            </ul>
+        </nav>
     </div>
-</div>
+</aside>
