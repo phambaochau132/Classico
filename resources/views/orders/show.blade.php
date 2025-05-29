@@ -6,7 +6,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html, body {
-            height: 100%;
             margin: 0;
         }
         body {
@@ -15,6 +14,8 @@
             justify-content: center;
             background-color: #f8f9fa;
             padding: 20px;
+            font-size: 18px;
+            overflow: auto;
         }
         .order-details {
             width: 100%;
@@ -48,16 +49,19 @@
         <div class="mb-2"><strong>Địa chỉ giao hàng:</strong> {{ $order['address'] }}</div>
         <div class="mb-2"><strong>Ngày đặt hàng:</strong> {{ $order['order_date'] }}</div>
 
-     <form action="{{ route('orders.updateStatus', ['id' => $order['id']]) }}" method="POST">
-            @csrf
             <div class="mb-2">
                 <strong>Trạng thái:</strong>
-                <select class="form-select d-inline w-auto" name="status">
-                    <option {{ $order['status'] == 0 ? 'selected' : '' }}>Chờ thanh toán</option>
-                	<option {{ $order['status'] == 1 ? 'selected' : '' }}>Chờ xác nhận</option>
-                	<option {{ $order['status'] == 2 ? 'selected' : '' }}>Đang giao hàng</option>
-                	<option {{ $order['status'] == 3 ? 'selected' : '' }}>Hoàn thành</option>
-                </select>
+                 @if($order['status'] === 0)
+                <span class="badge bg-warning">Chờ thanh toán</span>
+                 @elseif($order['status'] === 1)
+                 <span class="badge bg-warning">Chờ xác nhận</span>
+                 @elseif($order['status'] === 2)
+                 <span class="badge bg-info">Đang xử lý</span>
+                 @elseif($order['status'] === 3)
+                <span class="badge bg-success">Hoàn tất</span>
+                 @else
+                <span class="badge bg-secondary">Đã huỷ</span>
+                 @endif
             </div>
         <div class="mb-2">
             <strong>Tổng tiền:</strong> {{ number_format((float) $order['total'], 0, ',', '.') }} VND
@@ -67,9 +71,9 @@
             <strong>Phương thức thanh toán: </strong> 
             {{ $order['payment_method'] }}
             @if($order['payment_method'] === 0)
-                <span class="badge bg-secondary text-dark">Tiền mặt(COD)</span>
+                <span class="badge bg-secondary text-light">Tiền mặt(COD)</span>
             @else($order['payment_method'] === 1)
-                <span class="badge bg-secondary text-dark">Chuyển khoản(BANK)</span>
+                <span class="badge bg-secondary text-light">Chuyển khoản(BANK)</span>
             @endif
         </div>
 
@@ -87,17 +91,20 @@
         <table class="table table-bordered table-hover mt-2">
             <thead class="table-light">
                 <tr>
+                    <th>Hình sản phẩm</th>
                     <th>Tên sản phẩm</th>
                     <th>Số lượng</th>
                     <th>Đơn giá</th>
                     <th>Tổng giá</th>
+                    
                 </tr>
             </thead>
             <tbody>
            @foreach($order['products'] as $product)
                 <tr>
+                    <td><img src="{{ asset('images/products/' . $product['product_photo']) }}" alt="{{ $product['product_name'] }}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;"></td>
                     <td>{{ $product['product_name'] ?? 'Không rõ' }}</td>
-                     <td>{{ $product['quantity'] ?? 'N/A' }}</td>
+                    <td>{{ $product['quantity'] ?? 'N/A' }}</td>
                     <td>{{ number_format((float) ($product['price'] ?? 0), 0, ',', '.') }} VND</td>
                     <td>{{ number_format((float) $order['total'], 0, ',', '.') }} VND</td>
                 </tr>
@@ -106,9 +113,9 @@
         </table>
 
              <div class="d-flex justify-content-between mt-4">
-                <button type="submit" class="btn btn-primary">Cập nhật trạng thái</button>
+               <a href="{{ url()->previous() }}" class="btn btn-primary">Quay lại</a>
             </div>
-        </form>
+ 
 
     </div>
 </body>

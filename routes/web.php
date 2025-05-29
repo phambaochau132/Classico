@@ -85,7 +85,7 @@ Route::get('/auth/facebook/callback', [AuthController::class, 'handleFacebookCal
     Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
 
     // Categories
-    Route::resource('categories', CategoryController::class);
+    Route::resource('admin/categories', CategoryController::class);
 
     
 

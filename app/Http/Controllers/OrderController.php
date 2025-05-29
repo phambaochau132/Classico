@@ -62,7 +62,12 @@ class OrderController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $order = Order::findOrFail($id);
-        $order->status = $request->input('status');
+        $status = $request->post('status');
+        $order->status =  $status ;
+        if($status == 3)
+        {
+            Payment::where('order_id',$order->order_id)->update(['payment_status' => 1]);
+        }
         $order->save();
 
         return redirect()->back()->with('success', 'Cập nhật trạng thái thành công!');
@@ -88,6 +93,7 @@ class OrderController extends Controller
                 $product = Product::find($detail->product_id);
                 $productByOrder[] = [
                     'product_name' => $product->product_name ?? 'Không rõ',
+                    'product_photo' => $product->product_photo,
                     'price'        => $product->price ?? 0,
                     'quantity'     => $detail->quantity ?? 0,
                     'total'        => ($product->price ?? 0) * ($detail->quantity ?? 0)

@@ -11,10 +11,20 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function allProduct()
+    public function allProduct(Request $request)
     {
-        $products = Product::all(); // Lấy tất cả sản phẩm
-        return view('products.products', compact('products'));
+        if (Auth::guard('web')->check()) {
+            $keyword = $request->input('keyword');
+
+            $products = Product::when($keyword, function ($query, $keyword) {
+                return $query->where('product_name', 'like', "%$keyword%");
+            })->paginate(5);
+             return view('products.products', compact('products'));
+        } else {
+            // chuyển hướng về trang đăng nhập hoặc báo lỗi
+            return redirect()->route('admin.login')->withErrors(['auth' => 'Bạn cần đăng nhập trước.']);
+        }
+        // $products = Product::all(); // Lấy tất cả sản phẩm
     }
 
     public function create()
@@ -56,11 +66,8 @@ class ProductController extends Controller
                     }
                 }
             ],
-            'stock_quantity' => 'nullable|integer',
-            'category_id' => 'nullable|integer',
-            'product_photo' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-            'create_at' => 'nullable|date',
-            'product_view' => 'nullable|integer'
+            'category_id' => 'required|integer',
+            'product_photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $data = $request->only([
@@ -68,9 +75,7 @@ class ProductController extends Controller
             'product_description',
             'price',
             'stock_quantity',
-            'product_view',
             'category_id',
-            'create_at'
         ]);
 
         if (!isset($data['stock_quantity'])) {
@@ -129,11 +134,8 @@ class ProductController extends Controller
                     }
                 }
             ],
-            'stock_quantity' => 'nullable|integer',
-            'category_id' => 'nullable|integer',
-            'product_photo' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-            'created_at' => 'nullable|date',
-            'product_view' => 'nullable|integer'
+            'category_id' => 'required|integer',
+            'product_photo' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         $data = $request->only([
@@ -141,9 +143,7 @@ class ProductController extends Controller
             'product_description',
             'price',
             'stock_quantity',
-            'product_view',
             'category_id',
-            'created_at'
         ]);
 
         // Gán mặc định nếu không có số lượng tồn
