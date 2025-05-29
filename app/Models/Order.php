@@ -57,10 +57,10 @@ class Order extends Model
 		return $this->hasMany(Delivery::class);
 	}
 
-	// public function order_details()
-	// {
-	// 	return $this->hasMany(OrderDetail::class,'order_id','order_id');
-	// }
+	public function order_details()
+	{
+		return $this->hasMany(OrderDetail::class,'order_id','order_id');
+	}
 	public function orderDetails()
 {
     return $this->hasMany(OrderDetail::class,'order_id','order_id');

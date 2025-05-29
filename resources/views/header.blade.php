@@ -86,7 +86,8 @@
                                 <span class="ms-2">{{ Auth::guard('customer')->user()->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('customer.profile') }}">My Information</a>
+                                <a class="dropdown-item" href="{{ route('customer.profile') }}">Profile</a>
+                                <a class="dropdown-item" href="{{ route('history.index') }}">Order History</a>
                                 <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
                             </div>
                         </li>
