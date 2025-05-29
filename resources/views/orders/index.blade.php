@@ -30,13 +30,13 @@
                             <td>{{ $order['id'] }}</td>
                             <td>{{ $order['customer_name'] }}</td>
                             <td>
-                            @if($order->status === 0)
+                            @if($order['status'] === 0)
                             <span class="badge bg-warning">Chờ thanh toán</span>
-                            @elseif($order->status === 1)
+                            @elseif($order['status'] === 1)
                                 <span class="badge bg-warning">Chờ xác nhận</span>
-                            @elseif($order->status === 2)
+                            @elseif($order['status'] === 2)
                                 <span class="badge bg-info">Đang xử lý</span>
-                            @elseif($order->status === 3)
+                            @elseif($order['status'] === 3)
                                 <span class="badge bg-success">Hoàn tất</span>
                             @else
                                 <span class="badge bg-secondary">Đã huỷ</span>
