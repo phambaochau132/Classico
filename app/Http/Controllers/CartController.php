@@ -47,12 +47,12 @@ class CartController extends Controller
         }
 
         if($product->stock_quantity<$quantity[$id]){
-            return redirect()->route('cart.index')->withErrors('Sản phẩm không đủ số lượng!');
+            return redirect()->back()->withErrors('Sản phẩm không đủ số lượng!');
         }
 
         session(['cart' => $cart, 'quantity' => $quantity]);
 
-        return redirect()->route('cart.index');
+        return redirect()->back()->with('success','Thêm vào giỏ hàng thành công');
     }
 
     public function update(Request $request)

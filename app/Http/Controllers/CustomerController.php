@@ -124,7 +124,7 @@ class CustomerController extends Controller
             $request->validate([
                 'name' => 'required|string|max:100',
                 'email' => 'required|email|unique:customers,email,' . $customer->customer_id . ',customer_id',
-                'phone' => 'required|string|max:20',
+                'phone' => 'required|numeric|digits:10|unique:customers',
                 'address' => 'required|string',
                 'gender' => 'required|in:male,female',
                 'avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
