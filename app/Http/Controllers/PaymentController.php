@@ -32,7 +32,7 @@ class PaymentController extends Controller
     public function confirmOrder(Request $request){
         $cart = session('cart',[]);
         $quantity = session('quantity',[]);
-
+        $delivery= session('delivery',[]);
         $products = [];
         $totalItems = 0;
         $totalPrice=0;
@@ -67,6 +67,13 @@ class PaymentController extends Controller
                 ]);            
             }
         }
+        Delivery::create([
+            'order_id' => $order->order_id,
+            'name' => $delivery['name'],
+            'phone' => $delivery['phone'],
+            'address' => $delivery['address']
+        ]);      
+
         $order->load('payment');
         return redirect()->route('payment.review',['order_id'=>$order->order_id]);
     }
