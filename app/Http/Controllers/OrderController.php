@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Payment;
 use App\Models\Delivery;
+use Illuminate\Support\Facades\DB;
 
 
 class OrderController extends Controller
@@ -132,4 +133,68 @@ class OrderController extends Controller
             'order' => $order
         ]);
     }
+    //thong ke ndong 
+    public function reportRevenue()
+{
+    // Tổng doanh thu và số đơn
+    $totalRevenue = DB::table('orders')->sum('total_price');
+    $totalOrders = DB::table('orders')->count();
+
+    // Đơn hàng theo trạng thái
+    $completedOrders = DB::table('orders')->where('status', 'completed')->count();
+    $pendingOrders = DB::table('orders')->where('status', 'pending')->count();
+
+    // Doanh thu theo tháng
+    $revenueByMonth = DB::table('orders')
+        ->select(
+            DB::raw('YEAR(order_date) as year'),
+            DB::raw('MONTH(order_date) as month'),
+            DB::raw('SUM(total_price) as total_revenue'),
+            DB::raw('COUNT(order_id) as total_orders')
+        )
+        ->groupBy('year', 'month')
+        ->orderBy('year')
+        ->orderBy('month')
+        ->get();
+
+    // Doanh thu theo trạng thái đơn hàng
+    $revenueByStatus = DB::table('orders')
+        ->select('status',
+            DB::raw('SUM(total_price) as total_revenue'),
+            DB::raw('COUNT(order_id) as total_orders')
+        )
+        ->groupBy('status')
+        ->get();
+
+    return view('orders.report_revenue', compact(
+        'totalRevenue', 
+        'totalOrders', 
+        'completedOrders', 
+        'pendingOrders', 
+        'revenueByMonth', 
+        'revenueByStatus'
+    ));
+}
+public function reportOrders()
+{
+    $ordersByDay = DB::table('orders')
+        ->selectRaw('DATE(order_date) as day, COUNT(*) as total_orders, SUM(total_price) as total_revenue')
+        ->groupByRaw('DATE(order_date)')
+        ->orderBy('day', 'desc')
+        ->get();
+
+    $ordersByMonth = DB::table('orders')
+        ->selectRaw('DATE_FORMAT(order_date, "%Y-%m") as month, COUNT(*) as total_orders, SUM(total_price) as total_revenue')
+        ->groupByRaw('DATE_FORMAT(order_date, "%Y-%m")')
+        ->orderBy('month', 'desc')
+        ->get();
+
+    $ordersByStatus = DB::table('orders')
+        ->select('status', DB::raw('COUNT(*) as total_orders'), DB::raw('SUM(total_price) as total_revenue'))
+        ->groupBy('status')
+        ->get();
+
+    return view('orders.report', compact('ordersByDay', 'ordersByMonth', 'ordersByStatus'));
+}
+
 }

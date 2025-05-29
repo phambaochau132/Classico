@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Admin</title>
@@ -14,19 +13,15 @@
         body {
             background-color: #f5f7fa;
         }
-
         .navbar {
             background-color: #1f2937;
         }
-
-        .navbar-brand,
-        .nav-link,
-        .text-white {
+        .navbar-brand, .nav-link, .text-white {
             color: #fff !important;
         }
-
-        .container {
-            margin-top: 30px;
+        .sidebar .list-group-item.active {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
         }
     </style>
 </head>
@@ -39,34 +34,38 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item me-3">
-                        <span class="text-white">🔥 Xin chào, <strong>{{ Auth::user()->username }}</strong></span> -->
+                        <span class="text-white">🔥 Xin chào, <strong>{{ Auth::user()->username }}</strong></span>
                     </li>
                     <li class="nav-item me-2">
                         <a class="btn btn-outline-light btn-sm" href="{{ route('admin.logout') }}">Đăng xuất</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-light btn-sm" href="{{ route('admin.index') }}">Danh Sách Tài Khoản Admin</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Flash message -->
+    <!-- Main layout -->
+    <div class="container mt-4">
         @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert alert-success">{{ session('success') }}</div>
         @elseif (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+            <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        @yield('content')
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                @include('partials.sidebar')
+            </div>
+
+            <!-- Nội dung chính -->
+            <div class="col-md-9">
+                @yield('content')
+            </div>
+        </div>
     </div>
 
-    <!-- Bootstrap JS (CDN) -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
 </body>
-
 </html>
