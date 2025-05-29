@@ -15,7 +15,7 @@ class CustomerController extends Controller
     // Hiển thị danh sách khách hàng
     public function index(Request $request)
     {
-
+        
         if (Auth::guard('web')->check()) {
             $keyword = $request->input('keyword');
 
@@ -23,7 +23,7 @@ class CustomerController extends Controller
                 return $query->where('name', 'like', "%$keyword%")
                     ->orWhere('email', 'like', "%$keyword%")
                     ->orWhere('phone', 'like', "%$keyword%");
-            })->get();
+            })->paginate(5);
             return view('customers.index', compact('customers', 'keyword'));
         } else {
             // chuyển hướng về trang đăng nhập hoặc báo lỗi

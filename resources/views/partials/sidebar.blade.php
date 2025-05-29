@@ -100,6 +100,35 @@ body, html {
                     </a>
                 </li>
 
+            {{-- Quản lý khách hàng --}}
+                <li class="sidebar-item">
+                    <a href="{{ route('products.allProduct') }}"
+                       class="sidebar-link waves-effect waves-dark {{ request()->routeIs('products.*') ? 'active' : '' }}">
+                        <i class="bi bi-people me-2"></i>
+                        <span class="hide-menu">Quản lý sản phẩm</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('orders.index') }}"
+                       class="sidebar-link waves-effect waves-dark {{ request()->routeIs('orders.*') ? 'active' : '' }}">
+                        <i class="bi bi-people me-2"></i>
+                        <span class="hide-menu">Đơn hàng</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('categories.index') }}"
+                       class="sidebar-link waves-effect waves-dark {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+                        <i class="bi bi-people me-2"></i>
+                        <span class="hide-menu">Quản lý danh mục</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('warehouse') }}"
+                       class="sidebar-link waves-effect waves-dark {{ request()->routeIs('warehouse.*') ? 'active' : '' }}">
+                        <i class="bi bi-people me-2"></i>
+                        <span class="hide-menu">Quản lý kho hàng</span>
+                    </a>
+                </li>
                 {{-- Menu Thống kê --}}
                 @php
           $isStatisticsActive = request()->routeIs('products.statistics') || request()->routeIs('orders.report*');
@@ -133,7 +162,6 @@ body, html {
                 Thống kê đơn hàng
               </a>
             </li>
-
             </ul>
         </nav>
     </div>

@@ -14,8 +14,10 @@ abstract class Controller
         if (str_starts_with($currentUrl, 'admin')) {
             // Nếu chưa đăng nhập guard admin thì redirect login admin
             if (!Auth::guard('web')->check()) {
+
                return redirect()->route('admin.login');
             }
+
         } else {
             // Nếu chưa đăng nhập guard web thì redirect login web
             if (!Auth::guard('customer')->check()) {

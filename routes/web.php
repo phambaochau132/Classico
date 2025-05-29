@@ -73,53 +73,51 @@ Route::post('/admin/login_form', [AuthController::class, 'loginAdmin'])->name('a
 Route::get('/admin/logout', [AuthController::class, 'logoutAdmin'])->name('admin.logout');
 
 
-// Orders
+//kho 
+Route::get('/admin/warehouse', [WarehouseController::class, 'dashboard'])->name('warehouse');
+Route::post('/admin/warehouse/update', [WarehouseController::class, 'update'])->name('warehouse.update');
+Route::post('/admin/warehouse/edit', [WarehouseController::class, 'edit'])->name('warehouse.edit'); // nếu có
 
+//oder
 Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 Route::get('/admin/order', [OrderController::class, 'show'])->name('orders.show');
 Route::post('/admin/orders/update-status/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
-// Products
-Route::get('/admin/products/index', [ProductController::class, 'allProduct'])->name('products.allProduct');
-Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
-Route::put('/admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
-Route::delete('/admin/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
-Route::get('/admin/products/{id}', [ProductController::class, 'edit'])->name('products.edit');
-Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
-
-// Categories
-Route::resource('categories', CategoryController::class);
-//Warehouse
-Route::get('/admin/warehouse', [WarehouseController::class, 'dashboard'])->name('warehouse');
-Route::post('/admin/warehouse/update', [WarehouseController::class, 'update'])->name('warehouse.update');
-Route::post('/admin/warehouse/edit', [WarehouseController::class, 'edit'])->name('warehouse.edit'); // nếu có
-
-
 
 // Hiển thị danh sách khách hàng
 Route::get('admin/customers', [CustomerController::class, 'index'])->name('customers.index');
 
-// Hiển thị form tạo khách hàng mới
-// Route::get('admin/customers/create', [CustomerController::class, 'create'])->name('customers.create');
 
 // Lưu thông tin khách hàng mới
 Route::post('admin/customers/store', [CustomerController::class, 'store'])->name('customers.store');
 
-// Hiển thị chi tiết 1 khách hàng
-// Route::get('admin/customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
-
-// Hiển thị form chỉnh sửa thông tin khách hàng
-// Route::get('admin/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
-
-// // Cập nhật thông tin khách hàng
-// Route::put('admin/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
-// Route::patch('admin/customers/{customer}', [CustomerController::class, 'update']);
 
 // Xoá khách hàng
 Route::delete('admin/customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
 
+//oday
+// Hiển thị chi tiết danh mục
+Route::get('/admin/categories/{customer}/show', [CategoryController::class, 'show'])->name('categories.show');
+// Categories
+// Danh sách danh mục
+Route::get('/admin/categories', [CategoryController::class, 'index'])->name('categories.index');
 
+// Hiển thị form tạo mới danh mục
+Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+
+// Lưu danh mục mới
+Route::post('/admin/categories/store', [CategoryController::class, 'store'])->name('categories.store');
+
+
+// Hiển thị form chỉnh sửa danh mục
+Route::get('/admin/categories/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+
+// Cập nhật danh mục (PUT hoặc PATCH)
+Route::put('/admin/categories/update', [CategoryController::class, 'update'])->name('categories.update');
+
+// Xóa danh mục
+Route::delete('/admin/categories/destroy', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
 // Admin Users
 Route::get('/admin/reset-password', [AdminUserController::class, 'showResetForm'])->name('reset.form');
@@ -188,13 +186,22 @@ Route::get('/admin/dashboard', function () {
 })->name('dashboard');
 
 //thong ke san pham
-Route::get('/products/statistics', [ProductController::class, 'statistics'])->name('products.statistics');
+Route::get('admin/products/statistics', [ProductController::class, 'statistics'])->name('products.statistics');
 
 //thong ke doanh thu
-Route::get('/admin/orders/report-revenue', [OrderController::class, 'reportRevenue'])->name('orders.reportRevenue');
+Route::get('admin/orders/report-revenue', [OrderController::class, 'reportRevenue'])->name('orders.reportRevenue');
 
 //thong ke đơn hàng
-Route::get('/admin/orders/report', [OrderController::class, 'reportOrders'])->name('orders.report');
+Route::get('admin/orders/report', [OrderController::class, 'reportOrders'])->name('orders.report');
+
+// Products
+Route::get('/admin/products/index', [ProductController::class, 'allProduct'])->name('products.allProduct');
+Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::put('/admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/admin/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::get('/admin/products/{id}', [ProductController::class, 'edit'])->name('products.edit');
+Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
+
 
 });
 

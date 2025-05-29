@@ -14,8 +14,7 @@ class AdminUserController extends Controller
     {
         if (Auth::guard('web')->check()) {
             // Lấy tất cả tài khoản (không lọc theo role_id)
-            $users = SystemUser::all();
-
+            $users = SystemUser::paginate(10); // Mỗi trang 10 dòng
             // Truyền dữ liệu tới view
             return view('admin.index', compact('users'));
         } else {

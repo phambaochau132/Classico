@@ -14,11 +14,14 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $keyword = $request->input('keyword');
 
+        $order_data = Order::when($keyword, function ($query, $keyword) {
+            return $query->where('order_id', 'like', "%$keyword%");
+        })->paginate(10);
         $customer_data = Customer::all();
-        $order_data = Order::all();
         $orders = [];
         foreach($order_data as $order ) {
             $customer= Customer::find($order->customer_id);
@@ -40,7 +43,7 @@ class OrderController extends Controller
  
         }
 
-        return view('orders.index', compact('orders'));
+        return view('orders.index', compact('orders','order_data'));
     }
 
     public function destroy($id)
@@ -75,67 +78,53 @@ class OrderController extends Controller
     }
 
     
-    public function show(Request $request )
-    {
-        $id=$request->get('id');
-        $customer_data = Customer::all();
-        $order_data = Order::all();
-        $orders = [];
-        foreach($order_data as $order ) {
-            $customer= Customer::find($order->customer_id);
-            $delivery= Delivery::where('order_id', $order->order_id)->first();
-            $orderDetailById= OrderDetail::where('order_id', $order->order_id)->get();
-            $payment = Payment::where('order_id', $order->order_id)->first();
-            $orderDetails = OrderDetail::where('order_id', $order->order_id)->get();
+    public function show(Request $request)
+{
+    $id = $request->get('id');
 
-            $productByOrder = [];
+    // Lấy đơn hàng theo ID
+    $order = Order::with(['customer', 'orderDetails.product', 'delivery', 'payment'])
+                  ->where('order_id', $id)
+                  ->first();
 
-            foreach ($orderDetails as $detail) {
-                $product = Product::find($detail->product_id);
-                $productByOrder[] = [
-                    'product_name' => $product->product_name ?? 'Không rõ',
-                    'product_photo' => $product->product_photo,
-                    'price'        => $product->price ?? 0,
-                    'quantity'     => $detail->quantity ?? 0,
-                    'total'        => ($product->price ?? 0) * ($detail->quantity ?? 0)
-                ];
-            }
-
-            $ordersDetail = [
-            'id' => $order->order_id, // ✅ Đây mới là ID của đơn hàng
-            'customer_name' => $delivery->name,
-            'phone' => $delivery->phone ,
-            'address' => $delivery->address,
-            'order_date' => $order->order_date,
-            'status' => $order->status,
-            'total' => $orderDetailById->reduce(function ($carry, $item) {
-                $product = Product::find($item->product_id);
-                return $carry + ($product->price * $item->quantity);
-            }, 0),
-            'payment_method' => $payment->payment_method,
-            'payment_status' => $payment->payment_status,
-            'products' => $productByOrder
-            ];
-
-            $orders [$order->order_id] = $ordersDetail;
-        }
-    
-        $id = (string) $id;
-
-        $order = $orders[$id] ?? null;
-        
-        if (!$order) {
-            abort(404);
-        }
-        
-
-                return view('orders.show', [
-            'order' => $order
-        ]);
+    if (!$order) {
+        abort(404, 'Không tìm thấy đơn hàng');
     }
+
+    $products = $order->orderDetails->map(function ($detail) {
+        $product = $detail->product;
+
+        return [
+            'product_name'   => $product?->product_name ?? 'N/A',
+            'product_photo'  => $product?->product_photo ?? null,
+            'price'          => $product?->price ?? 0,
+            'quantity'       => $detail->quantity,
+            'total'          => ($product?->price ?? 0) * $detail->quantity,
+        ];
+    });
+
+    // Tổng tiền từ order_details (không dùng giá trị cứng từ bảng orders)
+    $total = $products->sum('total');
+
+    return view('orders.show', [
+        'order' => [
+            'id'              => $order->order_id,
+            'customer_name'   => $order->delivery?->name ?? 'Không có tên',
+            'phone'           => $order->delivery?->phone ?? 'Không có số',
+            'address'         => $order->delivery?->address ?? 'Không có địa chỉ',
+            'order_date'      => $order->order_date,
+            'status'          => $order->status,
+            'total'           => $total,
+            'payment_method'  => $order->payment?->payment_method,
+            'payment_status'  => $order->payment?->payment_status,
+            'products'        => $products,
+        ]
+    ]);
+}
+    
     //thong ke ndong 
     public function reportRevenue()
-{
+    {
     // Tổng doanh thu và số đơn
     $totalRevenue = DB::table('orders')->sum('total_price');
     $totalOrders = DB::table('orders')->count();
