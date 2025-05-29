@@ -101,20 +101,20 @@ Route::post('/admin/warehouse/edit', [WarehouseController::class, 'edit'])->name
 Route::get('admin/customers', [CustomerController::class, 'index'])->name('customers.index');
 
 // Hiển thị form tạo khách hàng mới
-Route::get('admin/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+// Route::get('admin/customers/create', [CustomerController::class, 'create'])->name('customers.create');
 
 // Lưu thông tin khách hàng mới
 Route::post('admin/customers/store', [CustomerController::class, 'store'])->name('customers.store');
 
 // Hiển thị chi tiết 1 khách hàng
-Route::get('admin/customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
+// Route::get('admin/customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
 
 // Hiển thị form chỉnh sửa thông tin khách hàng
-Route::get('admin/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+// Route::get('admin/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
 
-// Cập nhật thông tin khách hàng
-Route::put('admin/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
-Route::patch('admin/customers/{customer}', [CustomerController::class, 'update']);
+// // Cập nhật thông tin khách hàng
+// Route::put('admin/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+// Route::patch('admin/customers/{customer}', [CustomerController::class, 'update']);
 
 // Xoá khách hàng
 Route::delete('admin/customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
@@ -173,6 +173,15 @@ Route::post('/profile', [CustomerController::class, 'updateProfile'])->name('cus
 | CRUD Customers (Admin)
 |--------------------------------------------------------------------------
 */
+Route::middleware(['auth:web'])->group(function () {
+    Route::get('admin/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::get('admin/customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
+    Route::get('admin/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+
+// Cập nhật thông tin khách hàng
+Route::put('admin/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+Route::patch('admin/customers/{customer}', [CustomerController::class, 'update']);
+
 
 Route::get('/admin/dashboard', function () {
     return view('dashboard'); // bạn có thể tạo view resources/views/dashboard.blade.php
@@ -186,3 +195,19 @@ Route::get('/admin/orders/report-revenue', [OrderController::class, 'reportReven
 
 //thong ke đơn hàng
 Route::get('/admin/orders/report', [OrderController::class, 'reportOrders'])->name('orders.report');
+
+});
+
+
+// Route::get('/admin/dashboard', function () {
+//     return view('dashboard'); // bạn có thể tạo view resources/views/dashboard.blade.php
+// })->name('dashboard');
+
+// //thong ke san pham
+// Route::get('/products/statistics', [ProductController::class, 'statistics'])->name('products.statistics');
+
+// //thong ke doanh thu
+// Route::get('/admin/orders/report-revenue', [OrderController::class, 'reportRevenue'])->name('orders.reportRevenue');
+
+// //thong ke đơn hàng
+// Route::get('/admin/orders/report', [OrderController::class, 'reportOrders'])->name('orders.report');
