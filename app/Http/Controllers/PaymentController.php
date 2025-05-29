@@ -64,7 +64,9 @@ class PaymentController extends Controller
                     'product_id' => $product->product_id,
                     'quantity' => $quantity[$id],
                     'price' => $quantity[$id]*$product['price']
-                ]);            
+                ]);   
+                
+                Product::update(['stock_quantity'=>$product->stock_quantity-1]);
             }
         }
         Delivery::create([
@@ -72,7 +74,8 @@ class PaymentController extends Controller
             'name' => $delivery['name'],
             'phone' => $delivery['phone'],
             'address' => $delivery['address']
-        ]);      
+        ]);
+        
 
         $order->load('payment');
         return redirect()->route('payment.review',['order_id'=>$order->order_id]);
