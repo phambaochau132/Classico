@@ -17,7 +17,7 @@ body, html {
 
 .custom-sidebar {
   width: 280px;
-  background-color: #1f2937;
+  background-color:rgb(85, 61, 142);
   color: #ffffff;
   overflow-y: auto;
   padding-top: 20px;

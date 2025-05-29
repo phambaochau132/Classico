@@ -16,7 +16,7 @@
         }
 
         .navbar {
-            background-color: #1f2937;
+             background-color:rgb(111, 108, 118);
             height: 56px;
         }
 
