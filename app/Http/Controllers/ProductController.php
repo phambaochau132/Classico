@@ -19,7 +19,7 @@ class ProductController extends Controller
             $products = Product::when($keyword, function ($query, $keyword) {
                 return $query->where('product_name', 'like', "%$keyword%");
             })->paginate(5);
-             return view('products.products', compact('products'));
+            return view('products.products', compact('products'));
         } else {
             // chuyển hướng về trang đăng nhập hoặc báo lỗi
             return redirect()->route('admin.login')->withErrors(['auth' => 'Bạn cần đăng nhập trước.']);
@@ -216,6 +216,7 @@ class ProductController extends Controller
             return redirect()->route('customer.login.form')->withErrors(['auth' => 'Bạn cần đăng nhập trước.']);
         }
     }
+
     public function all(Request $request)
     {
         $categories = Category::all();
@@ -227,6 +228,18 @@ class ProductController extends Controller
         $categories = Category::all();
         $id = $request->get('id');
         $item = Product::find($id);
+
+        // Kiểm tra session xem người dùng đã xem sản phẩm này chưa
+        $viewed = session()->get('viewed_products', []);
+
+        if (!in_array($id, $viewed)) {
+            // Nếu chưa từng xem trong phiên này -> tăng lượt xem
+            $item->increment('product_view');
+
+            // Ghi lại vào session
+            session()->push('viewed_products', $id);
+        }
+
         return view('dasboard_customer.detail', compact('item', 'categories'));
     }
     public function get_products(Request $request)
@@ -259,26 +272,26 @@ class ProductController extends Controller
 
     //thong ke san pham /ndong 
     public function statistics()
-{
-    $products = \App\Models\Product::all(); // Lấy tất cả sản phẩm
+    {
+        $products = \App\Models\Product::all(); // Lấy tất cả sản phẩm
 
-    // Tổng sản phẩm
-    $totalProducts = $products->count();
+        // Tổng sản phẩm
+        $totalProducts = $products->count();
 
-    // Tổng số lượt xem sản phẩm
-    $totalViews = $products->sum('product_view');
+        // Tổng số lượt xem sản phẩm
+        $totalViews = $products->sum('product_view');
 
-    // Tổng số lượng tồn kho
-    $totalStock = $products->sum('stock_quantity');
+        // Tổng số lượng tồn kho
+        $totalStock = $products->sum('stock_quantity');
 
-    // Giá trung bình
-    $avgPrice = $products->avg('price');
+        // Giá trung bình
+        $avgPrice = $products->avg('price');
 
-     // Tổng giá trị kho = tổng (price * stock_quantity)
-    $totalStockValue = $products->sum(function($product) {
-        return $product->price * $product->stock_quantity;
-    });
+        // Tổng giá trị kho = tổng (price * stock_quantity)
+        $totalStockValue = $products->sum(function ($product) {
+            return $product->price * $product->stock_quantity;
+        });
 
-    return view('products.statistics', compact('products', 'totalProducts', 'totalViews', 'totalStock', 'avgPrice', 'totalStockValue'));
-}
+        return view('products.statistics', compact('products', 'totalProducts', 'totalViews', 'totalStock', 'avgPrice', 'totalStockValue'));
+    }
 }
