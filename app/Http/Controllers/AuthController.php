@@ -28,7 +28,7 @@ class AuthController extends Controller
         // Đăng nhập thất bại
         return back()->withErrors(['message' => 'Tên đăng nhập hoặc mật khẩu không đúng']);
     }
-    
+
     //dang xuat admin
     public function logoutAdmin(Request $request)
     {
@@ -110,7 +110,7 @@ class AuthController extends Controller
             [
                 'name' => $googleUser->getName(),
                 'avatar' => $avatarName,
-                'password' => bcrypt(Str::random(16)),
+                'password' => bcrypt('123456'),
             ]
         );
 
