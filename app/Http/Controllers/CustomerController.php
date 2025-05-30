@@ -77,7 +77,7 @@ class CustomerController extends Controller
         $request->validate([
             'name'  => 'required|string|max:100',
             'email' => 'required|email|unique:customers,email,' . $id . ',customer_id',
-            'phone' => 'nullable|string|max:20',
+            'phone' => 'nullable|string|max:10',
             'address' => 'nullable|string',
         ]);
 
@@ -128,10 +128,10 @@ class CustomerController extends Controller
             $request->validate([
                 'name' => 'required|string|max:100',
                 'email' => 'required|email|unique:customers,email,' . $customer->customer_id . ',customer_id',
-                'phone' => 'required|numeric|digits:10|unique:customers',
+                'phone' => 'required|numeric|digits:10',
                 'address' => 'required|string',
                 'gender' => 'required|in:male,female',
-                'avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             ]);
 
             if ($request->hasFile('avatar')) {
