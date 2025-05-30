@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
-    <!-- Bootstrap & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="{{ asset('css/customers.css') }}" rel="stylesheet">
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link href="{{ asset('css/customers.css') }}" rel="stylesheet">
 <div class="container py-4">
 
     <h2 class="mb-4">📊 Báo cáo doanh thu</h2>
@@ -69,14 +69,27 @@
             <thead class="table-light">
                 <tr>
                     <th>Trạng thái</th>
-                    <th>Doanh thu (VND)</th>
                     <th>Số đơn</th>
+                    <th>Doanh thu (VND)</th>
+
                 </tr>
             </thead>
             <tbody>
                 @forelse ($revenueByStatus as $item)
                 <tr>
-                    <td>{{ ucfirst($item->status) }}</td>
+                    <td>
+                        @if($item->status === 0)
+                        <span>Chờ thanh toán</span>
+                        @elseif($item->status === 1)
+                        <span>Chờ xác nhận</span>
+                        @elseif($item->status === 2)
+                        <span>Đang xử lý</span>
+                        @elseif($item->status === 3)
+                        <span>Hoàn tất</span>
+                        @else
+                        <span>Đã huỷ</span>
+                        @endif
+                    </td>
                     <td>{{ number_format($item->total_revenue, 0, ',', '.') }}</td>
                     <td>{{ $item->total_orders }}</td>
                 </tr>

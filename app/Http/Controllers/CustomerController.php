@@ -15,7 +15,7 @@ class CustomerController extends Controller
     // Hiển thị danh sách khách hàng
     public function index(Request $request)
     {
-        
+
         if (Auth::guard('web')->check()) {
             $keyword = $request->input('keyword');
 
@@ -35,7 +35,7 @@ class CustomerController extends Controller
     // Hiển thị form thêm mới
     public function create()
     {
-        
+
         return view('customers.create');
     }
 
@@ -90,10 +90,14 @@ class CustomerController extends Controller
     // Xoá khách hàng
     public function destroy($id)
     {
-        $customer = Customer::findOrFail($id);
-        $customer->delete();
 
-        return redirect()->route('customers.index')->with('success', 'Xóa khách hàng thành công!');
+        try {
+            $customer = Customer::findOrFail($id);
+            $customer->delete();
+            return redirect()->route('customers.index')->with('success', 'Xóa khách hàng thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Xoá khách hàng  thất bại. Vui lòng thử lại.');
+        }
     }
 
 

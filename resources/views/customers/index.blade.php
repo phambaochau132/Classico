@@ -98,4 +98,28 @@
 </script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    @if(session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Thành công',
+        text: '{{ session('
+        success ') }}',
+        timer: 3000,
+        showConfirmButton: false,
+    });
+    @endif
+
+    @if($errors -> any())
+    Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        html: `{!! implode('<br>', $errors->all()) !!}`,
+        timer: 4000,
+        showConfirmButton: false,
+    });
+    @endif
+</script>
 @endsection

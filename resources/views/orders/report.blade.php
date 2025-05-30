@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
-    <!-- Bootstrap & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="{{ asset('css/customers.css') }}" rel="stylesheet">
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link href="{{ asset('css/customers.css') }}" rel="stylesheet">
 <div class="container py-4">
     <h2 class="mb-4 fw-bold"><i class="bi bi-bar-chart-line"></i> Thống kê đơn hàng</h2>
 
@@ -26,11 +26,11 @@
                             </thead>
                             <tbody>
                                 @foreach($ordersByDay as $row)
-                                    <tr>
-                                        <td>{{ $row->day }}</td>
-                                        <td>{{ $row->total_orders }}</td>
-                                        <td>{{ number_format($row->total_revenue, 0, ',', '.') }} VND</td>
-                                    </tr>
+                                <tr>
+                                    <td>{{ $row->day }}</td>
+                                    <td>{{ $row->total_orders }}</td>
+                                    <td>{{ number_format($row->total_revenue, 0, ',', '.') }} VND</td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -56,11 +56,11 @@
                             </thead>
                             <tbody>
                                 @foreach($ordersByMonth as $row)
-                                    <tr>
-                                        <td>{{ $row->month }}</td>
-                                        <td>{{ $row->total_orders }}</td>
-                                        <td>{{ number_format($row->total_revenue, 0, ',', '.') }} VND</td>
-                                    </tr>
+                                <tr>
+                                    <td>{{ $row->month }}</td>
+                                    <td>{{ $row->total_orders }}</td>
+                                    <td>{{ number_format($row->total_revenue, 0, ',', '.') }} VND</td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -88,11 +88,23 @@
                         </thead>
                         <tbody>
                             @foreach($ordersByStatus as $row)
-                                <tr>
-                                    <td>{{ $row->status }}</td>
-                                    <td>{{ $row->total_orders }}</td>
-                                    <td>{{ number_format($row->total_revenue, 0, ',', '.') }} VND</td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    @if($row->status === 0)
+                                    <span >Chờ thanh toán</span>
+                                    @elseif($row->status === 1)
+                                    <span >Chờ xác nhận</span>
+                                    @elseif($row->status === 2)
+                                    <span >Đang xử lý</span>
+                                    @elseif($row->status === 3)
+                                    <span >Hoàn tất</span>
+                                    @else
+                                    <span >Đã huỷ</span>
+                                    @endif
+                                </td>
+                                <td>{{ $row->total_orders }}</td>
+                                <td>{{ number_format($row->total_revenue, 0, ',', '.') }} VND</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>

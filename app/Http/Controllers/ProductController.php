@@ -273,7 +273,7 @@ class ProductController extends Controller
     //thong ke san pham /ndong 
     public function statistics()
     {
-        $products = \App\Models\Product::all(); // Lấy tất cả sản phẩm
+        $products = \App\Models\Product::paginate(10); // Lấy tất cả sản phẩm
 
         // Tổng sản phẩm
         $totalProducts = $products->count();
