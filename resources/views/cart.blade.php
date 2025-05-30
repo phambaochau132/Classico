@@ -1,5 +1,19 @@
 @extends('header')
 @section('content')
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
 <div class="header-mid">
     <div class="container">
         <div class="row">
@@ -16,10 +30,20 @@
                 <nav class="navbar navbar-expand-sm">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="cart-item">CART ITEMS</div>
-                            </a>
+                        <a class="nav-link position-relative" href="{{ route('cart.index') }}">
+                            <i class="fa fa-shopping-cart fa-lg"></i>
+                            <span class="cart-item ms-1">Giỏ hàng</span>
+                            @php
+                                $cartCount = session('cart') ? count(session('cart')) : 0;
+                            @endphp
+
+                            @if ($cartCount > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $cartCount }}
+                                    <span class="visually-hidden">sản phẩm trong giỏ</span>
+                                </span>
+                            @endif
+                        </a>
                         </li>
                     </ul>
                 </nav>
@@ -57,8 +81,9 @@
         <div class="col-md">
             <form action="{{route('cart.update',['id'=>$id])}}" method="POST" id="myform_{{ $id}}">
                 @csrf
-                <input type="number" step="1" min="0" max="{{$product->stock_quantity+1}}" name="num_{{ $id }}"
-                    value="{{ $quantity[$id] ?? 0 }}" onchange="submitform({{ $id }})">
+                <button type="button" onclick="changeQuantity({{ $id }}, -1)">-</button>
+                <input type="number" step="1" min="0" max="{{ $product->stock_quantity }}" name="num_{{ $id }}" id="input_{{ $id }}" value="{{ $quantity[$id] ?? 0 }}" onchange="inputChanged({{ $id }}, {{ $quantity[$id] ?? 0 }})" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); inputChanged({{ $id }}, {{ $quantity[$id] ?? 0 }}); }">
+                <button type="button" onclick="changeQuantity({{ $id }}, 1)">+</button>
             </form>
         </div>
         <div class="col-md">{{ isset($quantity[$id]) ? $product->price * $quantity[$id] : 0 }}</div>
@@ -73,12 +98,67 @@
     @endif
 </div>
 <script type="text/javascript">
-    function submitform(id) {
-        document.getElementById('myform_' + id).submit();
+    function changeQuantity(id, delta) {
+        const input = document.getElementById('input_' + id);
+        let newVal = parseInt(input.value) + delta;
+        if (newVal < 0) newVal = 0;
+        
+        if (newVal === 0) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                text: "Sản phẩm sẽ bị xóa khỏi giỏ hàng!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Vâng, xóa!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    input.value = 0;
+                    document.getElementById('myform_' + id).submit();
+                } else {
+                    input.value = 1;  // Trả về giá trị trước đó hoặc 1
+                }
+            });
+        } else {
+            input.value = newVal;
+            document.getElementById('myform_' + id).submit();
+        }
     }
-</script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
+
+        function inputChanged(id, oldVal) {
+        const input = document.getElementById('input_' + id);
+        let newVal = parseInt(input.value);
+
+        if (newVal < 0) {
+            input.value = oldVal;
+            return;
+        }
+
+        if (newVal === 0) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                text: "Sản phẩm sẽ bị xóa khỏi giỏ hàng!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Vâng, xóa!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('myform_' + id).submit();
+                } else {
+                    input.value = oldVal;
+                }
+            });
+        } else {
+            // Giá trị hợp lệ, submit luôn
+            document.getElementById('myform_' + id).submit();
+        }
+    }
+
     function confirmDelete(id) {
         Swal.fire({
             title: 'Bạn có chắc chắn muốn xóa?',
@@ -96,6 +176,7 @@
         });
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if ($errors->any())
 <script>
     Swal.fire({

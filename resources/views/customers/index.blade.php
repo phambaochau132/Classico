@@ -70,9 +70,13 @@
                     @endforelse
                 </tbody>
             </table>
+            <div class="mt-4">
+                {{ $customers->links('pagination::bootstrap-4') }}
+            </div>
         </div>
     </div>
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmDelete(userId) {

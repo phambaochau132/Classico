@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Danh sách đơn hàng</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-4 bg-light">
+@extends('layouts.app')
+@section('content')
 
     <div class="container">
         <h2 class="mb-4">Danh sách đơn hàng</h2>
@@ -13,9 +7,18 @@
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-
+        <form action="{{ route('orders.index') }}" method="GET" class="row g-2 mb-4">
+            <div class="col-md-6 search-input">
+                <input type="text" name="keyword" class="form-control" placeholder="Tìm theo mã đơn hàng" value="{{ request('keyword') }}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                <a href="{{ route('orders.index') }}" class="btn btn-secondary">Reset</a>
+            </div>
+        </form>
         <div class="table-responsive">
             <table class="table table-bordered text-center align-middle">
+                
                 <thead class="table-light">
                     <tr>
                         <th>Mã đơn hàng</th>
@@ -24,6 +27,7 @@
                         <th>Hành động</th>
                     </tr>
                 </thead>
+                
                 <tbody>
                     @forelse($orders as $order)
                         <tr>
@@ -62,6 +66,9 @@
                     @endforelse
                 </tbody>
             </table>
+            <div class="mt-4">
+                {{ $order_data->links('pagination::bootstrap-4') }}
+        </div>
         </div>
     </div>
 
@@ -101,5 +108,5 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
+@endsection

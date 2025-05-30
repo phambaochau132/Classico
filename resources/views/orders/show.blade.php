@@ -69,7 +69,6 @@
 
         <div class="mb-2">
             <strong>Phương thức thanh toán: </strong> 
-            {{ $order['payment_method'] }}
             @if($order['payment_method'] === 0)
                 <span class="badge bg-secondary text-light">Tiền mặt(COD)</span>
             @else($order['payment_method'] === 1)
@@ -79,7 +78,6 @@
 
         <div class="mb-2">
             <strong>Tình trạng thanh toán: </strong> 
-            {{ $order['payment_method'] }}
             @if($order['payment_status'] === 0)
                 <span class="badge bg-warning text-dark">Chưa thanh toán</span>
             @else($order['payment_status'] === 1)
@@ -106,7 +104,7 @@
                     <td>{{ $product['product_name'] ?? 'Không rõ' }}</td>
                     <td>{{ $product['quantity'] ?? 'N/A' }}</td>
                     <td>{{ number_format((float) ($product['price'] ?? 0), 0, ',', '.') }} VND</td>
-                    <td>{{ number_format((float) $order['total'], 0, ',', '.') }} VND</td>
+                    <td>{{ number_format((float) $product['price']*$product['quantity'], 0, ',', '.') }} VND</td>
                 </tr>
             @endforeach
             </tbody>

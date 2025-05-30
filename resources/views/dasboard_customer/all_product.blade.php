@@ -16,10 +16,20 @@
                 <nav class="navbar navbar-expand-sm">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="cart-item">CART ITEMS</div>
-                            </a>
+                        <a class="nav-link position-relative" href="{{ route('cart.index') }}">
+                            <i class="fa fa-shopping-cart fa-lg"></i>
+                            <span class="cart-item ms-1">Giỏ hàng</span>
+                            @php
+                                $cartCount = session('cart') ? count(session('cart')) : 0;
+                            @endphp
+
+                            @if ($cartCount > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $cartCount }}
+                                    <span class="visually-hidden">sản phẩm trong giỏ</span>
+                                </span>
+                            @endif
+                        </a>
                         </li>
                     </ul>
                 </nav>
@@ -107,4 +117,28 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Thành công',
+            text: '{{ session('success') }}',
+            timer: 3000,
+            showConfirmButton: false,
+        });
+    @endif
+
+    @if ($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            html: `{!! implode('<br>', $errors->all()) !!}`,
+            timer: 4000,
+            showConfirmButton: false,
+        });
+    @endif
+</script>
 @endsection

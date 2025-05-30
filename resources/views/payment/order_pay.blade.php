@@ -77,14 +77,27 @@
         });
     }
 </script>
-@endsection
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@if ($errors->any())
+
 <script>
-    Swal.fire({
-        icon: 'error',
-        text: '{{ $errors->first() }}',
-    });
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Thành công',
+            text: '{{ session('success') }}',
+            timer: 3000,
+            showConfirmButton: false,
+        });
+    @endif
+
+    @if ($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            html: `{!! implode('<br>', $errors->all()) !!}`,
+            timer: 4000,
+            showConfirmButton: false,
+        });
+    @endif
 </script>
-@endif
 @endsection

@@ -19,10 +19,11 @@ class PaymentController extends Controller
     }
     public function delivery(Request $request)
     {
+                
         $delivery = $request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required'
+            'name' => 'required|string|max:100',
+            'phone' => 'required|numeric|digits:10|unique:customers',
+            'address' => 'required|string|max:100'
         ]);
         session(['delivery' => $delivery]);
 
@@ -64,7 +65,11 @@ class PaymentController extends Controller
                     'product_id' => $product->product_id,
                     'quantity' => $quantity[$id],
                     'price' => $quantity[$id]*$product['price']
-                ]);            
+                ]);   
+                
+                $product->update([
+                    'stock_quantity' => $product->stock_quantity - $quantity[$id]
+                ]);
             }
         }
         Delivery::create([
@@ -72,7 +77,9 @@ class PaymentController extends Controller
             'name' => $delivery['name'],
             'phone' => $delivery['phone'],
             'address' => $delivery['address']
-        ]);      
+        ]);
+        session()->forget('cart');
+        session()->forget('quantity');
 
         $order->load('payment');
         return redirect()->route('payment.review',['order_id'=>$order->order_id]);

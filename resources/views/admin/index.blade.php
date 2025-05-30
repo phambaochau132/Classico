@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="{{ asset('css/adminindex.css') }}" rel="stylesheet">
     <main class="container">
         <h1>📋 Danh sách tài khoản Admin</h1>
@@ -40,6 +42,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="mt-4">
+                {{ $users->links('pagination::bootstrap-4') }}
+            </div>
     </main >
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
